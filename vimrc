@@ -1,6 +1,8 @@
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
+let g:Powerline_symbols = 'fancy'
+
 " Basics
 set t_Co=256
 set nocompatible
@@ -9,8 +11,10 @@ set history=100
 set number
 set ts=4 sts=4 sw=4 expandtab
 set autoindent
-syntax on
 set hidden
+syntax enable
+" set background=dark
+" colorscheme solarized
 colorscheme codeschool
 
 set noerrorbells
@@ -21,9 +25,6 @@ set tm=500
 set nobackup
 set nowb
 set noswapfile
-
-set laststatus=2
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
 " Disable Up, Down, Left, Right. LEARN HJKL NOW!
 inoremap  <Up>     <NOP>

@@ -7,3 +7,9 @@
 [submodule "bundle/indent-guides"]
 	path = bundle/indent-guides
 	url = https://github.com/nathanaelkane/vim-indent-guides.git
+[submodule "bundle/conque-term"]
+	path = bundle/conque-term
+	url = https://github.com/dhazel/conque-term.git
+[submodule "bundle/powerline"]
+	path = bundle/powerline
+	url = git://github.com/Lokaltog/vim-powerline.git

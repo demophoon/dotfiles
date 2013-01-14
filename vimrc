@@ -1,8 +1,6 @@
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
-let g:Powerline_symbols = 'fancy'
-
 " Basics
 set t_Co=256
 set nocompatible
@@ -39,6 +37,11 @@ noremap   <Right>  <NOP>
 " Folding Quickly open and close Folds with Spacebar
 nnoremap <Space> za
 
+" Exit Insert Mode with jj
+imap jj <Esc>
+
+set laststatus=2
+
 if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC
 endif
@@ -46,11 +49,8 @@ endif
 let mapleader = ","
 nmap <leader>v :tabedit $MYVIMRC<CR>
 
-function! HasPaste()
-    if &paste
-        return "PASTE MODE   "
-    en
-    return ""
-endfunction
-
+" If Gui is running
+if has("gui_running")
+    set transparency=10
+endif
 

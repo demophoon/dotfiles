@@ -1,5 +1,18 @@
-set ts=4
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+set hidden
+set number
+set ts=4 sts=4 sw=4 expandtab
 set smartindent
-set tabstop=4
-set shiftwidth=4
-set expandtab
+syntax on
+colorscheme codeschool
+
+
+if has("autocmd")
+    autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
+let mapleader = ","
+nmap <leader>v :tabedit $MYVIMRC<CR>
+

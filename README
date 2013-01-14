@@ -5,12 +5,29 @@
 
 # Create Symlinks for Vim to use vimrc file in repo
 
-    ln -s ~./.vim/vimrc ~/.vimrc
-    ln -s ~./.vim/gvimrc ~/.gvimrc
+    ln -s ~/.vim/vimrc ~/.vimrc
+    ln -s ~/.vim/gvimrc ~/.gvimrc
 
 # Initialize any Git Submodules
 
     cd ~/.vim
     git submodule init
     git submodule update
+
+# Adding a Vim Plugin as a Submodule
+
+    cd ~/.vim
+    mkdir ~/.vim/bundle
+    git submodule add <Git Repo Url> ~/.vim/bundle/<Plugin Name>
+    
+# Updating a Git Submodule
+
+    cd ~/.vim/bundle/<Plugin Name>
+    git pull origin master
+
+# Push new configs to Git
+
+    cd ~/.vim/
+    git add .
+    git push -u origin master 
 

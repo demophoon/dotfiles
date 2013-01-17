@@ -40,6 +40,11 @@ nnoremap <Space> za
 " Exit Insert Mode with jj
 imap jj <Esc>
 
+" ZenCoding Mapped to <C-e> instead of <C-y>
+" let g:user_zen_expandabbr_key='<c-e>'
+let g:user_zen_leader_key='<c-e>'
+let g:use_zen_complete_tag = 1
+
 set laststatus=2
 
 if has("autocmd")

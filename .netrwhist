@@ -1,10 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/Users/bgresham/projects/plogdom2'
-let g:netrw_dirhist_2='/Users/bgresham/projects/plogdom2/src'
-let g:netrw_dirhist_3='/Users/bgresham/projects/plogdom2/src/Plogdom'
-let g:netrw_dirhist_4='/Users/bgresham/projects/plogdom2/src/Plogdom/plogdom'
-let g:netrw_dirhist_5='/Users/bgresham/projects/plogdom2/src/Plogdom/plogdom/assets'
-let g:netrw_dirhist_6='/Users/bgresham/projects/plogdom2/src/Plogdom/plogdom'
-let g:netrw_dirhist_7='/Users/bgresham/projects/plogdom2/src/Plogdom/plogdom/plugins'
-let g:netrw_dirhist_8='/Users/bgresham/projects/plogdom2/src/Plogdom/plogdom/plugins/events'
+let g:netrw_dirhist_cnt =0

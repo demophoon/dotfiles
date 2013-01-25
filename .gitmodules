@@ -19,3 +19,9 @@
 [submodule "bundle/zencoding-vim"]
 	path = bundle/zencoding-vim
 	url = https://github.com/mattn/zencoding-vim.git
+[submodule "bundle/pyflakes"]
+	path = bundle/pyflakes
+	url = git://github.com/kevinw/pyflakes-vim.git
+[submodule ".\\bundle\\css-colors"]
+	path = .\\bundle\\css-colors
+	url = https://github.com/skammer/vim-css-color.git

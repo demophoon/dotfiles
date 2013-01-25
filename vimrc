@@ -8,31 +8,39 @@ set mouse=a
 set history=100
 set number
 set ts=4 sts=4 sw=4 expandtab
+set scrolloff=5
 set autoindent
+set encoding=utf-8
 set hidden
 syntax enable
 " set background=dark
 " colorscheme solarized
-colorscheme codeschool
+" colorscheme codeschool
+colorscheme smyck
+set colorcolumn=80
+highlight colorcolumn ctermbg=233
 
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
+set noswapfile
 set nobackup
 set nowb
-set noswapfile
 
-" Disable Up, Down, Left, Right. LEARN HJKL NOW!
-inoremap  <Up>     <NOP>
-inoremap  <Down>   <NOP>
-inoremap  <Left>   <NOP>
-inoremap  <Right>  <NOP>
-noremap   <Up>     <NOP>
-noremap   <Down>   <NOP>
-noremap   <Left>   <NOP>
-noremap   <Right>  <NOP>
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 11
+  elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
+  endif
+endif
+
+" Disable Arrows
+nmap <Left> <Esc>
+nmap <Up> <Esc>
+nmap <Right> <Esc>
+nmap <Down> <Esc>
+imap <Left> <Esc><Esc>a
+imap <Up> <Esc><Esc>a
+imap <Right> <Esc><Esc>a
+imap <Down> <Esc><Esc>a
 
 " Folding Quickly open and close Folds with Spacebar
 nnoremap <Space> za
@@ -45,6 +53,7 @@ imap jj <Esc>
 let g:user_zen_leader_key='<c-e>'
 let g:use_zen_complete_tag = 1
 
+" let g:Powerline_symbols = 'fancy'
 set laststatus=2
 
 if has("autocmd")
@@ -52,10 +61,11 @@ if has("autocmd")
 endif
 
 let mapleader = ","
-nmap <leader>v :tabedit $MYVIMRC<CR>
+nmap <leader>v :vsp $MYVIMRC<CR>
 
-" If Gui is running
-if has("gui_running")
+" If Mac Running
+if (match(system("uname -s"), "Darwin") != -1)
+    colorscheme macscheme
     set transparency=10
 endif
 

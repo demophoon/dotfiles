@@ -25,3 +25,9 @@
 [submodule ".\\bundle\\css-colors"]
 	path = .\\bundle\\css-colors
 	url = https://github.com/skammer/vim-css-color.git
+[submodule "bundle/vim-css-colors"]
+	path = bundle/vim-css-colors
+	url = https://github.com/skammer/vim-css-color.git
+[submodule "bundle/vundle"]
+	path = bundle/vundle
+	url = https://github.com/gmarik/vundle.git

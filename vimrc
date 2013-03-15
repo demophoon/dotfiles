@@ -2,6 +2,7 @@
 " Britt Gresham's Vimrc
 
 " Initialization {{{1
+    autocmd BufWritePost .vimrc source %
     if has("unix")
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
@@ -32,27 +33,28 @@
         set autoindent
     " }}}
     " Color Settings {{{2
-        set t_Co=256
-        colorscheme smyck
         set colorcolumn=80
         highlight colorcolumn guibg=#000000 ctermbg=246
         set hls
         syntax enable
+        set guifont=Inconsolata\ for\ Powerline:h14
+        if has("gui_running")
+            if has("gui_win32")
+                set guifont=Consolas:h10:cANSI
+            endif
+            set background=dark
+            colorscheme smyck
+        else
+            set t_Co=256
+            set background=dark
+            colorscheme smyck
+        endif
     " }}}
     " Persistent Undo {{{2
         set undodir=~/.vim/undodir
         set undofile
         set undolevels=1000
         set undoreload=10000
-    " }}}
-    " GVIM Settings {{{2
-        if has("gui_running")
-            if has("gui_gtk2")
-                set guifont=Inconsolata\ 10
-            elseif has("gui_win32")
-                set guifont=Consolas:h10:cANSI
-            endif
-        endif
     " }}}
     " Spelling / Typos {{{2
         :command WQ wq
@@ -64,7 +66,7 @@
 " Vundle Bundles {{{1
     Bundle 'gmarik/vundle'
 
-    Bundle 'Lokaltog/vim-powerline'
+    Bundle 'Lokaltog/powerline'
     Bundle 'Valloric/YouCompleteMe'
     Bundle 'dhazel/conque-term'
     Bundle 'godlygeek/tabular'
@@ -78,12 +80,23 @@
     Bundle 'tpope/vim-surround'
     Bundle 'vim-scripts/AutoClose'
 
+    Bundle 'xolox/vim-session'
+    Bundle 'ervandew/supertab'
+    Bundle 'scrooloose/syntastic'
     filetype plugin indent on
 " }}}
 " Plugin Settings {{{1
     " Powerline Settings {{{2
-        let g:Powerline_symbols = 'fancy'
+        set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+        " "let g:Powerline_symbols = 'fancy'
         set laststatus=2
+    " }}}
+    " Vim Session Persist {{{2
+        let g:session_autosave = 1
+        let g:session_autoload = 1
+    " }}}
+    " Snippets Variables {{{2
+        let g:snips_author = 'Britt Gresham'
     " }}}
 " }}}
 " Mappings {{{1
@@ -138,12 +151,8 @@
     " NERDTreeToggle set to F2{{{2
         nmap <F2> :NERDTreeToggle<CR>
     " }}}
+    " Vimrc Reload {{{2
+        let mapleader = ","
+        nmap <leader>v :vs $MYVIMRC<CR>
+    " }}}
 " }}}
-" Vimrc Reload {{{1
-    if has("autocmd")
-        autocmd bufwritepost .vimrc source $MYVIMRC
-    endif
-    let mapleader = ","
-    nmap <leader>v :vs $MYVIMRC<CR>
-" }}}
-

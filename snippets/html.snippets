@@ -32,3 +32,21 @@ snippet html:5
 			${2}
 		</body>
 	</html>
+snippet bs:navbar
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="${2:#}">${1:Title}</a>
+			<ul class="nav">
+				bs:nb:li:active${3}
+			</ul>
+		</div>
+	</div>
+snippet bs:nb:li:active
+	<li class="active"><a href="${2:#}">${1:Home}</a></li>
+	bs:nb:li${3}
+snippet bs:nb:li
+	<li><a href="${2:#}">${1:Link}</a></li>
+	bs:nb:li${3}
+snippet bs:nb:li:vs
+	<li class="divider-vertical"></li>
+	bs:nb:li${1}

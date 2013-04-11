@@ -42,13 +42,10 @@
             if has("gui_win32")
                 set guifont=Consolas:h10:cANSI
             endif
-            set background=dark
-            colorscheme smyck
         else
             set t_Co=256
-            set background=dark
-            colorscheme smyck
         endif
+        colorscheme smyck
     " }}}
     " Persistent Undo {{{2
         set undodir=~/.vim/undodir
@@ -57,22 +54,21 @@
         set undoreload=10000
     " }}}
     " Spelling / Typos {{{2
-        :command WQ wq
-        :command Wq wq
-        :command W w
-        :command Q q
+        :command! WQ wq
+        :command! Wq wq
+        :command! W w
+        :command! Q q
     " }}}
 " }}}
 " Vundle Bundles {{{1
     Bundle 'gmarik/vundle'
 
     Bundle 'Lokaltog/powerline'
-    Bundle 'Valloric/YouCompleteMe'
     Bundle 'dhazel/conque-term'
+    Bundle 'ervandew/supertab'
     Bundle 'godlygeek/tabular'
     Bundle 'klen/python-mode'
     Bundle 'mattn/zencoding-vim'
-    Bundle 'msanders/snipmate.vim'
     Bundle 'scrooloose/nerdtree'
     Bundle 'skammer/vim-css-color'
     Bundle 'tpope/vim-repeat'
@@ -80,9 +76,9 @@
     Bundle 'tpope/vim-surround'
     Bundle 'vim-scripts/AutoClose'
 
-    Bundle 'xolox/vim-session'
-    Bundle 'ervandew/supertab'
-    Bundle 'scrooloose/syntastic'
+    Bundle 'nelstrom/vim-visual-star-search'
+    Bundle 'msanders/snipmate.vim'
+
     filetype plugin indent on
 " }}}
 " Plugin Settings {{{1
@@ -154,5 +150,6 @@
     " Vimrc Reload {{{2
         let mapleader = ","
         nmap <leader>v :vs $MYVIMRC<CR>
+        colorscheme smyck
     " }}}
 " }}}

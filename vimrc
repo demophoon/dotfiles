@@ -68,7 +68,8 @@
     Bundle 'ervandew/supertab'
     Bundle 'godlygeek/tabular'
     Bundle 'klen/python-mode'
-    Bundle 'mattn/zencoding-vim'
+    Bundle 'msanders/snipmate.vim'
+    Bundle 'nelstrom/vim-visual-star-search'
     Bundle 'scrooloose/nerdtree'
     Bundle 'skammer/vim-css-color'
     Bundle 'tpope/vim-repeat'
@@ -76,8 +77,10 @@
     Bundle 'tpope/vim-surround'
     Bundle 'vim-scripts/AutoClose'
 
-    Bundle 'nelstrom/vim-visual-star-search'
-    Bundle 'msanders/snipmate.vim'
+    Bundle 'tristen/vim-sparkup'
+    Bundle 'dahu/vim-fanfingtastic'
+    Bundle 'terryma/vim-multiple-cursors'
+    Bundle 'mhinz/vim-startify'
 
     filetype plugin indent on
 " }}}

@@ -80,7 +80,7 @@
     Bundle 'tristen/vim-sparkup'
     Bundle 'dahu/vim-fanfingtastic'
     Bundle 'terryma/vim-multiple-cursors'
-    Bundle 'mhinz/vim-startify'
+    Bundle 'pangloss/vim-javascript'
 
     filetype plugin indent on
 " }}}

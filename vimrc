@@ -71,16 +71,15 @@
     Bundle 'msanders/snipmate.vim'
     Bundle 'nelstrom/vim-visual-star-search'
     Bundle 'scrooloose/nerdtree'
-    Bundle 'skammer/vim-css-color'
     Bundle 'tpope/vim-repeat'
     Bundle 'tpope/vim-speeddating'
     Bundle 'tpope/vim-surround'
     Bundle 'vim-scripts/AutoClose'
 
     Bundle 'tristen/vim-sparkup'
-    Bundle 'dahu/vim-fanfingtastic'
     Bundle 'terryma/vim-multiple-cursors'
     Bundle 'pangloss/vim-javascript'
+    Bundle 'tpope/vim-fugitive'
 
     filetype plugin indent on
 " }}}
@@ -97,8 +96,15 @@
     " Snippets Variables {{{2
         let g:snips_author = 'Britt Gresham'
     " }}}
+    " NERDTree {{{2
+        let NERDTreeIgnore=['\.pyc$']
+    " }}}
 " }}}
 " Mappings {{{1
+    " * No longer moves the cursor when hitting it the first time {{{2
+        nmap * *Nzz
+        nmap # #Nzz
+    " }}}
     " Disable Arrows {{{2
         nmap <Left> <Esc>
         nmap <Up> <Esc>
@@ -145,7 +151,7 @@
         let g:use_zen_complete_tag = 1
     " }}}
     " Misc {{{2
-        imap jj <Esc>
+        imap jj <Esc>:syntax sync fromstart<CR>
     " }}}
     " NERDTreeToggle set to F2{{{2
         nmap <F2> :NERDTreeToggle<CR>

@@ -33,8 +33,8 @@
         set autoindent
     " }}}
     " Color Settings {{{2
-        set colorcolumn=80
-        highlight colorcolumn guibg=#000000 ctermbg=246
+        let &colorcolumn="80,".join(range(120,999), ',')
+        highlight colorcolumn ctermbg=8 guibg=#000000
         set hls
         syntax enable
         set guifont=Inconsolata\ for\ Powerline:h14
@@ -63,7 +63,8 @@
 " Vundle Bundles {{{1
     Bundle 'gmarik/vundle'
 
-    Bundle 'Lokaltog/powerline'
+    " Bundle 'Lokaltog/powerline'
+
     Bundle 'dhazel/conque-term'
     Bundle 'ervandew/supertab'
     Bundle 'godlygeek/tabular'
@@ -80,6 +81,8 @@
     Bundle 'terryma/vim-multiple-cursors'
     Bundle 'pangloss/vim-javascript'
     Bundle 'tpope/vim-fugitive'
+    Bundle 'bling/vim-airline'
+    Bundle 'bling/vim-bufferline'
 
     filetype plugin indent on
 " }}}

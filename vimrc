@@ -16,7 +16,7 @@
         set nocompatible
         filetype off
         set backspace=2
-        set mouse=a
+        set mouse=i
         set history=100
         set number
         set scrolloff=5

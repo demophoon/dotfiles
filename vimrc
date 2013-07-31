@@ -164,4 +164,7 @@
         nmap <leader>v :vs $MYVIMRC<CR>
         colorscheme smyck
     " }}}
+    " NERDTreeFocus {{{2
+        nmap <leader>n :NERDTreeFocus<CR>
+    " }}}
 " }}}

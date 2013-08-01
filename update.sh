@@ -6,6 +6,7 @@ then
     echo "your repository in `pwd`:"
     echo `git ls-files -m`
 else
-    echo "Syncing files"
+    echo "Pulling dotfiles down"
     git pull -u origin master -q
+    . ./setup.sh
 fi

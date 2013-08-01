@@ -22,4 +22,4 @@ ln -s $DIR/gitignore ~/.gitignore
 
 # Install Bundles using Vundle
 
-vim +BundleInstall +qall
+vim +BundleClean +BundleInstall +qall

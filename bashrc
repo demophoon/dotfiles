@@ -2,6 +2,7 @@
 alias tmux="TERM=screen-256color-bce tmux"
 alias ll="ls -AlhG"
 alias gs="git status"
+alias v="vim"
 
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
 # Shamelessly copied from https://github.com/gf3/dotfiles

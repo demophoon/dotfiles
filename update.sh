@@ -7,5 +7,5 @@ then
     echo `git ls-files -m`
 else
     echo "Syncing files"
-    git pull -u origin master
+    git pull -u origin master -q
 fi

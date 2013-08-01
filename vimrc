@@ -14,6 +14,7 @@
 " Look and Feel {{{1
     " Basics / Misc {{{2
         set nocompatible
+        filetype on
         filetype off
         set backspace=2
         set mouse=i

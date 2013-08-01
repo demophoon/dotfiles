@@ -6,7 +6,13 @@ then
     echo "your repository in `pwd`:"
     echo `git ls-files -m`
 else
-    echo "Pulling dotfiles down"
-    git pull -u origin master -q
-    . ./setup.sh
+    echo "Checking for updates..."
+    git fetch origin
+    if [[ -n $(git log HEAD..origin/master --oneline) ]]
+    then
+        git pull -u origin master -q
+        . ./setup.sh
+    else
+        echo "Up to date!"
+    fi
 fi

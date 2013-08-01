@@ -66,8 +66,6 @@
 
     " Bundle 'Lokaltog/powerline'
 
-    Bundle 'dhazel/conque-term'
-    Bundle 'ervandew/supertab'
     Bundle 'godlygeek/tabular'
     Bundle 'klen/python-mode'
     Bundle 'msanders/snipmate.vim'

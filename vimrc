@@ -77,7 +77,6 @@
     Bundle 'vim-scripts/AutoClose'
 
     Bundle 'tristen/vim-sparkup'
-    Bundle 'terryma/vim-multiple-cursors'
     Bundle 'pangloss/vim-javascript'
     Bundle 'tpope/vim-fugitive'
     Bundle 'bling/vim-airline'

@@ -3,6 +3,7 @@ alias tmux="TERM=screen-256color-bce tmux"
 alias ll="ls -AlhG"
 alias gs="git status"
 alias v="vim"
+alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
 # Shamelessly copied from https://github.com/gf3/dotfiles

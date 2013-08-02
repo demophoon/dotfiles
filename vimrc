@@ -166,4 +166,12 @@
     " NERDTreeFocus {{{2
         nmap <leader>n :NERDTreeFocus<CR>
     " }}}
+    " ; and , mappings {{{2
+        nore ; :
+        nore , ;
+    " }}}
+    " Quickfix list nav with C-n and C-m {{{2
+        map <C-n> :cn<CR>
+        map <C-m> :cp<CR>
+    " }}}
 " }}}

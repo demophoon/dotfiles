@@ -61,4 +61,4 @@ export PS2="\[$ORANGE\]→ \[$RESET\]"
 
 cd $( dirname `readlink ~/.bashrc` )
 . ./update.sh
-cd ~/
+cd --

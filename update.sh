@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd $( dirname `readlink ~/.bashrc` )
 if [[ -n $(git ls-files -m) ]]
 then 
     echo "You will need to add and commit the following files to"

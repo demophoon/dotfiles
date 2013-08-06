@@ -154,20 +154,13 @@
     " Misc {{{2
         imap jj <Esc>:syntax sync fromstart<CR>
     " }}}
-    " NERDTreeToggle set to F2{{{2
-        nmap <F2> :NERDTreeToggle<CR>
-    " }}}
     " Vimrc Reload {{{2
         let mapleader = ","
         nmap <leader>v :vs $MYVIMRC<CR>
         colorscheme smyck
     " }}}
-    " NERDTreeFocus {{{2
-        nmap <leader>n :NERDTreeFocus<CR>
-    " }}}
-    " ; and , mappings {{{2
-        nore ; :
-        nore , ;
+    " NERDTreeToggle {{{2
+        nmap <leader>n :NERDTreeToggle<CR>
     " }}}
     " Quickfix list nav with C-n and C-m {{{2
         map <C-n> :cn<CR>

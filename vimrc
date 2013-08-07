@@ -160,7 +160,14 @@
         colorscheme smyck
     " }}}
     " NERDTreeToggle {{{2
-        nmap <leader>n :NERDTreeToggle<CR>
+    function NERDTreeToggleOrFocus()
+        if expand("%") == "NERD_tree_1"
+            :NERDTreeToggle
+        else
+            call NERDTreeFocus()
+        endif
+    endfunction
+        nmap <leader>n :call NERDTreeToggleOrFocus()<CR>
     " }}}
     " Quickfix list nav with C-n and C-m {{{2
         map <C-n> :cn<CR>

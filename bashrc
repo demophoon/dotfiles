@@ -1,3 +1,5 @@
+[ -z "$PS1" ] && return
+
 # Aliases
 alias tmux="TERM=screen-256color-bce tmux"
 alias ll="ls -AlhG"

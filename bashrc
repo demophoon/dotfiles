@@ -62,6 +62,9 @@ function parse_git_branch() {
 export PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]at \[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
 
-dotfiles=$( dirname `readlink ~/.bashrc` )
-dotfiles=". $dotfiles/update.sh"
-$dotfiles
+if tty > /dev/null
+then
+    dotfiles=$( dirname `readlink ~/.bashrc` )
+    dotfiles=". $dotfiles/update.sh"
+    $dotfiles
+fi

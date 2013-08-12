@@ -2,7 +2,7 @@
 " Britt Gresham's Vimrc
 
 " Initialization {{{1
-    autocmd BufWritePost .vimrc source %
+    autocmd! BufWritePost .vimrc source %
     if has("unix")
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
@@ -75,12 +75,13 @@
     Bundle 'tpope/vim-speeddating'
     Bundle 'tpope/vim-surround'
     Bundle 'vim-scripts/AutoClose'
-
-    Bundle 'tristen/vim-sparkup'
     Bundle 'pangloss/vim-javascript'
-    Bundle 'tpope/vim-fugitive'
     Bundle 'bling/vim-airline'
     Bundle 'bling/vim-bufferline'
+
+    Bundle 'tristen/vim-sparkup'
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'tpope/vim-git'
 
     filetype plugin indent on
 " }}}
@@ -156,11 +157,10 @@
     " }}}
     " Vimrc Reload {{{2
         let mapleader = ","
-        nmap <leader>v :vs $MYVIMRC<CR>
-        colorscheme smyck
+        nmap <leader>v :vsp $MYVIMRC<CR>
     " }}}
     " NERDTreeToggle {{{2
-    function NERDTreeToggleOrFocus()
+    function! NERDTreeToggleOrFocus()
         if expand("%") == "NERD_tree_1"
             :NERDTreeToggle
         else

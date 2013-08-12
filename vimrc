@@ -49,10 +49,10 @@
         colorscheme smyck
     " }}}
     " Persistent Undo {{{2
-        set undodir=~/.vim/undodir
-        set undofile
-        set undolevels=1000
-        set undoreload=10000
+        if v:version >= 703
+            set undofile
+            set undodir=~/.vim/tmp,~/.tmp,~/tmp,~/var/tmp,/tmp
+        endif
     " }}}
     " Spelling / Typos {{{2
         :command! WQ wq

@@ -5,7 +5,7 @@ alias tmux="TERM=screen-256color-bce tmux"
 alias ll="ls -AlhG"
 alias gs="git status"
 alias ga="git add"
-alias gc="git commit -u origin master"
+alias gc="git commit"
 alias v="vim"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 

@@ -82,7 +82,7 @@
     Bundle 'tristen/vim-sparkup'
     Bundle 'tpope/vim-fugitive'
     Bundle 'tpope/vim-git'
-    Bundle 'jceb/vim-orgmode'
+    Bundle 'hsitz/VimOrganizer'
 
     filetype plugin indent on
 " }}}

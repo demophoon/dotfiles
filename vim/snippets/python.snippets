@@ -45,3 +45,17 @@ snippet mitfull)
 	${2}
 snippet pdb
 	import pdb; pdb.set_trace()
+
+snippet setup.py
+	#!/usr/bin/env python
+	from setuptools import setup
+
+	setup(
+		name = "${1:Sample Project}",
+		version = "0.0.1",
+		author = "${2:`g:snips_author`}",
+		author_email = "${3}",
+		description = ("${4}"),
+		license = "${5:MIT}",
+		install_requires=[${6}],
+	)

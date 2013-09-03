@@ -10,6 +10,9 @@ alias gc="git commit"
 alias v="vim"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 
+alias pear="php /usr/lib/php/pear/pearcmd.php"
+alias pecl="php /usr/lib/php/pear/peclcmd.php"
+
 set -o vi
 bind TAB:menu-complete
 export EDITOR="vi"

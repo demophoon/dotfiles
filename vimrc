@@ -11,6 +11,12 @@
         call vundle#rc("~/vimfiles/bundle")
     endif
 " }}}
+" Filetype Association {{{1
+    au BufRead,BufNewFile *.pp
+      \ set filetype=puppet
+    au BufRead,BufNewFile *_spec.rb
+      \ nmap <F8> :!rspec --color %<CR>
+" }}}
 " Look and Feel {{{1
     " Basics / Misc {{{2
         set nocompatible
@@ -34,8 +40,10 @@
         set autoindent
     " }}}
     " Color Settings {{{2
-        let &colorcolumn="80,".join(range(120,999), ',')
-        highlight colorcolumn ctermbg=8 guibg=#000000
+        if (exists('colorcolumn'))
+            let &colorcolumn="80,".join(range(120,999), ',')
+            highlight colorcolumn ctermbg=8 guibg=#000000
+        endif
         set hls
         syntax enable
         set guifont=Inconsolata\ for\ Powerline:h14

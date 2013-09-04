@@ -83,6 +83,7 @@
     Bundle 'tpope/vim-fugitive'
     Bundle 'tpope/vim-git'
     Bundle 'hsitz/VimOrganizer'
+    Bundle 'puppetlabs/puppet-syntax-vim'
 
     filetype plugin indent on
 " }}}

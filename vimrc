@@ -12,6 +12,8 @@
     endif
 " }}}
 " Filetype Association {{{1
+    au BufRead,BufNewFile .vimrc
+      \ set foldmethod=marker
     au BufRead,BufNewFile *.pp
       \ set filetype=puppet
     au BufRead,BufNewFile *_spec.rb
@@ -56,6 +58,10 @@
         endif
         colorscheme smyck
     " }}}
+    " Highlight Trailing Whitespace {{{2
+        highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+        match ExtraWhitespace /\s\+$/
+    " }}}
     " Persistent Undo {{{2
         if v:version >= 703
             set undofile
@@ -92,13 +98,13 @@
     Bundle 'tpope/vim-git'
     Bundle 'hsitz/VimOrganizer'
     Bundle 'puppetlabs/puppet-syntax-vim'
+    Bundle 'scrooloose/syntastic'
 
     filetype plugin indent on
 " }}}
 " Plugin Settings {{{1
-    " Powerline Settings {{{2
-        set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-        " "let g:Powerline_symbols = 'fancy'
+    " Airline Settings {{{2
+        let g:airline#extensions#tabline#enabled = 1
         set laststatus=2
     " }}}
     " Vim Session Persist {{{2

@@ -177,7 +177,7 @@
     " }}}
     " NERDTreeToggle {{{2
     function! NERDTreeToggleOrFocus()
-        if expand("%") == "NERD_tree_1"
+        if expand("%") =~ "NERD_tree"
             :NERDTreeToggle
         else
             call NERDTreeFocus()

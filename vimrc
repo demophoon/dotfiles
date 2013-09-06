@@ -76,10 +76,11 @@
     " }}}
 " }}}
 " Vundle Bundles {{{1
+"
+    " Required Plugins
     Bundle 'gmarik/vundle'
 
-    " Bundle 'Lokaltog/powerline'
-
+    " Approved Bundles
     Bundle 'godlygeek/tabular'
     Bundle 'klen/python-mode'
     Bundle 'msanders/snipmate.vim'
@@ -93,6 +94,7 @@
     Bundle 'bling/vim-airline'
     Bundle 'bling/vim-bufferline'
 
+    " Testing Bundles
     Bundle 'tristen/vim-sparkup'
     Bundle 'tpope/vim-fugitive'
     Bundle 'tpope/vim-git'

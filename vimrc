@@ -42,10 +42,8 @@
         set autoindent
     " }}}
     " Color Settings {{{2
-        if (exists('colorcolumn'))
-            let &colorcolumn="80,".join(range(120,999), ',')
-            highlight colorcolumn ctermbg=8 guibg=#000000
-        endif
+        let &colorcolumn="80,".join(range(120,999), ',')
+        highlight colorcolumn ctermbg=8 guibg=#000000
         set hls
         syntax enable
         set guifont=Inconsolata\ for\ Powerline:h14

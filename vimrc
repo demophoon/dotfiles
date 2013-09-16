@@ -25,7 +25,7 @@
         filetype on
         filetype off
         set backspace=2
-        set mouse=i
+        set mouse=
         set history=100
         set number
         set scrolloff=5

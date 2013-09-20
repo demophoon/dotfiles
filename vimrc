@@ -117,6 +117,11 @@
     " NERDTree {{{2
         let NERDTreeIgnore=['\.pyc$']
     " }}}
+    " Python Mode Settings {{{2
+        let g:pymode_lint_checker = "pyflakes,pep8"
+        let g:pymode_lint_onfly = 0
+        let g:pymode_folding = 0
+    " }}}
 " }}}
 " Mappings {{{1
     " * No longer moves the cursor when hitting it the first time {{{2

@@ -91,14 +91,14 @@
     Bundle 'pangloss/vim-javascript'
     Bundle 'bling/vim-airline'
     Bundle 'bling/vim-bufferline'
+    Bundle 'puppetlabs/puppet-syntax-vim'
+    Bundle 'scrooloose/syntastic'
 
     " Testing Bundles
     Bundle 'tristen/vim-sparkup'
     Bundle 'tpope/vim-fugitive'
     Bundle 'tpope/vim-git'
     Bundle 'hsitz/VimOrganizer'
-    Bundle 'puppetlabs/puppet-syntax-vim'
-    Bundle 'scrooloose/syntastic'
 
     filetype plugin indent on
 " }}}

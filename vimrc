@@ -48,10 +48,12 @@
         set list
     " }}}
     " Color Settings {{{2
-        "let &colorcolumn="80,".join(range(120,999), ',')
-        highlight ColorColumn ctermbg=8 guibg=#000000
-        call matchadd('ColorColumn', '\%80v', 100)
-        call matchadd('ColorColumn', '\%120v', 100)
+        "highlight ColorColumnText ctermbg=darkgrey guibg=darkgrey
+        "all matchadd('ColorColumnText', '\%80v', 1000)
+        "all matchadd('ColorColumnText', '\%>120v.\+', 1000)
+        highlight OverLength ctermbg=darkblue ctermfg=darkblue guibg=darkblue
+        match OverLength /\%81v.\+/
+
         set hls
         syntax enable
         set guifont=Inconsolata\ for\ Powerline:h14
@@ -65,7 +67,7 @@
         colorscheme smyck
     " }}}
     " Highlight Trailing Whitespace {{{2
-        highlight ExtraWhitespace ctermbg=darkred guibg=darkred
+        highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
         match ExtraWhitespace /\s\+$/
     " }}}
     " Persistent Undo {{{2
@@ -112,6 +114,8 @@
     Bundle 'tpope/vim-fugitive'
     Bundle 'tpope/vim-git'
     Bundle 'hsitz/VimOrganizer'
+    Bundle 'xolox/vim-misc'
+    Bundle 'xolox/vim-notes'
 
     filetype plugin indent on
 " }}}
@@ -134,6 +138,10 @@
         let g:pymode_lint_checker = "pyflakes,pep8"
         let g:pymode_lint_onfly = 0
         let g:pymode_folding = 0
+    " }}}
+    " Note Taking {{{2
+        let g:notes_title_sync='change_title'
+        let g:notes_smart_quotes = 0
     " }}}
 " }}}
 " Mappings {{{1
@@ -209,5 +217,6 @@
     " }}}
     " Globally Substitute every occurrence of selected word {{{2
         nmap :S :%s///g<Left><Left>
+        nmap :s :s///g<Left><Left>
     " }}}
 " }}}

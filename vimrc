@@ -18,6 +18,10 @@
       \ set filetype=puppet
     au BufRead,BufNewFile *_spec.rb
       \ nmap <F8> :!rspec --color %<CR>
+    augroup PatchDiffHighlight
+        autocmd!
+        autocmd BufEnter *.patch,*.rej,*.diff syntax enable
+    augroup END
 " }}}
 " Look and Feel {{{1
     " Basics / Misc {{{2
@@ -40,10 +44,14 @@
     " Tabbing and Spaces {{{2
         set ts=4 sts=4 sw=4 expandtab
         set autoindent
+        exec "set listchars=tab:\uBB\uBB,trail:\u2716,nbsp:~"
+        set list
     " }}}
     " Color Settings {{{2
-        let &colorcolumn="80,".join(range(120,999), ',')
-        highlight colorcolumn ctermbg=8 guibg=#000000
+        "let &colorcolumn="80,".join(range(120,999), ',')
+        highlight ColorColumn ctermbg=8 guibg=#000000
+        call matchadd('ColorColumn', '\%80v', 100)
+        call matchadd('ColorColumn', '\%120v', 100)
         set hls
         syntax enable
         set guifont=Inconsolata\ for\ Powerline:h14
@@ -57,7 +65,7 @@
         colorscheme smyck
     " }}}
     " Highlight Trailing Whitespace {{{2
-        highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+        highlight ExtraWhitespace ctermbg=darkred guibg=darkred
         match ExtraWhitespace /\s\+$/
     " }}}
     " Persistent Undo {{{2
@@ -71,6 +79,11 @@
         :command! Wq wq
         :command! W w
         :command! Q q
+    " }}}
+    " Open file and goto previous location {{{2
+        autocmd BufReadPost *  if line("'\"") > 1 && line("'\"") <= line("$")
+                   \|     exe "normal! g`\""
+                   \|  endif
     " }}}
 " }}}
 " Vundle Bundles {{{1
@@ -193,5 +206,8 @@
     " Quickfix list nav with C-n and C-m {{{2
         map <C-n> :cn<CR>
         map <C-m> :cp<CR>
+    " }}}
+    " Globally Substitute every occurrence of selected word {{{2
+        nmap :S :%s///g<Left><Left>
     " }}}
 " }}}

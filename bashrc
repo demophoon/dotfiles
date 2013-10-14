@@ -9,6 +9,7 @@ alias ga="git add"
 alias gc="git commit"
 alias v="vim"
 alias vi="vim"
+alias irssi="TERM=screen-256color irssi"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 
 alias pear="php /usr/lib/php/pear/pearcmd.php"

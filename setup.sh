@@ -7,7 +7,6 @@ if [ -z $1 ]; then
 else
     HOMEDIR=${1%/}
 fi
-    
 
 # Delete Existing Dotfiles
 

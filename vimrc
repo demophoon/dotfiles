@@ -217,6 +217,5 @@
     " }}}
     " Globally Substitute every occurrence of selected word {{{2
         nmap :S :%s///g<Left><Left>
-        nmap :s :s///g<Left><Left>
     " }}}
 " }}}

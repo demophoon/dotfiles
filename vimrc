@@ -1,4 +1,4 @@
-" vim: foldmethod=marker ts=2 sts=2 sw=2 expandtab:
+" vim: foldmethod=marker foldmarker={{{,}}} ts=2 sts=2 sw=2 expandtab:
 " Britt Gresham's 'Perfect' Vimrc
 "
 " Feel free to take whatever helps you the most
@@ -11,7 +11,7 @@
     autocmd!
 
     " If vimrc has been modified, re-source it for fast modifications
-    autocmd! BufWritePost '\.vimrc\|_vimrc' source %
+    autocmd! BufWritePost *vimrc source %
 
     " Source Vundle
     if has("unix")
@@ -34,7 +34,7 @@
 "" Filetype Association {{{1
 "" ====================
 
-    au BufRead,BufNewFile '\.vimrc\|_vimrc'
+    au BufRead,BufNewFile *vimrc
       \ set foldmethod=marker
     au BufRead,BufNewFile *.pp
       \ set filetype=puppet
@@ -233,10 +233,10 @@
     " }}}
 
     " Disable Arrows {{{2
-        nmap <Left> <Esc>
-        nmap <Up> <Esc>
-        nmap <Right> <Esc>
-        nmap <Down> <Esc>
+        nmap <Left> :vertical resize -5<CR>
+        nmap <Up> :resize -5<CR>
+        nmap <Right> :vertical resize +5<CR>
+        nmap <Down> :resize +5<CR>
         imap <Left> <Esc><Esc>a
         imap <Up> <Esc><Esc>a
         imap <Right> <Esc><Esc>a
@@ -253,11 +253,6 @@
         map <C-j> <C-w>j
         map <C-k> <C-w>k
         map <C-l> <C-w>l
-    " }}}
-
-    " Map C-n to C-f for Finish Word {{{2
-        imap <C-f> <C-n>
-        imap <C-d> <C-p>
     " }}}
 
     " Space folds and unfolds {{{2
@@ -294,8 +289,8 @@
         map <C-m> :cp<CR>
     " }}}
 
-    " Globally Substitute every occurrence of selected word {{{2
-        nmap :S :%s///g<Left><Left>
+    " Format JSON with python {{{2
+        map <Leader>j !python -m json.tool<CR>
     " }}}
 
     " Multipurpose Tab-key {{{2

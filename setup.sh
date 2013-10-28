@@ -2,28 +2,35 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+if [ -z $1 ]; then
+    HOMEDIR="~"
+else
+    HOMEDIR=${1%/}
+fi
+
 # Delete Existing Dotfiles
 
-rm -rf ~/.vim
-rm -f ~/.vimrc
-rm -f ~/.bashrc
-rm -f ~/.bash_profile
-rm -f ~/.hgignore
-rm -f ~/.gitignore
-rm -f ~/.tmux.conf
-rm -rf ~/.tmux-powerline
+rm -rf $HOMEDIR/.vim
+rm -f $HOMEDIR/.vimrc
+rm -f $HOMEDIR/.bashrc
+rm -f $HOMEDIR/.bash_profile
+rm -f $HOMEDIR/.hgignore
+rm -f $HOMEDIR/.gitignore
+rm -f $HOMEDIR/.tmux.conf
+rm -rf $HOMEDIR/.tmux-powerline
 
 # Create Symlinks
 
-ln -s $DIR/vimrc ~/.vimrc
-ln -s $DIR/vim ~/.vim
-ln -s $DIR/bashrc ~/.bashrc
-ln -s $DIR/bash_profile ~/.bash_profile
-ln -s $DIR/hgignore ~/.hgignore
-ln -s $DIR/gitignore ~/.gitignore
-ln -s $DIR/tmux.conf ~/.tmux.conf
-ln -s $DIR/tmux-powerline ~/.tmux-powerline
+ln -s $DIR/vimrc $HOMEDIR/.vimrc
+ln -s $DIR/vim $HOMEDIR/.vim
+ln -s $DIR/bashrc $HOMEDIR/.bashrc
+ln -s $DIR/bash_profile $HOMEDIR/.bash_profile
+ln -s $DIR/hgignore $HOMEDIR/.hgignore
+ln -s $DIR/gitignore $HOMEDIR/.gitignore
+ln -s $DIR/tmux.conf $HOMEDIR/.tmux.conf
+ln -s $DIR/tmux-powerline $HOMEDIR/.tmux-powerline
 
-# Install Bundles using Vundle
+# Post Installation Setup
 
+source $HOMEDIR/.bashrc
 vim +BundleClean! +BundleInstall! +qall!

@@ -9,6 +9,7 @@ alias ga="git add"
 alias gc="git commit"
 alias v="vim"
 alias vi="vim"
+alias irssi="TERM=screen-256color irssi"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 
 alias pear="php /usr/lib/php/pear/pearcmd.php"
@@ -17,6 +18,7 @@ alias pecl="php /usr/lib/php/pear/peclcmd.php"
 set -o vi
 bind TAB:menu-complete
 export EDITOR="vim"
+export PYTHONSTARTUP="~/.pythonrc"
 
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
 # Shamelessly copied from https://github.com/gf3/dotfiles

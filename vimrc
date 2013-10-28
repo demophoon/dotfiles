@@ -1,8 +1,20 @@
-" vim: foldmethod=marker
-" Britt Gresham's Vimrc
+" vim: foldmethod=marker ts=2 sts=2 sw=2 expandtab:
+" Britt Gresham's 'Perfect' Vimrc
+"
+" Feel free to take whatever helps you the most
+"
 
-" Initialization {{{1
-    autocmd! BufWritePost .vimrc source %
+""
+"" Initialization {{{1
+"" ==============
+
+    " Clear Autocommands
+    autocmd!
+
+    " If vimrc has been modified, re-source it for fast modifications
+    autocmd! BufWritePost '\.vimrc\|_vimrc' source %
+
+    " Source Vundle
     if has("unix")
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
@@ -10,9 +22,12 @@
         set rtp+=~/vimfiles/bundle/vundle/
         call vundle#rc("~/vimfiles/bundle")
     endif
-" }}}
-" Filetype Association {{{1
-    au BufRead,BufNewFile .vimrc
+
+"" }}}
+"" Filetype Association {{{1
+"" ====================
+
+    au BufRead,BufNewFile '\.vimrc\|_vimrc'
       \ set foldmethod=marker
     au BufRead,BufNewFile *.pp
       \ set filetype=puppet
@@ -22,40 +37,83 @@
         autocmd!
         autocmd BufEnter *.patch,*.rej,*.diff syntax enable
     augroup END
-" }}}
-" Look and Feel {{{1
+
+"" }}}
+"" Look and Feel {{{1
+"" =============
+
     " Basics / Misc {{{2
+
+        " Use Vim settings instead of Vi settings.
         set nocompatible
+
+        " Used for saving git and hg commits
         filetype on
         filetype off
+
+        " Set to allow you to backspace while back past insert mode
         set backspace=2
+
+        " Disable mouse
         set mouse=
+
+        " Increase History
         set history=100
+
+        " Enable numbers in the left column
         set number
-        set scrolloff=5
-        set encoding=utf-8
+
+        " Give context to where the cursor is positioned in a file
+        set scrolloff=14
+
+        " Use UTF-8 encoding
+        set encoding=utf-8 nobomb
+
+        " Hide buffers after they are abandoned
         set hidden
+
+        " Disable files that don't need to be created
         set noswapfile
         set nobackup
         set nowb
+
         set lazyredraw
+        " Enable spell checking
         set spell
     " }}}
+
     " Tabbing and Spaces {{{2
+
+        " Use 4 spaces instead of tabs
         set ts=4 sts=4 sw=4 expandtab
+
+        " Auto indent
         set autoindent
+
+        " replace trailing whitespace and tabs with unicode characters
         exec "set listchars=tab:\uBB\uBB,trail:\u2716,nbsp:~"
         set list
-    " }}}
-    " Color Settings {{{2
-        "highlight ColorColumnText ctermbg=darkgrey guibg=darkgrey
-        "all matchadd('ColorColumnText', '\%80v', 1000)
-        "all matchadd('ColorColumnText', '\%>120v.\+', 1000)
-        highlight OverLength ctermbg=darkblue ctermfg=darkblue guibg=darkblue
-        match OverLength /\%81v.\+/
 
-        set hls
+    " }}}
+
+    " Color Settings {{{2
+
+        " Highlight on 80th and after 120th columns
+        highlight ColorColumnText ctermbg=darkgrey guibg=darkgrey
+        all matchadd('ColorColumnText', '\%80v', 1000)
+        all matchadd('ColorColumnText', '\%>120v.\+', 1000)
+
+        " Enable highlight search and highlight when searching
+        set hlsearch
+        set incsearch
+        set ignorecase
+        set smartcase
+        set gdefault
+
+        " Enable syntax highlighting
         syntax enable
+
+        " Set font and color scheme for Gvim
         set guifont=Inconsolata\ for\ Powerline:h14
         if has("gui_running")
             if has("gui_win32")
@@ -65,31 +123,38 @@
             set t_Co=256
         endif
         colorscheme smyck
+
     " }}}
+
     " Highlight Trailing Whitespace {{{2
         highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
         match ExtraWhitespace /\s\+$/
     " }}}
+
     " Persistent Undo {{{2
         if v:version >= 703
             set undofile
             set undodir=~/.vim/tmp,~/.tmp,~/tmp,~/var/tmp,/tmp
         endif
     " }}}
+
     " Spelling / Typos {{{2
         :command! WQ wq
         :command! Wq wq
         :command! W w
         :command! Q q
     " }}}
+
     " Open file and goto previous location {{{2
         autocmd BufReadPost *  if line("'\"") > 1 && line("'\"") <= line("$")
                    \|     exe "normal! g`\""
                    \|  endif
     " }}}
-" }}}
-" Vundle Bundles {{{1
-"
+
+"" }}}
+"" Vundle Bundles {{{1
+"" ==============
+
     " Required Plugins
     Bundle 'gmarik/vundle'
 
@@ -118,37 +183,49 @@
     Bundle 'xolox/vim-notes'
 
     filetype plugin indent on
-" }}}
-" Plugin Settings {{{1
+
+"" }}}
+"" Plugin Settings {{{1
+"" ===============
+
     " Airline Settings {{{2
         let g:airline#extensions#tabline#enabled = 1
         set laststatus=2
     " }}}
+
     " Vim Session Persist {{{2
         let g:session_autosave = 1
         let g:session_autoload = 1
     " }}}
+
     " Snippets Variables {{{2
         let g:snips_author = 'Britt Gresham'
     " }}}
+
     " NERDTree {{{2
         let NERDTreeIgnore=['\.pyc$']
     " }}}
+
     " Python Mode Settings {{{2
         let g:pymode_lint_checker = "pyflakes,pep8"
         let g:pymode_lint_onfly = 0
         let g:pymode_folding = 0
     " }}}
+
     " Note Taking {{{2
         let g:notes_title_sync='change_title'
         let g:notes_smart_quotes = 0
     " }}}
-" }}}
-" Mappings {{{1
+
+"" }}}
+"" Mappings {{{1
+"" ========
+
     " * No longer moves the cursor when hitting it the first time {{{2
         nmap * *Nzz
         nmap # #Nzz
     " }}}
+
     " Disable Arrows {{{2
         nmap <Left> <Esc>
         nmap <Up> <Esc>
@@ -159,48 +236,42 @@
         imap <Right> <Esc><Esc>a
         imap <Down> <Esc><Esc>a
     " }}}
+
     " Y y$ Fix {{{2
         " Why the hell isn't this the normal behavior?
         nnoremap Y y$
     " }}}
+
     " Easy Window Switching {{{2
         map <C-h> <C-w>h
         map <C-j> <C-w>j
         map <C-k> <C-w>k
         map <C-l> <C-w>l
     " }}}
-    " Chrome Tab Navigation {{{2
-        nmap <C-S-]> gt
-        nmap <C-S-[> gT
-        nmap <C-1> 1gt
-        nmap <C-2> 2gt
-        nmap <C-3> 3gt
-        nmap <C-4> 4gt
-        nmap <C-5> 5gt
-        nmap <C-6> 6gt
-        nmap <C-7> 7gt
-        nmap <C-8> 8gt
-        nmap <C-9> 9gt
-        nmap <C-0> :tablast<CR>
-    "}}}
+
     " Map C-n to C-f for Finish Word {{{2
         imap <C-f> <C-n>
         imap <C-d> <C-p>
     " }}}
+
     " Space folds and unfolds {{{2
         nmap <Space> za
     " }}}
+
     " Zencoding {{{2
         let g:user_zen_leader_key='<c-e>'
         let g:use_zen_complete_tag = 1
     " }}}
+
     " Misc {{{2
         imap jj <Esc>:syntax sync fromstart<CR>
     " }}}
+
     " Vimrc Reload {{{2
         let mapleader = ","
         nmap <leader>v :vsp $MYVIMRC<CR>
     " }}}
+
     " NERDTreeToggle {{{2
     function! NERDTreeToggleOrFocus()
         if expand("%") =~ "NERD_tree"
@@ -211,12 +282,14 @@
     endfunction
         nmap <leader>n :call NERDTreeToggleOrFocus()<CR>
     " }}}
+
     " Quickfix list nav with C-n and C-m {{{2
         map <C-n> :cn<CR>
         map <C-m> :cp<CR>
     " }}}
+
     " Globally Substitute every occurrence of selected word {{{2
         nmap :S :%s///g<Left><Left>
-        nmap :s :s///g<Left><Left>
     " }}}
-" }}}
+
+"" }}}

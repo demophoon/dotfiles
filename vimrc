@@ -4,7 +4,6 @@
 " Feel free to take whatever helps you the most
 "
 
-""
 "" Initialization {{{1
 "" ==============
 
@@ -22,6 +21,14 @@
         set rtp+=~/vimfiles/bundle/vundle/
         call vundle#rc("~/vimfiles/bundle")
     endif
+
+    " Wildmode options {{{2
+        set wildmenu
+        set wildmode=list
+        set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
+        set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+        set wildignore+=*.pyc
+    " }}}
 
 "" }}}
 "" Filetype Association {{{1
@@ -77,7 +84,6 @@
         set nobackup
         set nowb
 
-        set lazyredraw
         " Enable spell checking
         set spell
     " }}}
@@ -291,5 +297,39 @@
     " Globally Substitute every occurrence of selected word {{{2
         nmap :S :%s///g<Left><Left>
     " }}}
+
+    " Multipurpose Tab-key {{{2
+    " Taken from https://github.com/gregstallings/vimfiles/blob/master/vimrc
+        " Indent if at the beginning of a line, else do completion
+        function! InsertTabWrapper()
+          let col = col('.') - 1
+          if !col || getline('.')[col - 1] !~ '\k'
+            return "\<tab>"
+          else
+            return "\<c-p>"
+          endif
+        endfunction
+        inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+        inoremap <s-tab> <c-n>
+    " }}}
+
+"" }}}
+"" Performance Optimizations {{{1
+"" ====================
+
+    " Fast terminal connections
+    set ttyfast
+
+    " Don't redraw when running macros
+    set lazyredraw
+
+    " Set timeout on keycodes but not mappings
+    set notimeout
+    set ttimeout
+    set ttimeoutlen=100
+
+    " Syntax optimazations
+    syntax sync minlines=256
+    set syntaxcol=256
 
 "" }}}

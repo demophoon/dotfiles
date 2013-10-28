@@ -105,9 +105,9 @@
     " Color Settings {{{2
 
         " Highlight on 80th and after 120th columns
-        highlight ColorColumnText ctermbg=darkgrey guibg=darkgrey
-        all matchadd('ColorColumnText', '\%80v', 1000)
-        all matchadd('ColorColumnText', '\%>120v.\+', 1000)
+        " highlight ColorColumnText ctermbg=darkgrey guibg=darkgrey
+        " all matchadd('ColorColumnText', '\%80v', 1000)
+        " all matchadd('ColorColumnText', '\%>120v.\+', 1000)
 
         " Enable highlight search and highlight when searching
         set hlsearch
@@ -330,6 +330,6 @@
 
     " Syntax optimazations
     syntax sync minlines=256
-    set syntaxcol=256
+    " set syntaxcol=256
 
 "" }}}

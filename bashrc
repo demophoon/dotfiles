@@ -15,6 +15,7 @@ alias sandbox="tmux attach-session -t sandbox || tmux new-session -s sandbox"
 
 alias pear="php /usr/lib/php/pear/pearcmd.php"
 alias pecl="php /usr/lib/php/pear/peclcmd.php"
+alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
 
 set -o vi
 bind TAB:menu-complete

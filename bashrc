@@ -11,6 +11,7 @@ alias v="vim"
 alias vi="vim"
 alias irssi="TERM=screen-256color irssi"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
+alias sandbox="tmux attach-session -t sandbox || tmux new-session -s sandbox"
 
 alias pear="php /usr/lib/php/pear/pearcmd.php"
 alias pecl="php /usr/lib/php/pear/peclcmd.php"

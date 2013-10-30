@@ -33,6 +33,21 @@
     " }}}
 
 "" ==================== }}}
+"" Filetype Association {{{1
+"" ====================
+
+    au BufRead,BufNewFile *vimrc
+      \ set foldmethod=marker
+    au BufRead,BufNewFile *.pp
+      \ set filetype=puppet
+    au BufRead,BufNewFile *_spec.rb
+      \ nmap <F8> :!rspec --color %<CR>
+    augroup PatchDiffHighlight
+        autocmd!
+        autocmd BufEnter *.patch,*.rej,*.diff syntax enable
+    augroup END
+
+"" ============= }}}
 "  Look and Feel {{{1
 "" =============
     " Basics / Misc {{{2

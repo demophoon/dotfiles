@@ -4,7 +4,8 @@
 " Feel free to take whatever helps you the most
 "
 
-"" Initialization {{{1
+"" ==============
+"  Initialization {{{1
 "" ==============
 
     " Clear Autocommands
@@ -23,6 +24,7 @@
     endif
 
     " Wildmode options {{{2
+    " ----------------
         set wildmenu
         set wildmode=list
         set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
@@ -30,26 +32,11 @@
         set wildignore+=*.pyc
     " }}}
 
-"" }}}
-"" Filetype Association {{{1
-"" ====================
-
-    au BufRead,BufNewFile *vimrc
-      \ set foldmethod=marker
-    au BufRead,BufNewFile *.pp
-      \ set filetype=puppet
-    au BufRead,BufNewFile *_spec.rb
-      \ nmap <F8> :!rspec --color %<CR>
-    augroup PatchDiffHighlight
-        autocmd!
-        autocmd BufEnter *.patch,*.rej,*.diff syntax enable
-    augroup END
-
-"" }}}
-"" Look and Feel {{{1
+"" ==================== }}}
+"  Look and Feel {{{1
 "" =============
-
     " Basics / Misc {{{2
+    " -------------
 
         " Use Vim settings instead of Vi settings.
         set nocompatible
@@ -87,8 +74,8 @@
         " Enable spell checking
         set spell
     " }}}
-
     " Tabbing and Spaces {{{2
+    " ------------------
 
         " Use 4 spaces instead of tabs
         set ts=4 sts=4 sw=4 expandtab
@@ -101,8 +88,8 @@
         set list
 
     " }}}
-
     " Color Settings {{{2
+    " --------------
 
         " Highlight on 80th and after 120th columns
         " highlight ColorColumnText ctermbg=darkgrey guibg=darkgrey
@@ -131,34 +118,33 @@
         colorscheme smyck
 
     " }}}
-
     " Highlight Trailing Whitespace {{{2
+    " -----------------------------
         highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
         match ExtraWhitespace /\s\+$/
     " }}}
-
     " Persistent Undo {{{2
+    " ---------------
         if v:version >= 703
             set undofile
             set undodir=~/.vim/tmp,~/.tmp,~/tmp,~/var/tmp,/tmp
         endif
     " }}}
-
     " Spelling / Typos {{{2
+    " ----------------
         :command! WQ wq
         :command! Wq wq
         :command! W w
         :command! Q q
     " }}}
-
     " Open file and goto previous location {{{2
+    " ------------------------------------
         autocmd BufReadPost *  if line("'\"") > 1 && line("'\"") <= line("$")
                    \|     exe "normal! g`\""
                    \|  endif
     " }}}
-
-"" }}}
-"" Vundle Bundles {{{1
+"" ============== }}}
+"  Vundle Bundles {{{1
 "" ==============
 
     " Required Plugins
@@ -188,51 +174,52 @@
     Bundle 'xolox/vim-misc'
     Bundle 'xolox/vim-notes'
 
+    Bundle 'PProvost/vim-ps1'
+
     filetype plugin indent on
 
-"" }}}
-"" Plugin Settings {{{1
+"" =============== }}}
+"  Plugin Settings {{{1
 "" ===============
-
     " Airline Settings {{{2
+    " ----------------
         let g:airline#extensions#tabline#enabled = 1
         set laststatus=2
     " }}}
-
     " Vim Session Persist {{{2
+    " -------------------
         let g:session_autosave = 1
         let g:session_autoload = 1
     " }}}
-
     " Snippets Variables {{{2
+    " ------------------
         let g:snips_author = 'Britt Gresham'
     " }}}
-
     " NERDTree {{{2
+    " --------
         let NERDTreeIgnore=['\.pyc$']
     " }}}
-
     " Python Mode Settings {{{2
+    " --------------------
         let g:pymode_lint_checker = "pyflakes,pep8"
         let g:pymode_lint_onfly = 0
         let g:pymode_folding = 0
     " }}}
-
     " Note Taking {{{2
+    " -----------
         let g:notes_title_sync='change_title'
         let g:notes_smart_quotes = 0
     " }}}
-
-"" }}}
-"" Mappings {{{1
+"" ======== }}}
+"  Mappings {{{1
 "" ========
-
     " * No longer moves the cursor when hitting it the first time {{{2
+    " -----------------------------------------------------------
         nmap * *Nzz
         nmap # #Nzz
     " }}}
-
     " Disable Arrows {{{2
+    " --------------
         nmap <Left> :vertical resize -5<CR>
         nmap <Up> :resize -5<CR>
         nmap <Right> :vertical resize +5<CR>
@@ -242,38 +229,38 @@
         imap <Right> <Esc><Esc>a
         imap <Down> <Esc><Esc>a
     " }}}
-
     " Y y$ Fix {{{2
+    " --------
         " Why the hell isn't this the normal behavior?
         nnoremap Y y$
     " }}}
-
     " Easy Window Switching {{{2
+    " ---------------------
         map <C-h> <C-w>h
         map <C-j> <C-w>j
         map <C-k> <C-w>k
         map <C-l> <C-w>l
     " }}}
-
     " Space folds and unfolds {{{2
+    " -----------------------
         nmap <Space> za
     " }}}
-
     " Zencoding {{{2
+    " ---------
         let g:user_zen_leader_key='<c-e>'
         let g:use_zen_complete_tag = 1
     " }}}
-
     " Misc {{{2
+    " ----
         imap jj <Esc>:syntax sync fromstart<CR>
     " }}}
-
     " Vimrc Reload {{{2
+    " ------------
         let mapleader = ","
         nmap <leader>v :vsp $MYVIMRC<CR>
     " }}}
-
     " NERDTreeToggle {{{2
+    " --------------
     function! NERDTreeToggleOrFocus()
         if expand("%") =~ "NERD_tree"
             :NERDTreeToggle
@@ -283,17 +270,17 @@
     endfunction
         nmap <leader>n :call NERDTreeToggleOrFocus()<CR>
     " }}}
-
     " Quickfix list nav with C-n and C-m {{{2
+    " ----------------------------------
         map <C-n> :cn<CR>
         map <C-m> :cp<CR>
     " }}}
-
     " Format JSON with python {{{2
+    " -----------------------
         map <Leader>j !python -m json.tool<CR>
     " }}}
-
     " Multipurpose Tab-key {{{2
+    " --------------------
     " Taken from https://github.com/gregstallings/vimfiles/blob/master/vimrc
         " Indent if at the beginning of a line, else do completion
         function! InsertTabWrapper()
@@ -307,10 +294,9 @@
         inoremap <tab> <c-r>=InsertTabWrapper()<cr>
         inoremap <s-tab> <c-n>
     " }}}
-
-"" }}}
-"" Performance Optimizations {{{1
-"" ====================
+"" ========================= }}}
+"  Performance Optimizations {{{1
+"" =========================
 
     " Fast terminal connections
     set ttyfast
@@ -328,3 +314,4 @@
     " set syntaxcol=256
 
 "" }}}
+"" ==============

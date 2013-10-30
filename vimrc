@@ -33,7 +33,7 @@
     " }}}
 
 "" ==================== }}}
-"" Filetype Association {{{1
+"  Filetype Association {{{1
 "" ====================
 
     au BufRead,BufNewFile *vimrc

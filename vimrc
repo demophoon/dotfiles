@@ -56,6 +56,9 @@
         " Use Vim settings instead of Vi settings.
         set nocompatible
 
+        " Let netrw show things in a tree structure instead of a flat list
+        let g:netrw_liststyle=3
+
         " Used for saving git and hg commits
         filetype on
         filetype off

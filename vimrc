@@ -312,6 +312,17 @@
         inoremap <tab> <c-r>=InsertTabWrapper()<cr>
         inoremap <s-tab> <c-n>
     " }}}
+    " Toggle Paste/No Paste {{{2
+    " --------------------
+        function! TogglePaste()
+            if &paste
+                :set nopaste
+            else
+                :set paste
+            endif
+        endfunction
+        nmap <leader>p :call TogglePaste()<CR>
+    " }}}
 "" ========================= }}}
 "  Performance Optimizations {{{1
 "" =========================
@@ -331,5 +342,13 @@
     syntax sync minlines=256
     " set syntaxcol=256
 
+"" =================== }}}
+"  Post Configurations {{{1
+"" ===================
+    " Find ./*.vimrc"
+    if filereadable("./custom.vimrc")
+        echo "Loading ./custom.vimrc"
+        source ./custom.vimrc
+    endif
 "" }}}
 "" ==============

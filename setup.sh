@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ -z $1 ]; then
-    HOMEDIR="~"
+    HOMEDIR="$( cd "$( dirname "~" )" && pwd )"
 else
     HOMEDIR=${1%/}
 fi
@@ -21,16 +21,16 @@ rm -rf $HOMEDIR/.tmux-powerline
 
 # Create Symlinks
 
-ln -s $DIR/vimrc $HOMEDIR/.vimrc > /dev/null
-ln -s $DIR/vim $HOMEDIR/.vim > /dev/null
-ln -s $DIR/bashrc $HOMEDIR/.bashrc > /dev/null
-ln -s $DIR/bash_profile $HOMEDIR/.bash_profile > /dev/null
-ln -s $DIR/hgignore $HOMEDIR/.hgignore > /dev/null
-ln -s $DIR/gitignore $HOMEDIR/.gitignore > /dev/null
-ln -s $DIR/tmux.conf $HOMEDIR/.tmux.conf > /dev/null
-ln -s $DIR/tmux-powerline $HOMEDIR/.tmux-powerline > /dev/null
+ln -s $DIR/vimrc $HOMEDIR/.vimrc
+ln -s $DIR/vim $HOMEDIR/.vim
+ln -s $DIR/bashrc $HOMEDIR/.bashrc
+ln -s $DIR/bash_profile $HOMEDIR/.bash_profile
+ln -s $DIR/hgignore $HOMEDIR/.hgignore
+ln -s $DIR/gitignore $HOMEDIR/.gitignore
+ln -s $DIR/tmux.conf $HOMEDIR/.tmux.conf
+ln -s $DIR/tmux-powerline $HOMEDIR/.tmux-powerline
 
 # Post Installation Setup
 
-source $HOMEDIR/.bashrc > /dev/null
+source $HOMEDIR/.bashrc
 vim +BundleClean! +BundleInstall! +qall!

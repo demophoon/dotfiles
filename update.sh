@@ -17,4 +17,4 @@ else
         echo "Up to date!"
     fi
 fi
-cd --
+cd -

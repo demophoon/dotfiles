@@ -2,7 +2,7 @@
 
 cd $( dirname `readlink ~/.bashrc` )
 if [[ -n $(git ls-files -m) ]]
-then 
+then
     echo "You will need to add and commit the following files to"
     echo "your repository in `pwd`:"
     echo `git ls-files -m`
@@ -17,4 +17,4 @@ else
         echo "Up to date!"
     fi
 fi
-cd -
+cd - > /dev/null

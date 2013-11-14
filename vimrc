@@ -26,7 +26,7 @@
     " Wildmode options {{{2
     " ----------------
         set wildmenu
-        set wildmode=list
+        set wildmode=longest:full,full
         set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
         set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
         set wildignore+=*.pyc

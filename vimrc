@@ -191,6 +191,7 @@
     Bundle 'hsitz/VimOrganizer'
     Bundle 'xolox/vim-misc'
     Bundle 'xolox/vim-notes'
+    Bundle 'demophoon/vimpoint'
 
     Bundle 'PProvost/vim-ps1'
 

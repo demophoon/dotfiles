@@ -91,6 +91,10 @@
 
         " Enable spell checking
         set spell
+
+        " Auto Complete Menu
+        set completeopt=longest,menu
+
     " }}}
     " Tabbing and Spaces {{{2
     " ------------------
@@ -312,6 +316,7 @@
         endfunction
         inoremap <tab> <c-r>=InsertTabWrapper()<cr>
         inoremap <s-tab> <c-n>
+        inoremap <c-c> <C-r>=TriggerSnippet()<cr>
     " }}}
     " Toggle Paste/No Paste {{{2
     " --------------------

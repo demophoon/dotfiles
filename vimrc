@@ -307,12 +307,12 @@
     " Taken from https://github.com/gregstallings/vimfiles/blob/master/vimrc
         " Indent if at the beginning of a line, else do completion
         function! InsertTabWrapper()
-          let col = col('.') - 1
-          if !col || getline('.')[col - 1] !~ '\k'
-            return "\<tab>"
-          else
-            return "\<c-p>"
-          endif
+            let col = col('.') - 1
+            if !col || getline('.')[col - 1] !~ '\k'
+                return "\<tab>"
+            else
+                return "\<c-p>"
+            endif
         endfunction
         inoremap <tab> <c-r>=InsertTabWrapper()<cr>
         inoremap <s-tab> <c-n>
@@ -340,9 +340,9 @@
     set lazyredraw
 
     " Set timeout on keycodes but not mappings
-    set notimeout
-    set ttimeout
-    set ttimeoutlen=100
+    "set notimeout
+    "set ttimeout
+    "set ttimeoutlen=100
 
     " Syntax optimazations
     syntax sync minlines=256

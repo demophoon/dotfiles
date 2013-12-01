@@ -175,7 +175,7 @@
     " Approved Bundles
     Bundle 'godlygeek/tabular'
     Bundle 'klen/python-mode'
-    Bundle 'msanders/snipmate.vim'
+    Bundle 'demophoon/snipmate.vim'
     Bundle 'nelstrom/vim-visual-star-search'
     Bundle 'scrooloose/nerdtree'
     Bundle 'tpope/vim-repeat'
@@ -311,7 +311,11 @@
             if !col || getline('.')[col - 1] !~ '\k'
                 return "\<tab>"
             else
-                return "\<c-p>"
+                if CanExpandSnippet() > 0
+                    return "\<C-r>=TriggerSnippet()\<cr>"
+                else
+                    return "\<c-p>"
+                endif
             endif
         endfunction
         inoremap <tab> <c-r>=InsertTabWrapper()<cr>
@@ -356,5 +360,7 @@
         echo "Loading ./custom.vimrc"
         source ./custom.vimrc
     endif
+    " Remap mappings that get overwritten by plugins
+    set rtp+=~/.vim/after/
 "" }}}
 "" ==============

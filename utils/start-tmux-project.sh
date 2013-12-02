@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ ! -z $1 ]
 then
     PROJ_NAME=${1}
@@ -13,10 +15,16 @@ else
     tmux new-session -d -s "$PROJ_NAME"
     tmux rename-window  -t $PROJ_NAME:1 "Editor"
     tmux new-window -t $PROJ_NAME:2 -n "Development"
+
+    tmux send-keys -t $PROJ_NAME:2 "activate" C-m
     tmux split-window -h -t $PROJ_NAME:2
+
+    tmux send-keys -t $PROJ_NAME:2 "activate" C-m
+    tmux send-keys -t $PROJ_NAME:1 "activate" C-m
 
     tmux send-keys -t $PROJ_NAME:1 "vim -c ':NERDTreeToggle'" C-m
 
     tmux select-window -t $PROJ_NAME:1
     tmux -2 attach-session -t $PROJ_NAME
 fi
+

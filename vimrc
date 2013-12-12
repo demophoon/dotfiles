@@ -1,4 +1,3 @@
-" vim: foldmethod=marker foldmarker={{{,}}} ts=2 sts=2 sw=2 expandtab:
 " Britt Gresham's 'Perfect' Vimrc
 "
 " Feel free to take whatever helps you the most
@@ -14,14 +13,33 @@
     " If vimrc has been modified, re-source it for fast modifications
     autocmd! BufWritePost *vimrc source %
 
-    " Source Vundle
-    if has("unix")
+    " Setting up Vundle - the vim plugin bundler
+        let iCanHazVundle=1
+        let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+        if !filereadable(vundle_readme)
+            echo "Installing Vundle.."
+            echo ""
+            silent !mkdir -p ~/.vim/bundle
+            silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+            let iCanHazVundle=0
+        endif
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
-    elseif has("win32")
-        set rtp+=~/vimfiles/bundle/vundle/
-        call vundle#rc("~/vimfiles/bundle")
-    endif
+
+        if iCanHazVundle == 0
+            echo "Installing Bundles, please ignore key map error messages"
+            echo ""
+            :BundleInstall
+        endif
+
+    "" Source Vundle
+    "if has("unix")
+    "    set rtp+=~/.vim/bundle/vundle/
+    "    call vundle#rc()
+    "elseif has("win32")
+    "    set rtp+=~/vimfiles/bundle/vundle/
+    "    call vundle#rc("~/vimfiles/bundle")
+    "endif
 
     " Wildmode options {{{2
     " ----------------
@@ -33,6 +51,43 @@
     " }}}
 
 "" ==================== }}}
+"  Vundle Bundles {{{1
+"" ==============
+
+    " Required Plugins
+    Bundle 'gmarik/vundle'
+
+    " Approved Bundles
+    Bundle 'godlygeek/tabular'
+    Bundle 'klen/python-mode'
+    Bundle 'demophoon/snipmate.vim'
+    Bundle 'nelstrom/vim-visual-star-search'
+    Bundle 'scrooloose/nerdtree'
+    Bundle 'tpope/vim-repeat'
+    Bundle 'tpope/vim-speeddating'
+    Bundle 'tpope/vim-surround'
+    Bundle 'vim-scripts/AutoClose'
+    Bundle 'pangloss/vim-javascript'
+    Bundle 'bling/vim-airline'
+    Bundle 'bling/vim-bufferline'
+    Bundle 'puppetlabs/puppet-syntax-vim'
+    Bundle 'scrooloose/syntastic'
+
+    " Testing Bundles
+    Bundle 'tristen/vim-sparkup'
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'tpope/vim-git'
+    Bundle 'hsitz/VimOrganizer'
+    Bundle 'xolox/vim-misc'
+    Bundle 'xolox/vim-notes'
+    Bundle 'demophoon/vimpoint'
+    Bundle 'nanotech/jellybeans.vim'
+
+    Bundle 'PProvost/vim-ps1'
+
+    filetype plugin indent on
+
+"" =============== }}}
 "  Filetype Association {{{1
 "" ====================
 
@@ -57,7 +112,7 @@
         set nocompatible
 
         " Let netrw show things in a tree structure instead of a flat list
-        let g:netrw_liststyle=3
+        "let g:netrw_liststyle=3
 
         " Used for saving git and hg commits
         filetype on
@@ -137,7 +192,7 @@
         else
             set t_Co=256
         endif
-        colorscheme smyck
+        colorscheme jellybeans
 
     " }}}
     " Highlight Trailing Whitespace {{{2
@@ -166,42 +221,6 @@
                    \|  endif
     " }}}
 "" ============== }}}
-"  Vundle Bundles {{{1
-"" ==============
-
-    " Required Plugins
-    Bundle 'gmarik/vundle'
-
-    " Approved Bundles
-    Bundle 'godlygeek/tabular'
-    Bundle 'klen/python-mode'
-    Bundle 'demophoon/snipmate.vim'
-    Bundle 'nelstrom/vim-visual-star-search'
-    Bundle 'scrooloose/nerdtree'
-    Bundle 'tpope/vim-repeat'
-    Bundle 'tpope/vim-speeddating'
-    Bundle 'tpope/vim-surround'
-    Bundle 'vim-scripts/AutoClose'
-    Bundle 'pangloss/vim-javascript'
-    Bundle 'bling/vim-airline'
-    Bundle 'bling/vim-bufferline'
-    Bundle 'puppetlabs/puppet-syntax-vim'
-    Bundle 'scrooloose/syntastic'
-
-    " Testing Bundles
-    Bundle 'tristen/vim-sparkup'
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'tpope/vim-git'
-    Bundle 'hsitz/VimOrganizer'
-    Bundle 'xolox/vim-misc'
-    Bundle 'xolox/vim-notes'
-    Bundle 'demophoon/vimpoint'
-
-    Bundle 'PProvost/vim-ps1'
-
-    filetype plugin indent on
-
-"" =============== }}}
 "  Plugin Settings {{{1
 "" ===============
     " Airline Settings {{{2
@@ -364,3 +383,5 @@
     set rtp+=~/.vim/after/
 "" }}}
 "" ==============
+
+" vim: foldmethod=marker foldmarker={{{,}}} ts=2 sts=2 sw=2 expandtab:

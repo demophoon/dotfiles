@@ -60,7 +60,7 @@
     " Approved Bundles
     Bundle 'godlygeek/tabular'
     Bundle 'klen/python-mode'
-    Bundle 'demophoon/snipmate.vim'
+    ""Bundle 'demophoon/snipmate.vim'
     Bundle 'nelstrom/vim-visual-star-search'
     Bundle 'scrooloose/nerdtree'
     Bundle 'tpope/vim-repeat'
@@ -82,6 +82,11 @@
     Bundle 'xolox/vim-notes'
     Bundle 'demophoon/vimpoint'
     Bundle 'nanotech/jellybeans.vim'
+
+    Bundle 'MarcWeber/vim-addon-mw-utils'
+    Bundle 'tomtom/tlib_vim'
+    Bundle 'garbas/vim-snipmate'
+    Bundle 'honza/vim-snippets'
 
     Bundle 'PProvost/vim-ps1'
 
@@ -246,6 +251,7 @@
         let g:pymode_lint_checker = "pyflakes,pep8"
         let g:pymode_lint_onfly = 0
         let g:pymode_folding = 0
+        let g:pymode_rope_complete_on_dot = 0
     " }}}
     " Note Taking {{{2
     " -----------
@@ -337,9 +343,9 @@
                 endif
             endif
         endfunction
-        inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-        inoremap <s-tab> <c-n>
-        inoremap <c-c> <C-r>=TriggerSnippet()<cr>
+        "inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+        "inoremap <s-tab> <c-n>
+        "inoremap <c-c> <C-r>=TriggerSnippet()<cr>
     " }}}
     " Toggle Paste/No Paste {{{2
     " --------------------

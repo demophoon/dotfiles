@@ -82,6 +82,8 @@
     Bundle 'xolox/vim-notes'
     Bundle 'demophoon/vimpoint'
     Bundle 'nanotech/jellybeans.vim'
+    Bundle 'itchyny/calendar.vim'
+    Bundle 'elzr/vim-json'
 
     Bundle 'MarcWeber/vim-addon-mw-utils'
     Bundle 'tomtom/tlib_vim'
@@ -100,6 +102,7 @@
       \ set foldmethod=marker
     au BufRead,BufNewFile *.pp
       \ set filetype=puppet
+    au BufWritePost ~/.bashrc !source %
     au BufRead,BufNewFile *_spec.rb
       \ nmap <F8> :!rspec --color %<CR>
     augroup PatchDiffHighlight
@@ -258,6 +261,11 @@
         let g:notes_title_sync='change_title'
         let g:notes_smart_quotes = 0
     " }}}
+    " Calendar Options {{{2
+    " -----------
+        let g:calendar_google_calendar = 1
+        let g:google_task = 1
+    " }}}
 "" ======== }}}
 "  Mappings {{{1
 "" ========
@@ -382,7 +390,7 @@
 "" ===================
     " Find ./*.vimrc"
     if filereadable("./custom.vimrc")
-        echo "Loading ./custom.vimrc"
+        silent echo "Loading ./custom.vimrc"
         source ./custom.vimrc
     endif
     " Remap mappings that get overwritten by plugins

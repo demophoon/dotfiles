@@ -10,6 +10,7 @@ alias gc="git commit"
 alias gl="git log --graph --full-history --all --color --pretty=format:'%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s'"
 alias v="vim"
 alias vi="vim"
+alias vim='vim -w ~/.vimlog "$@"'
 alias irssi="TERM=screen-256color irssi"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 alias sandbox="tmux attach-session -t sandbox || tmux new-session -s sandbox"

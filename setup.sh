@@ -1,36 +1,29 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+HOMEDIR=${HOME}
+ignoredfiles=(.git LICENSE.md README.md push.sh setup.sh update.sh utils .DS_Store)
 
-if [ -z $1 ]; then
-    HOMEDIR="$( cd "$( dirname "~" )" && pwd )"
+function createLinks() {
+    for f in `ls -A $DIR`; do
+        filename=$(basename $f)
+        if [[ ${ignoredfiles[*]} =~ "$filename" ]]; then
+            continue
+        fi
+        rm "$HOMEDIR/$filename"
+        ln -s $DIR/$filename $HOMEDIR/$filename
+    done
+    source $HOMEDIR/.bashrc
+    vim +BundleClean! +BundleInstall! +qall!
+}
+
+if [ "$1" == "--force" -o "$1" == "-f" ]; then
+    createLinks
 else
-    HOMEDIR=${1%/}
+    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        createLinks
+    fi
 fi
-
-# Delete Existing Dotfiles
-
-rm -rf $HOMEDIR/.vim
-rm -f $HOMEDIR/.vimrc
-rm -f $HOMEDIR/.bashrc
-rm -f $HOMEDIR/.bash_profile
-rm -f $HOMEDIR/.hgignore
-rm -f $HOMEDIR/.gitignore
-rm -f $HOMEDIR/.tmux.conf
-rm -rf $HOMEDIR/.tmux-powerline
-
-# Create Symlinks
-
-ln -s $DIR/vimrc $HOMEDIR/.vimrc
-ln -s $DIR/vim $HOMEDIR/.vim
-ln -s $DIR/bashrc $HOMEDIR/.bashrc
-ln -s $DIR/bash_profile $HOMEDIR/.bash_profile
-ln -s $DIR/hgignore $HOMEDIR/.hgignore
-ln -s $DIR/gitignore $HOMEDIR/.gitignore
-ln -s $DIR/tmux.conf $HOMEDIR/.tmux.conf
-ln -s $DIR/tmux-powerline $HOMEDIR/.tmux-powerline
-
-# Post Installation Setup
-
-source $HOMEDIR/.bashrc
-vim +BundleClean! +BundleInstall! +qall!
+unset createLinks

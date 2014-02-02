@@ -87,5 +87,7 @@ if [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
 fi
 
 dotfiles=$( dirname `readlink ~/.bashrc` )
-dotfiles=". $dotfiles/update.sh"
-$dotfiles
+dotfilesupdate=". $dotfiles/update.sh"
+
+PATH=$PATH:$dotfiles/utils
+$dotfilesupdate

@@ -1,6 +1,10 @@
 Installation
 ============
-To install dotfiles run `setup.sh` and let the magic happen
+Run this command in your Debian based terminal:
+
+    `curl https://raw.github.com/demophoon/dotfiles/master/install.sh | sh`
+
+Or pull down the repository and run `setup.sh` to let the magic happen.
 
 ### Warning
 
@@ -14,8 +18,10 @@ To automatically enable pushing to origin after commit run these commands
 
 ### Install Script
 
-If you want to install to something other than ~/ than specify a path then
-running the install script (`setup.sh /some/other/path`).
+* `setup.sh [--force]`
+    - Installs dotfiles into home directory.
+      Warning: This will remove current settings in your home directory! Only
+      run if you want the dotfiles in this repository! You have been warned!
 
 ### Builtin Utilities
 

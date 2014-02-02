@@ -2,7 +2,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 HOMEDIR=${HOME}
-ignoredfiles=(.git LICENSE.md README.md push.sh setup.sh update.sh utils .DS_Store)
+ignoredfiles=(.git LICENSE.md README.md push.sh setup.sh update.sh install.sh utils .DS_Store)
 
 function createLinks() {
     for f in `ls -A $DIR`; do

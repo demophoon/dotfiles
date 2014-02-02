@@ -2,7 +2,7 @@ Installation
 ============
 Run this command in your Debian based terminal:
 
-    `curl https://raw.github.com/demophoon/dotfiles/master/install.sh | sh`
+    `wget -N https://raw.github.com/demophoon/dotfiles/master/install.sh && source install.sh`
 
 Or pull down the repository and run `setup.sh` to let the magic happen.
 

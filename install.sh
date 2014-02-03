@@ -26,7 +26,7 @@ function printList() {
 function downloadPackage() {
     package=$1
     echo "Installing $package..."
-    sudo apt-get install $package
+    sudo apt-get install $package -y > /dev/null
 }
 
 function downloadDotfiles() {
@@ -55,23 +55,17 @@ function wizard() {
 }
 
 function installExtraGraphicalTools() {
-    sudo apt-add-repository ppa:jtaylor/keepass
-    sudo apt-get update
-    sudo apt-get install keepass2
+    echo "Installing Keepass..."
+    sudo apt-add-repository ppa:jtaylor/keepass -y > /dev/null
+    sudo apt-get update -y > /dev/null
+    sudo apt-get install keepass2 -y > /dev/null
 }
 
 function runPrompts() {
     wizard "Required" required
     wizard "Optional" optional
     wizard "Grapical" graphical graphicalrequires installExtraGraphicalTools
-
-    read -p "Install Britt Gresham's Dotfiles? (Y/N) " -n 1
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        downloadDotfiles
-    fi
-
+    downloadDotfiles
     echo "Done!"
 }
 runPrompts

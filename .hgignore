@@ -1,6 +1,9 @@
 # Use shell-style glob syntax
 syntax: glob
 
+# Ignore .vim files
+.vim/bundle/*
+
 # Compiled Python files
 *.pyc
 

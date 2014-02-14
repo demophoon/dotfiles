@@ -2,7 +2,10 @@ Installation
 ============
 Run this command in your Debian based terminal:
 
-    `wget -N https://raw.github.com/demophoon/dotfiles/master/install.sh && source install.sh`
+    wget -N https://raw.github.com/demophoon/dotfiles/master/install.sh && source install.sh
+
+On Mac:
+    You will want to install Homebrew (http://brew.sh/) and run `brew bundle Brewfile` before you run the command above.
 
 Or pull down the repository and run `setup.sh` to let the magic happen.
 

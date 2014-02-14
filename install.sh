@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 
 required=(git python vim tmux)
 optional=(python-pip python-virtualenv python-dev irssi mercurial tree)
@@ -62,9 +62,13 @@ function installExtraGraphicalTools() {
 }
 
 function runPrompts() {
-    wizard "Required" required
-    wizard "Optional" optional
-    wizard "Grapical" graphical graphicalrequires installExtraGraphicalTools
+    unamestr=`uname`
+    if [[ "$unamestr" == 'Linux' ]]
+    then
+        wizard "Required" required
+        wizard "Optional" optional
+        wizard "Grapical" graphical graphicalrequires installExtraGraphicalTools
+    fi
     downloadDotfiles
     echo "Done!"
 }

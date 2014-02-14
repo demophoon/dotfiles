@@ -15,6 +15,7 @@ install git
 install mercurial
 
 install vim
+install tmux
 
 install python
 

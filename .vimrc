@@ -11,8 +11,15 @@
 "  Initialization {{{1
 " ============================================================================
 
+    " Use Vim settings instead of Vi settings.
+    set nocompatible
+
     " Clear Autocommands
     autocmd!
+
+    " Let Vim look for settings in a file
+    set modeline
+    set modelines=5
 
     " If vimrc has been modified, re-source it for fast modifications
     autocmd! BufWritePost *vimrc source %
@@ -119,9 +126,6 @@
 " ============================================================================
     " Basics / Misc {{{2
     " -------------
-
-        " Use Vim settings instead of Vi settings.
-        set nocompatible
 
         " Let netrw show things in a tree structure instead of a flat list
         "let g:netrw_liststyle=3
@@ -406,4 +410,4 @@
 "" }}}
 " ============================================================================
 
-" vim: foldmethod=marker foldmarker={{{,}}} ts=2 sts=2 sw=2 expandtab:
+" vim: foldmethod=marker foldmarker={{{,}}} ts=4 sts=4 sw=4 expandtab:

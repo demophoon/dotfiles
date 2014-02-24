@@ -71,7 +71,6 @@
     " Approved Bundles
     Bundle 'godlygeek/tabular'
     Bundle 'klen/python-mode'
-    ""Bundle 'demophoon/snipmate.vim'
     Bundle 'nelstrom/vim-visual-star-search'
     Bundle 'scrooloose/nerdtree'
     Bundle 'tpope/vim-repeat'
@@ -83,25 +82,20 @@
     Bundle 'bling/vim-bufferline'
     Bundle 'puppetlabs/puppet-syntax-vim'
     Bundle 'scrooloose/syntastic'
-
-    " Testing Bundles
     Bundle 'tristen/vim-sparkup'
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'tpope/vim-git'
-    Bundle 'hsitz/VimOrganizer'
-    Bundle 'xolox/vim-misc'
-    Bundle 'xolox/vim-notes'
-    Bundle 'demophoon/vimpoint'
     Bundle 'nanotech/jellybeans.vim'
-    Bundle 'itchyny/calendar.vim'
     Bundle 'elzr/vim-json'
-
     Bundle 'MarcWeber/vim-addon-mw-utils'
     Bundle 'tomtom/tlib_vim'
     Bundle 'garbas/vim-snipmate'
     Bundle 'honza/vim-snippets'
 
+    " Testing Bundles
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'tpope/vim-git'
     Bundle 'PProvost/vim-ps1'
+    Bundle 'takac/vim-hardtime'
+    Bundle 'Lokaltog/vim-easymotion'
 
     filetype plugin indent on
 

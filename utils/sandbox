@@ -1,0 +1,18 @@
+#!/bin/bash
+
+PROJ_NAME="sandbox"
+
+if tmux has-session -t "$PROJ_NAME"; then
+    echo "Attaching to session $PROJ_NAME"
+    tmux attach-session -t "$PROJ_NAME"
+else
+    echo "Creating session $PROJ_NAME"
+    tmux new-session -d -s "$PROJ_NAME"
+
+    tmux unbind -t $PROJ_NAME C-b
+    tmux set-option -t $PROJ_NAME prefix C-a
+    tmux set-option -t $PROJ_NAME status off
+
+    tmux -2 attach-session -t $PROJ_NAME
+fi
+

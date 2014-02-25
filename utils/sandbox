@@ -12,6 +12,10 @@ else
     tmux send-keys -t $PROJ_NAME "unset TMUX; reset" C-m
 
     tmux set-option -t $PROJ_NAME prefix C-a
+
+    #tmux unbind-key -t $PROJ_NAME C-b
+    #tmux bind-key -t $PROJ_NAME C-a send-prefix
+
     tmux set-option -t $PROJ_NAME status off
 
     tmux -2 attach-session -t $PROJ_NAME

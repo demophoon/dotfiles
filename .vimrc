@@ -96,6 +96,7 @@
     Bundle 'PProvost/vim-ps1'
     Bundle 'takac/vim-hardtime'
     Bundle 'Lokaltog/vim-easymotion'
+    Bundle 'vim-scripts/tpp.vim'
 
     filetype plugin indent on
 

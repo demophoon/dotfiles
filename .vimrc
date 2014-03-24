@@ -87,7 +87,6 @@
     Bundle 'elzr/vim-json'
     Bundle 'MarcWeber/vim-addon-mw-utils'
     Bundle 'tomtom/tlib_vim'
-    Bundle 'garbas/vim-snipmate'
     Bundle 'honza/vim-snippets'
 
     " Testing Bundles
@@ -96,6 +95,9 @@
     Bundle 'PProvost/vim-ps1'
     Bundle 'takac/vim-hardtime'
     Bundle 'Lokaltog/vim-easymotion'
+    Bundle 'SirVer/ultisnips'
+
+    Bundle 'tpope/vim-dispatch'
 
     filetype plugin indent on
 

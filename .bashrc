@@ -26,7 +26,7 @@ alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
 set -o vi
 bind TAB:menu-complete
 export EDITOR="vim"
-export PYTHONSTARTUP="~/.pythonrc"
+export PYTHONSTARTUP="$(dirname `readlink ~/.bashrc`)/.pythonrc"
 
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
 # Shamelessly copied from https://github.com/gf3/dotfiles

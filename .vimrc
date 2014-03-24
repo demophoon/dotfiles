@@ -98,6 +98,7 @@
     Bundle 'SirVer/ultisnips'
 
     Bundle 'tpope/vim-dispatch'
+    Bundle 'vim-scripts/tpp.vim'
 
     filetype plugin indent on
 

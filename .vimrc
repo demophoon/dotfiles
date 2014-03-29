@@ -141,6 +141,7 @@
         set history=100
 
         " Enable relative number in the left column
+        set number
         set relativenumber
 
         " Give context to where the cursor is positioned in a file

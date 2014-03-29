@@ -140,8 +140,8 @@
         " Increase History
         set history=100
 
-        " Enable numbers in the left column
-        set number
+        " Enable relative number in the left column
+        set relativenumber
 
         " Give context to where the cursor is positioned in a file
         set scrolloff=14
@@ -155,7 +155,7 @@
         " Disable files that don't need to be created
         set noswapfile
         set nobackup
-        set nowb
+        set nowritebackup
 
         " Enable spell checking
         set spell
@@ -168,7 +168,10 @@
     " ------------------
 
         " Use 4 spaces instead of tabs
-        set ts=4 sts=4 sw=4 expandtab
+        set ts=4
+        set sts=4
+        set shiftwidth=4
+        set expandtab
 
         " Auto indent
         set autoindent
@@ -260,16 +263,6 @@
         let g:pymode_lint_onfly = 0
         let g:pymode_folding = 0
         let g:pymode_rope_complete_on_dot = 0
-    " }}}
-    " Note Taking {{{2
-    " -----------
-        let g:notes_title_sync='change_title'
-        let g:notes_smart_quotes = 0
-    " }}}
-    " Calendar Options {{{2
-    " -----------
-        let g:calendar_google_calendar = 1
-        let g:google_task = 1
     " }}}
 "" ======== }}}
 "  Mappings {{{1

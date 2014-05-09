@@ -17,6 +17,7 @@ else
     tmux bind-key -t $PROJ_NAME c-a send-prefix
 
     tmux set-option -t $PROJ_NAME status off
+    tmux set-option status-position top
 
     tmux -2 attach-session -t $PROJ_NAME
 fi

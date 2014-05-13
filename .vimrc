@@ -362,14 +362,7 @@
     " }}}
     " Toggle Paste/No Paste {{{2
     " --------------------
-        function! TogglePaste()
-            if &paste
-                :set nopaste
-            else
-                :set paste
-            endif
-        endfunction
-        nmap <leader>p :call TogglePaste()<CR>
+        nnoremap <leader>p :set paste!<CR>
     " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1

@@ -14,7 +14,7 @@ else
     tmux set-option -t $PROJ_NAME prefix c-a
 
     #tmux unbind-key -t $PROJ_NAME c-b
-    tmux bind-key -t $PROJ_NAME c-a send-prefix
+    tmux bind-key c-a send-prefix
 
     tmux set-option -t $PROJ_NAME status off
     tmux set-option status-position top

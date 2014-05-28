@@ -98,6 +98,8 @@
     Bundle 'takac/vim-hardtime'
     Bundle 'Lokaltog/vim-easymotion'
     Bundle 'SirVer/ultisnips'
+    Bundle 'kien/ctrlp.vim'
+    Bundle 'ekalinin/Dockerfile.vim'
 
     Bundle 'tpope/vim-dispatch'
     Bundle 'vim-scripts/tpp.vim'

@@ -92,3 +92,4 @@ dotfilesupdate=". $dotfiles/update.sh"
 
 PATH=$PATH:$dotfiles/utils
 $dotfilesupdate
+export DISPLAY=:0

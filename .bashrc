@@ -29,8 +29,8 @@ bind TAB:menu-complete
 export EDITOR="vim"
 export PYTHONSTARTUP="$(dirname `readlink ~/.bashrc`)/.pythonrc"
 
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
+export WORKON_HOME=$HOME/.virtualenvs/
+export PROJECT_HOME=$HOME/Devel/
 source /usr/local/bin/virtualenvwrapper.sh
 
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”

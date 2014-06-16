@@ -2,6 +2,7 @@
 
 # Aliases
 alias tmux="TERM=screen-256color-bce tmux"
+alias ls="ls -G"
 alias l="ls -lhG"
 alias ll="ls -AlhG"
 alias gs="git status"

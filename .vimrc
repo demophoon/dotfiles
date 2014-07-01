@@ -146,7 +146,7 @@
 
         " Enable relative number in the left column
         set number
-        set relativenumber
+        "set relativenumber
 
         " Give context to where the cursor is positioned in a file
         set scrolloff=14
@@ -315,7 +315,7 @@
     " }}}
     " Misc {{{2
     " ----
-        imap jj <Esc>:syntax sync fromstart<CR>
+        imap jj <Esc>:redraw!<CR>:syntax sync fromstart<CR>
     " }}}
     " Vimrc Reload {{{2
     " ------------

@@ -16,11 +16,11 @@ else
     tmux rename-window  -t $PROJ_NAME:1 "Editor"
     tmux new-window -t $PROJ_NAME:2 -n "Development"
 
-    tmux send-keys -t $PROJ_NAME:2 "activate" C-m
+    tmux send-keys -t $PROJ_NAME:2 "workon ${1}" C-m
     tmux split-window -h -t $PROJ_NAME:2
 
-    tmux send-keys -t $PROJ_NAME:2 "activate" C-m
-    tmux send-keys -t $PROJ_NAME:1 "activate" C-m
+    tmux send-keys -t $PROJ_NAME:2 "workon ${1}" C-m
+    tmux send-keys -t $PROJ_NAME:1 "workon ${1}" C-m
 
     tmux send-keys -t $PROJ_NAME:1 "vim -c ':NERDTreeToggle'" C-m
 

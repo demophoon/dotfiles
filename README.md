@@ -6,6 +6,10 @@ Run this command in your Debian based terminal:
 
 On Mac:
     You will want to install Homebrew (http://brew.sh/) and run `brew bundle Brewfile` before you run the command above.
+    Run the following command on in a mac terminal to apply osx settings.
+
+    source ./.osx
+    sudo reboot
 
 Or pull down the repository and run `setup.sh` to let the magic happen.
 

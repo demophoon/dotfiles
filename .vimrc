@@ -454,52 +454,62 @@
             " Move back to our original location.
             normal! `z
         endfunction " }}}
+        function! ViHiInterestingWord(n) " {{{3
+            " Yank the current word into the z register.
+            normal! gv"zy
+
+            " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
+            let mid = 86750 + a:n
+
+            " Clear existing matches, but don't worry if they don't exist.
+            silent! call matchdelete(mid)
+
+            " Construct a literal pattern that has to match at boundaries.
+            let pat = escape(@z, '\')
+
+            " Actually match the words.
+            call matchadd("InterestingWord" . a:n, pat, 1, mid)
+
+        endfunction " }}}
         " Mappings {{{3
 
-        nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
-        nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
-        nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
-        nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
-        nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
-        nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+        nnoremap <silent> <leader>h1 :call HiInterestingWord(1)<cr>
+        nnoremap <silent> <leader>h2 :call HiInterestingWord(2)<cr>
+        nnoremap <silent> <leader>h3 :call HiInterestingWord(3)<cr>
+        nnoremap <silent> <leader>h4 :call HiInterestingWord(4)<cr>
+        nnoremap <silent> <leader>h5 :call HiInterestingWord(5)<cr>
+        nnoremap <silent> <leader>h6 :call HiInterestingWord(6)<cr>
+        nnoremap <silent> <leader>h7 :call HiInterestingWord(7)<cr>
+        nnoremap <silent> <leader>h8 :call HiInterestingWord(8)<cr>
+        nnoremap <silent> <leader>h9 :call HiInterestingWord(9)<cr>
+        nnoremap <silent> <leader>h0 :call HiInterestingWord(0)<cr>
+
+        vnoremap <silent> <leader>h1 :call ViHiInterestingWord(1)<cr>
+        vnoremap <silent> <leader>h2 :call ViHiInterestingWord(2)<cr>
+        vnoremap <silent> <leader>h3 :call ViHiInterestingWord(3)<cr>
+        vnoremap <silent> <leader>h4 :call ViHiInterestingWord(4)<cr>
+        vnoremap <silent> <leader>h5 :call ViHiInterestingWord(5)<cr>
+        vnoremap <silent> <leader>h6 :call ViHiInterestingWord(6)<cr>
+        vnoremap <silent> <leader>h7 :call ViHiInterestingWord(7)<cr>
+        vnoremap <silent> <leader>h8 :call ViHiInterestingWord(8)<cr>
+        vnoremap <silent> <leader>h9 :call ViHiInterestingWord(9)<cr>
+        vnoremap <silent> <leader>h0 :call ViHiInterestingWord(0)<cr>
 
         " }}}
         " Default Highlights {{{3
 
-        hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
-        hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
-        hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
-        hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
-        hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
-        hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+        hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#00afff ctermbg=39
+        hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#ff5faf ctermbg=205
+        hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#5fff00 ctermbg=82
+        hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#ffff00 ctermbg=226
+        hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff8700 ctermbg=208
+        hi def InterestingWord6 guifg=#0000ff ctermfg=12 gui=bold cterm=bold
+        hi def InterestingWord7 guifg=#ff00ff ctermfg=13 gui=bold cterm=bold
+        hi def InterestingWord8 guifg=#00ff00 ctermfg=10 gui=bold cterm=bold
+        hi def InterestingWord9 guifg=#ff5f00 ctermfg=202 gui=bold cterm=bold
+        hi def InterestingWord0 guifg=#00ffff ctermfg=14 gui=bold cterm=bold
 
         " }}}
-    " }}}
-    " MarkChanged {{{
-
-        sign define line_changed text=+ texthl=DiffAdded
-
-        function! MarkChanged(s, e)
-            for i in range(a:s, a:e)
-                exe ":sign place " . i . " line=" . i . " name=line_changed file=" . expand("%:p")
-            endfor
-        endfunction
-
-        function! MarkUnchanged(s, e)
-            for i in range(a:s, a:e)
-                call cursor(i, 0)
-                silent! sign unplace
-            endfor
-        endfunction
-
-        command! -range MarkChanged call MarkChanged(<line1>, <line2>)
-        command! -range MarkUnchanged call MarkUnchanged(<line1>, <line2>)
-
-        " nnoremap <leader>m :MarkChanged<cr>
-        " vnoremap <leader>m :MarkChanged<cr>
-        " nnoremap <leader>M :MarkUnchanged<cr>
-        " vnoremap <leader>M :MarkUnchanged<cr>
-
     " }}}
 " ======================================================================== }}}
 "  Post Configurations {{{1

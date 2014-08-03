@@ -45,22 +45,20 @@
             :BundleInstall
         endif
 
-    "" Source Vundle
-    "if has("unix")
-    "    set rtp+=~/.vim/bundle/vundle/
-    "    call vundle#rc()
-    "elseif has("win32")
-    "    set rtp+=~/vimfiles/bundle/vundle/
-    "    call vundle#rc("~/vimfiles/bundle")
-    "endif
+    " Set Leader
+    let mapleader = ","
 
     " Wildmode options {{{2
     " ----------------
         set wildmenu
         set wildmode=longest:full,full
-        set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
+        set wildignore+=*.o,*.out,*.obj,*.rbc,*.rbo,*.class,*.gem
         set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+        set wildignore+=*.jpg,*.png,*.gif,*.jpeg,*.bmp
+        set wildignore+=*.hg,*.git,*.svn
+        set wildignore+=*.exe,*.dll
         set wildignore+=*.pyc
+        set wildignore+=*.DS_Store
     " }}}
 
 "========================================================================= }}}
@@ -199,6 +197,7 @@
         set incsearch
         set ignorecase
         set smartcase
+        set showmatch
         set gdefault
 
         " Enable syntax highlighting
@@ -213,7 +212,11 @@
         else
             set t_Co=256
         endif
-        colorscheme jellybeans
+        try
+            colorscheme jellybeans
+        catch
+            colorscheme darkblue
+        endtry
 
     " }}}
     " Highlight Trailing Whitespace {{{2
@@ -306,7 +309,8 @@
     " }}}
     " Space folds and unfolds {{{2
     " -----------------------
-        nmap <Space> za
+        nnoremap <Space> za
+        vnoremap <Space> za
     " }}}
     " Zencoding {{{2
     " ---------
@@ -317,21 +321,27 @@
     " ----
         imap jj <Esc>:redraw!<CR>:syntax sync fromstart<CR>
     " }}}
-    " Vimrc Reload {{{2
+    " Vimrc Toggle {{{2
     " ------------
-        let mapleader = ","
-        nmap <leader>v :vsp $MYVIMRC<CR>
+        function! ToggleVimrc()
+            if expand("%:p") =~ $MYVIMRC
+                :bd
+            else
+                :vsp $MYVIMRC
+            endif
+        endfunction
+        nmap <leader>v :call ToggleVimrc()<CR>
     " }}}
     " NERDTreeToggle {{{2
     " --------------
-    function! NERDTreeToggleOrFocus()
-        if expand("%") =~ "NERD_tree"
-            :NERDTreeToggle
-        else
-            call NERDTreeFocus()
-        endif
-    endfunction
-        nmap <leader>n :call NERDTreeToggleOrFocus()<CR>
+        function! NERDTreeToggleOrFocus()
+            if expand("%") =~ "NERD_tree"
+                :NERDTreeToggle
+            else
+                call NERDTreeFocus()
+            endif
+        endfunction
+        nnoremap <leader>n :call NERDTreeToggleOrFocus()<CR>
     " }}}
     " Quickfix list nav with C-n and C-m {{{2
     " ----------------------------------
@@ -366,6 +376,31 @@
     " --------------------
         nnoremap <leader>p :set paste!<CR>
     " }}}
+    " Don't use Vim Regex {{{2
+    " --------------------
+        nnoremap / /\v
+        vnoremap / /\v
+    " }}}
+    " Keep search matches in the center of the screen {{{2
+    " --------------------
+        nnoremap n nzzzv
+        nnoremap N Nzzzv
+    " }}}
+    " Sudo write {{{2
+    " --------------------
+        cnoremap w!! w !sudo tee % >/dev/null
+    " }}}
+    " Leader Maps {{{2
+    " --------------------
+        " Clear matches
+        noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
+        " Clean trailing whitespace
+        nnoremap <leader>ww mz:%s/\s\+$//<cr>:let @/=''<cr>`z"
+        " Redraw screen. Sometimes shit happens.
+        nnoremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
+        " Focus current fold
+        nnoremap <leader>f mzzMzvzz15<c-e>`z:Pulse<cr>
+    " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1
 " ============================================================================
@@ -377,14 +412,95 @@
     set lazyredraw
 
     " Set timeout on keycodes but not mappings
-    "set notimeout
-    "set ttimeout
-    "set ttimeoutlen=100
+    set notimeout
+    set ttimeout
+    set ttimeoutlen=10
 
     " Syntax optimazations
     syntax sync minlines=256
     " set syntaxcol=256
 
+" ======================================================================== }}}
+"  Mini Plugins {{{1
+" ============================================================================
+" Thanks https://bitbucket.org/sjl/dotfiles
+    " Highlight Word {{{2
+    "
+    " This mini-plugin provides a few mappings for highlighting words temporarily.
+    "
+    " Sometimes you're looking at a hairy piece of code and would like a certain
+    " word or two to stand out temporarily.  You can search for it, but that only
+    " gives you one color of highlighting.  Now you can use <leader>N where N is
+    " a number from 1-6 to highlight the current word in a specific color.
+        function! HiInterestingWord(n) " {{{3
+            " Save our location.
+            normal! mz
+
+            " Yank the current word into the z register.
+            normal! "zyiw
+
+            " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
+            let mid = 86750 + a:n
+
+            " Clear existing matches, but don't worry if they don't exist.
+            silent! call matchdelete(mid)
+
+            " Construct a literal pattern that has to match at boundaries.
+            let pat = '\V\<' . escape(@z, '\') . '\>'
+
+            " Actually match the words.
+            call matchadd("InterestingWord" . a:n, pat, 1, mid)
+
+            " Move back to our original location.
+            normal! `z
+        endfunction " }}}
+        " Mappings {{{3
+
+        nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
+        nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
+        nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
+        nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
+        nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
+        nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+
+        " }}}
+        " Default Highlights {{{3
+
+        hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+        hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+        hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+        hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+        hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+        hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
+        " }}}
+    " }}}
+    " MarkChanged {{{
+
+        sign define line_changed text=+ texthl=DiffAdded
+
+        function! MarkChanged(s, e)
+            for i in range(a:s, a:e)
+                exe ":sign place " . i . " line=" . i . " name=line_changed file=" . expand("%:p")
+            endfor
+        endfunction
+
+        function! MarkUnchanged(s, e)
+            for i in range(a:s, a:e)
+                call cursor(i, 0)
+                silent! sign unplace
+            endfor
+        endfunction
+
+        command! -range MarkChanged call MarkChanged(<line1>, <line2>)
+        command! -range MarkUnchanged call MarkUnchanged(<line1>, <line2>)
+
+        " nnoremap <leader>m :MarkChanged<cr>
+        " vnoremap <leader>m :MarkChanged<cr>
+        " nnoremap <leader>M :MarkUnchanged<cr>
+        " vnoremap <leader>M :MarkUnchanged<cr>
+
+    " }}}
 " ======================================================================== }}}
 "  Post Configurations {{{1
 " ============================================================================

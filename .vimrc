@@ -110,15 +110,19 @@
 
     au BufRead,BufNewFile *vimrc
       \ set foldmethod=marker
-    au BufRead,BufNewFile *.pp
-      \ set filetype=puppet
+    augroup Puppet
+        au BufRead,BufNewFile *.pp set filetype=puppet
+    augroup end
+    augroup MarkdownFiles " Instead of this Modulo file bullshit
+        au BufEnter *.md set filetype=markdown
+    augroup end
     au BufWritePost ~/.bashrc !source %
     au BufRead,BufNewFile *_spec.rb
       \ nmap <F8> :!rspec --color %<CR>
     augroup PatchDiffHighlight
         autocmd!
         autocmd BufEnter *.patch,*.rej,*.diff syntax enable
-    augroup END
+    augroup end
 
 " ========================================================================= }}}
 "  Look and Feel {{{1

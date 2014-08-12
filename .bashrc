@@ -21,6 +21,10 @@ alias tp="tmuxproject"
 alias activate=". $(dirname `readlink ~/.bashrc`)/utils/activate.sh"
 alias resource=". $(dirname `readlink ~/.bashrc`)/utils/resource.sh"
 
+# Ruby Bundler Aliases
+
+alias be="bundler exec"
+
 alias pear="php /usr/lib/php/pear/pearcmd.php"
 alias pecl="php /usr/lib/php/pear/peclcmd.php"
 alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"

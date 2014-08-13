@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+
+
+os   = ARGV[0]
+ver  = ARGV[1]
+arch = ARGV[2]
+
+versions = {
+   "amazon"     => ["201403"],
+   "centos"     => ["4", "5", "6", "7"],
+   "debian"     => ["6", "7"],
+   "fedora"     => ["19", "20"],
+   "opensuse"   => ["11"],
+   "oracle"     => ["5", "6"],
+   "osx"        => ["109"],
+   "redhat"     => ["4", "5", "6", "7"],
+   "scientific" => ["5", "6"],
+   "sles"       => ["10", "11", "12"],
+   "solaris"    => ["10", "11"],
+   "ubuntu"     => ["1004", "1204", "1404"],
+   "win"        => ["2003", "2003r2", "2008", "2008r2", "2012", "2012r2", "7", "8", "vista"]
+}
+
+arches = [
+  { "32" => "i386"  },
+  { "64" => "x86_64"}
+]
+
+curl_string = String.new()
+
+if os
+  curl_string = curl_string + os
+else
+  abort("Error: you didn't specifiy an OS!")
+end
+
+if ver
+  curl_string = curl_string + "-" + ver
+else
+  puts "\nWhich version?"
+  default = versions["#{os}"][-1]
+
+  versions["#{os}"].each do |v|
+    if v == default
+      puts "  *  " + v
+    else
+      puts "     " + v
+    end
+  end
+
+  ver_select  = $stdin.gets.chomp!
+  ver_select = default if ver_select == ""
+  curl_string = curl_string + "-" + ver_select
+end
+
+if arch
+  if arch == "32"
+    arch = "i386"
+  else
+    arch = "x86_64"
+  end
+
+  curl_string = curl_string + "-" + arch
+else
+  puts "\nWhich architecture?"
+  default = "x86_64"
+
+  puts "  *   x86_64"
+  puts "      i386"
+  arch_select = $stdin.gets.chomp!
+  arch_select = default if arch_select == ""
+  curl_string = curl_string + "-" + arch_select
+end
+
+output = `curl -d --url http://vcloud.delivery.puppetlabs.net/vm/#{curl_string} ;`
+match = /\"hostname\": \"(.*)\"/.match(output)
+exec("sshvm #{match[1]}")

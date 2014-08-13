@@ -1,0 +1,3 @@
+#! /bin/bash
+
+curl -d --url http://vcloud.delivery.puppetlabs.net/vm/$1 ;

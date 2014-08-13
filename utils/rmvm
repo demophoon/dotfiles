@@ -1,0 +1,3 @@
+#! /bin/bash
+
+ curl -X DELETE --url http://vcloud.delivery.puppetlabs.net/vm/$1 ;

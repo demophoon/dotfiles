@@ -113,6 +113,10 @@
     augroup Puppet
         au BufRead,BufNewFile *.pp set filetype=puppet
     augroup end
+    augroup RubySyntaxFiles " Ruby syntax
+        au BufEnter Rakefile set filetype=ruby
+        au BufEnter Gemfile set filetype=ruby
+    augroup end
     augroup MarkdownFiles " Instead of this Modulo file bullshit
         au BufEnter *.md set filetype=markdown
     augroup end

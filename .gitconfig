@@ -1,5 +1,9 @@
 [user]
     name = Britt Gresham
-    email = brittcgresham@gmail.com
+    email = britt@puppetlabs.com
 [core]
     editor = vim
+[color]
+    ui = true
+[merge]
+    tool = vimdiff

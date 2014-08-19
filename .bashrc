@@ -102,3 +102,11 @@ dotfilesupdate=". $dotfiles/update.sh"
 PATH=$PATH:$dotfiles/utils
 $dotfilesupdate
 export DISPLAY=:0
+
+# Git fetch pull requests from upstream
+
+fetchpr () {
+  pr_num=$1
+  git fetch puppetlabs "refs/pull/${pr_num}/head"
+  git checkout -b "pull-${pr_num}" FETCH_HEAD
+}

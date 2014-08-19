@@ -111,14 +111,15 @@
     au BufRead,BufNewFile *vimrc
       \ set foldmethod=marker
     augroup Puppet
-        au BufRead,BufNewFile *.pp set filetype=puppet
+        autocmd! BufEnter *.pp set filetype=puppet
     augroup end
     augroup RubySyntaxFiles " Ruby syntax
-        au BufEnter Rakefile set filetype=ruby
-        au BufEnter Gemfile set filetype=ruby
+        autocmd! BufRead,BufEnter *.rb set tabstop=2 sts=2 shiftwidth=2 filetype=ruby
+        autocmd! BufEnter Rakefile set filetype=ruby
+        autocmd! BufEnter Gemfile set filetype=ruby
     augroup end
     augroup MarkdownFiles " Instead of this Modulo file bullshit
-        au BufEnter *.md set filetype=markdown
+        autocmd! BufEnter *.md set filetype=markdown
     augroup end
     au BufWritePost ~/.bashrc !source %
     au BufRead,BufNewFile *_spec.rb

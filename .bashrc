@@ -30,6 +30,8 @@ alias pecl="php /usr/lib/php/pear/peclcmd.php"
 alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
 
 set -o vi
+bind -m vi-insert "\C-l":clear-screen
+
 bind TAB:menu-complete
 export EDITOR="vim"
 export PYTHONSTARTUP="$(dirname `readlink ~/.bashrc`)/.pythonrc"
@@ -91,6 +93,46 @@ function parse_git_branch() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
+# zshell stuff
+function collapse_pwd {
+    echo $(pwd | sed -e "s,^$HOME,~,")
+}
+
+function prompt_char {
+    git branch >/dev/null 2>/dev/null && echo '±' && return
+        hg root >/dev/null 2>/dev/null && echo '☿' && return
+        echo '○'
+}
+
+function battery_charge {
+    echo `$BAT_CHARGE` 2>/dev/null
+}
+
+function virtualenv_info {
+    [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
+}
+
+function hg_prompt_info {
+    hg prompt --angle-brackets "\
+        < on %{$fg[magenta]%}<branch>%{$reset_color%}>\
+        < at %{$fg[yellow]%}<tags|%{$reset_color%}, %{$fg[yellow]%}>%{$reset_color%}>\
+        %{$fg[green]%}<status|modified|unknown><update>%{$reset_color%}<
+        patches: <patches|join( → )|pre_applied(%{$fg[yellow]%})|post_applied(%{$reset_color%})|pre_unapplied(%{$fg_bold[black]%})|post_unapplied(%{$reset_color%})>>" 2>/dev/null
+}
+
+    PROMPT='
+%{$fg[magenta]%}%n%{$reset_color%} at %{$fg[yellow]%}%m%{$reset_color%} in %{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%}$(hg_prompt_info)$(git_prompt_info)
+    $(virtualenv_info)$(prompt_char) '
+
+    RPROMPT='$(battery_charge)'
+
+    ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg[magenta]%}"
+    ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+    ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%}!"
+    ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[green]%}?"
+    ZSH_THEME_GIT_PROMPT_CLEAN=""
+# Here be dragons
+
 if [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
     export PS1="\[${BOLD}${MAGENTA}\]\u \[$WHITE\]at \[$ORANGE\]\h \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
     export PS2="\[$ORANGE\]→ \[$RESET\]"
@@ -110,3 +152,6 @@ fetchpr () {
   git fetch puppetlabs "refs/pull/${pr_num}/head"
   git checkout -b "pull-${pr_num}" FETCH_HEAD
 }
+
+# Git autocomplete
+source ~/.git-completion.sh

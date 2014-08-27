@@ -114,7 +114,7 @@
         autocmd! BufEnter *.pp set filetype=puppet
     augroup end
     augroup RubySyntaxFiles " Ruby syntax
-        autocmd! BufRead,BufEnter *.rb set tabstop=2 sts=2 shiftwidth=2 filetype=ruby
+        autocmd! BufRead,BufEnter *.rb,*.rake set tabstop=2 sts=2 shiftwidth=2 filetype=ruby
         autocmd! BufEnter Rakefile set filetype=ruby
         autocmd! BufEnter Gemfile set filetype=ruby
     augroup end

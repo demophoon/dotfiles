@@ -408,7 +408,12 @@
         " Redraw screen. Sometimes shit happens.
         nnoremap <leader>r :syntax sync fromstart<cr>:redraw!<cr>
         " Focus current fold
-        nnoremap <leader>f mzzMzvzz15<c-e>`z:Pulse<cr>
+        nnoremap <leader>f mzzMzvzz15<c-e>`z<cr>
+        " Rspec Tests
+        function! RSpecCurrent()
+          execute("!clear && rspec " . expand("%p") . ":" . line("."))
+        endfunction
+        nnoremap <leader>s :call RSpecCurrent()<cr>
     " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1

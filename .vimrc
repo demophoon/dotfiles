@@ -281,12 +281,18 @@
         let g:pymode_folding = 0
         let g:pymode_rope_complete_on_dot = 0
     " }}}
+    " CtrlP Settings {{{2
+    " --------------------
+        let g:crtlp_show_hidden = 1
+    " }}}
 "" ======== }}}
 "  Mappings {{{1
 " ============================================================================
     " Disable Q (Command Shell Mode) {{{2
     " ------------------------------
         nnoremap Q <nop>
+        nnoremap gq <nop>
+        nnoremap q: <nop>
     " }}}
     " * No longer moves the cursor when hitting it the first time {{{2
     " -----------------------------------------------------------

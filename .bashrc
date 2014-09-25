@@ -5,7 +5,6 @@ alias tmux="TERM=screen-256color-bce tmux"
 alias ls="ls"
 alias l="ls -lhG"
 alias ll="ls -AlhG"
-alias tp="attach"
 alias gs="git status"
 alias ga="git add --ignore-removal"
 alias gc="git commit -v"
@@ -18,7 +17,7 @@ alias vi="vim"
 alias vim='vim -w ~/.vimlog "$@"'
 alias irssi="TERM=screen-256color irssi"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
-alias tp="tmuxproject"
+alias tp="attach"
 
 # Ruby Bundler Aliases
 

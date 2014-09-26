@@ -18,6 +18,7 @@ alias vim='vim -w ~/.vimlog "$@"'
 alias irssi="TERM=screen-256color irssi"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 alias tp="attach"
+alias cdc="cd ~/projects/"
 
 # Ruby Bundler Aliases
 

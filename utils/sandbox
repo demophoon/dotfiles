@@ -19,4 +19,8 @@ else
     tmux set-option status-position top
 fi
 
-tmux attach-session -t "$PROJ_NAME"
+if [ ! -z $1 ]; then
+    tmux attach-session -dt "$PROJ_NAME"
+else
+    tmux attach-session -t "$PROJ_NAME"
+fi

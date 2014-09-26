@@ -1,7 +1,6 @@
 #!/bin/bash
 
-if [ ! -z $1 ]
-then
+if [ ! -z $1 ]; then
     PROJ_NAME=${1}
 else
     PROJ_NAME="untitled_project"
@@ -11,10 +10,13 @@ unset TMUX
 
 if tmux has-session -t "$PROJ_NAME"; then
     echo "Attaching to session $PROJ_NAME"
-    tmux attach-session -t "$PROJ_NAME"
 else
     echo "Creating session $PROJ_NAME"
     tmux new-session -d -s "$PROJ_NAME"
 fi
 
-tmux attach-session -t "$PROJ_NAME"
+if [ ! -z $2 ]; then
+    tmux attach-session -dt "$PROJ_NAME"
+else
+    tmux attach-session -t "$PROJ_NAME"
+fi

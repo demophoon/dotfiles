@@ -15,8 +15,5 @@ else
     tmux new-session -d -s "$PROJ_NAME"
 fi
 
-if [ ! -z $2 ]; then
-    tmux attach-session -dt "$PROJ_NAME"
-else
-    tmux attach-session -t "$PROJ_NAME"
-fi
+ATTACH_COMMAND="tmux attach-session ${*:2} -t $PROJ_NAME"
+$ATTACH_COMMAND

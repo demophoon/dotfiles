@@ -30,9 +30,9 @@ function downloadPackage() {
 }
 
 function downloadDotfiles() {
-    git clone https://github.com/demophoon/dotfiles
-    cd ./dotfiles
-    . ./setup.sh
+    git clone https://github.com/demophoon/dotfiles ~/dotfiles
+    cd ~/dotfiles
+    . ~/setup.sh
     echo "Dotfile installation complete"
 }
 

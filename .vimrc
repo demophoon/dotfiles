@@ -281,12 +281,18 @@
         let g:pymode_folding = 0
         let g:pymode_rope_complete_on_dot = 0
     " }}}
+    " CtrlP Settings {{{2
+    " --------------------
+        let g:crtlp_show_hidden = 1
+    " }}}
 "" ======== }}}
 "  Mappings {{{1
 " ============================================================================
     " Disable Q (Command Shell Mode) {{{2
     " ------------------------------
         nnoremap Q <nop>
+        nnoremap gq <nop>
+        nnoremap q: <nop>
     " }}}
     " * No longer moves the cursor when hitting it the first time {{{2
     " -----------------------------------------------------------
@@ -425,10 +431,19 @@
     " Don't redraw when running macros
     set lazyredraw
 
+    " Dear Future Britt,
+    "   Don't you dare turn on these settings. I've left this here for you as
+    "   a note to save yourself the trouble of accidentally turning it on or
+    "   adding it in the future. IT FUCKS UP YOUR BEAUTIFUL TEXT OBJECTS AND
+    "   WILL INFURIATE YOU TO NO END.
+    "
+    "   Sincerely,
+    "       A very irritated version of yourself.
+    "       - 10/2/2014
     " Set timeout on keycodes but not mappings
-    set notimeout
-    set ttimeout
-    set ttimeoutlen=10
+    "set notimeout
+    "set ttimeout
+    "set ttimeoutlen=10
 
     " Syntax optimazations
     syntax sync minlines=256

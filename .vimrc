@@ -273,6 +273,7 @@
     " NERDTree {{{2
     " --------
         let NERDTreeIgnore=['\.pyc$']
+        let g:NERDTreeChDirMode=2
     " }}}
     " Python Mode Settings {{{2
     " --------------------
@@ -283,7 +284,8 @@
     " }}}
     " CtrlP Settings {{{2
     " --------------------
-        let g:crtlp_show_hidden = 1
+        let g:crtlp_show_hidden=1
+        let g:ctrlp_working_path_mode='rw'
     " }}}
 "" ======== }}}
 "  Mappings {{{1

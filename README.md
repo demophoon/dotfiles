@@ -2,16 +2,26 @@ Installation
 ============
 Run this command in your Debian based terminal:
 
-    wget -N https://raw.github.com/demophoon/dotfiles/master/install.sh && source install.sh
+    curl -L https://raw.github.com/demophoon/dotfiles/master/install.sh | sh
 
-On Mac:
-    You will want to install Homebrew (http://brew.sh/) and run `brew bundle Brewfile` before you run the command above.
-    Run the following command on in a mac terminal to apply osx settings.
+Or pull down the repository and run `setup.sh` to let the magic happen.
+
+On Mac OSX
+----------
+You will want to install Homebrew (http://brew.sh/) and run `brew bundle Brewfile` before you run the command above.
+
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+Run the following command on in a mac terminal once to apply osx settings.
 
     source ./.osx
     sudo reboot
 
-Or pull down the repository and run `setup.sh` to let the magic happen.
+
+Use zsh instead of bash!
+------------------------
+
+    chsh -s /bin/zsh
 
 ### Warning
 
@@ -32,8 +42,8 @@ To automatically enable pushing to origin after commit run these commands
 
 ### Builtin Utilities
 
-* `tmuxproject`
-    - Starts a new tmux project
+* `attach`
+    - Attach or create a tmux session
 
 * `sandbox`
     - Connects to a sandbox tmux session

@@ -30,10 +30,11 @@ export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # Completion settings
 zstyle ':completion:*' completer _complete
+zstyle ':completion:*' menu select=20
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 zstyle ':completion:*:approximate:*' max-errors 2
-zstyle ":completion:*:commands" rehash 1
+zstyle ':completion:*:commands' rehash 1
 zstyle ':completion:*:warnings' format 'Nothing to do here'
 autoload -Uz compinit
 compinit

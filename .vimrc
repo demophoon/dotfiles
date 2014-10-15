@@ -85,22 +85,19 @@
     Bundle 'tristen/vim-sparkup'
     Bundle 'nanotech/jellybeans.vim'
     Bundle 'elzr/vim-json'
-    Bundle 'MarcWeber/vim-addon-mw-utils'
     Bundle 'tomtom/tlib_vim'
+    Bundle 'SirVer/ultisnips'
     Bundle 'honza/vim-snippets'
+    Bundle 'kien/ctrlp.vim'
 
     " Testing Bundles
     Bundle 'tpope/vim-fugitive'
     Bundle 'tpope/vim-git'
-    Bundle 'PProvost/vim-ps1'
-    Bundle 'takac/vim-hardtime'
     Bundle 'Lokaltog/vim-easymotion'
-    Bundle 'SirVer/ultisnips'
-    Bundle 'kien/ctrlp.vim'
     Bundle 'ekalinin/Dockerfile.vim'
-
+    Bundle 'kien/rainbow_parentheses.vim'
+    Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'tpope/vim-dispatch'
-    Bundle 'vim-scripts/tpp.vim'
 
     filetype plugin indent on
 
@@ -286,6 +283,10 @@
     " --------------------
         let g:crtlp_show_hidden=1
         let g:ctrlp_working_path_mode='rw'
+    " }}}
+    " Indent Guides {{{2
+    " --------------------
+        let g:indent_guides_guide_size=1
     " }}}
 "" ======== }}}
 "  Mappings {{{1

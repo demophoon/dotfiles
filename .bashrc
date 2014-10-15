@@ -35,9 +35,11 @@ bind TAB:menu-complete
 export EDITOR="vim"
 export PYTHONSTARTUP="$(dirname `readlink ~/.bashrc`)/.pythonrc"
 
-export WORKON_HOME=$HOME/.virtualenvs/
-export PROJECT_HOME=$HOME/Devel/
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -e "/usr/local/bin/virtualenvwrapper.sh" ]; then
+    export WORKON_HOME=$HOME/.virtualenvs/
+    export PROJECT_HOME=$HOME/Devel/
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 # @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
 # Shamelessly copied from https://github.com/gf3/dotfiles
@@ -141,6 +143,9 @@ dotfiles=$( dirname `readlink ~/.bashrc` )
 dotfilesupdate=". $dotfiles/update.sh"
 
 PATH=$PATH:$dotfiles/utils
+if [ -d "$HOME/.rbenv/bin" ]; then
+    PATH=$HOME/.rbenv/bin:$PATH
+fi
 $dotfilesupdate
 export DISPLAY=:0
 
@@ -154,3 +159,7 @@ fetchpr () {
 
 # Git autocomplete
 source ~/.git-completion.sh
+
+if [ -e "$HOME/.bashrc.local" ]; then
+    source $HOME/.bashrc.local
+fi

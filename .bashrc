@@ -1,33 +1,5 @@
 [ -z "$PS1" ] && return
 
-# Aliases
-alias tmux="TERM=screen-256color-bce tmux"
-alias ls="ls"
-alias l="ls -lhG"
-alias ll="ls -AlhG"
-alias gs="git status"
-alias ga="git add --ignore-removal"
-alias gc="git commit -v"
-alias gp="git push"
-alias gl="git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph --date-order"
-alias gd="git diff"
-alias gf="git fetch"
-alias v="vim"
-alias vi="vim"
-alias vim='vim -w ~/.vimlog "$@"'
-alias irssi="TERM=screen-256color irssi"
-alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
-alias tp="attach"
-alias cdc="cd ~/projects/"
-
-# Ruby Bundler Aliases
-
-alias be="bundler exec"
-
-alias pear="php /usr/lib/php/pear/pearcmd.php"
-alias pecl="php /usr/lib/php/pear/peclcmd.php"
-alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
-
 set -o vi
 bind -m vi-insert "\C-l":clear-screen
 
@@ -159,6 +131,8 @@ fetchpr () {
 
 # Git autocomplete
 source ~/.git-completion.sh
+
+source $HOME/.commonrc
 
 if [ -e "$HOME/.bashrc.local" ]; then
     source $HOME/.bashrc.local

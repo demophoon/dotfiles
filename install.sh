@@ -32,6 +32,7 @@ function downloadPackage() {
 function downloadDotfiles() {
     git clone https://github.com/demophoon/dotfiles ~/dotfiles
     cd ~/dotfiles
+    git submodule update --init
     . ~/setup.sh
     echo "Dotfile installation complete"
 }

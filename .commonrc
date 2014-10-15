@@ -29,3 +29,6 @@ alias be="bundler exec"
 # PHP Aliases
 alias pear="php /usr/lib/php/pear/pearcmd.php"
 alias pecl="php /usr/lib/php/pear/peclcmd.php"
+
+# Custom Utils
+export PATH=$PATH:$dotfiles/utils

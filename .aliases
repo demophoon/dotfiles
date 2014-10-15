@@ -1,0 +1,31 @@
+# Common Aliases
+alias tmux="TERM=screen-256color-bce tmux"
+alias ls="ls"
+alias l="ls -lhG"
+alias ll="ls -AlhG"
+alias v="vim"
+alias vi="vim"
+alias cdc="cd ~/projects/"
+alias tp="attach"
+alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
+
+# Git Aliases
+alias gs="git status"
+alias ga="git add --ignore-removal"
+alias gc="git commit -v"
+alias gp="git push"
+alias gl="git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph --date-order"
+alias gd="git diff"
+alias gf="git fetch"
+
+# Application Remaps
+alias vim='vim -w ~/.vimlog "$@"'
+alias irssi="TERM=screen-256color irssi"
+alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
+
+# Ruby Bundler Aliases
+alias be="bundler exec"
+
+# PHP Aliases
+alias pear="php /usr/lib/php/pear/pearcmd.php"
+alias pecl="php /usr/lib/php/pear/peclcmd.php"

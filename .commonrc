@@ -1,34 +1,34 @@
-# Common Aliases
-alias tmux="TERM=screen-256color-bce tmux"
-alias ls="ls"
-alias l="ls -lhG"
-alias ll="ls -AlhG"
-alias v="vim"
-alias vi="vim"
-alias cdc="cd ~/projects/"
-alias tp="attach"
-alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
+dotfiles=$( dirname `readlink ~/.commonrc` )
+source "$dotfiles/update.sh"
 
-# Git Aliases
-alias gs="git status"
-alias ga="git add --ignore-removal"
-alias gc="git commit -v"
-alias gp="git push"
-alias gl="git log --pretty=format:'%C(yellow)%h%C(reset) %C(blue)%an%C(reset) %C(cyan)%cr%C(reset) %s %C(green)%d%C(reset)' --graph --date-order"
-alias gd="git diff"
-alias gf="git fetch"
+# Editor
+export EDITOR="vim"
 
-# Application Remaps
-alias vim='vim -w ~/.vimlog "$@"'
-alias irssi="TERM=screen-256color irssi"
-alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
+# Load aliases
+[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
-# Ruby Bundler Aliases
-alias be="bundler exec"
-
-# PHP Aliases
-alias pear="php /usr/lib/php/pear/pearcmd.php"
-alias pecl="php /usr/lib/php/pear/peclcmd.php"
-
-# Custom Utils
+# Adjust $PATH
 export PATH=$PATH:$dotfiles/utils
+
+# Locale
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# Misc settings
+export EDITOR=vim
+
+# Python virtualenvwrapper
+if [ -e "/usr/local/bin/virtualenvwrapper.sh" ]; then
+    export WORKON_HOME=$HOME/.virtualenvs/
+    export PROJECT_HOME=$HOME/Devel/
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
+# rbenv
+if [ -d "$HOME/.rbenv/bin" ] ; then
+  export PATH="$HOME/.rbenv/bin":$PATH
+  eval "$(rbenv init -)"
+fi
+
+# rvm
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

@@ -3,7 +3,11 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-export ZSH_THEME="prose"
+#export ZSH_THEME="prose"
+export ZSH_THEME="demophoon"
+
+# Enable vi like editing at the command line
+bindkey -v
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -24,5 +28,16 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
+# Completion settings
+zstyle ':completion:*' completer _complete
+zstyle ':completion:*' special-dirs true
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
+zstyle ':completion:*:approximate:*' max-errors 2
+zstyle ":completion:*:commands" rehash 1
+zstyle ':completion:*:warnings' format 'Nothing to do here'
+autoload -Uz compinit
+compinit
+
 # Common things
 [[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"
+

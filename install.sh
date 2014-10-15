@@ -33,7 +33,7 @@ function downloadDotfiles() {
     git clone https://github.com/demophoon/dotfiles ~/dotfiles
     cd ~/dotfiles
     git submodule update --init
-    . ~/setup.sh
+    source ~/dotfiles/setup.sh
     echo "Dotfile installation complete"
 }
 

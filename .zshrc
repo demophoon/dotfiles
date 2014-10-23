@@ -6,9 +6,6 @@ export ZSH=$HOME/.oh-my-zsh
 #export ZSH_THEME="prose"
 export ZSH_THEME="demophoon"
 
-# Enable vi like editing at the command line
-bindkey -v
-
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
 
@@ -17,13 +14,6 @@ export DISABLE_AUTO_UPDATE="true"
 
 # Uncomment following line if you want to disable colors in ls
 # export DISABLE_LS_COLORS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-#plugins=(osx git ruby gem node npm heroku cap bundler brew cake rails3 redis-cli zsh-syntax-highlighting)
-plugins=(osx git ruby gem bundler brew zsh-syntax-highlighting python)
-
-source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
@@ -42,3 +32,12 @@ compinit
 # Common things
 [[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"
 
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Example format: plugins=(rails git textmate ruby lighthouse)
+#plugins=(osx git ruby gem node npm heroku cap bundler brew cake rails3 redis-cli zsh-syntax-highlighting)
+plugins=(osx ssh-agent git ruby rbenv gem bundler brew zsh-syntax-highlighting python)
+
+source $ZSH/oh-my-zsh.sh
+
+# Enable vi like editing at the command line
+bindkey -v

@@ -18,15 +18,15 @@ export LANG=en_US.UTF-8
 export EDITOR=vim
 
 # Python virtualenvwrapper
-if [ -e "/usr/local/bin/virtualenvwrapper.sh" ]; then
+if [[ -e "/usr/local/bin/virtualenvwrapper.sh" ]]; then
     export WORKON_HOME=$HOME/.virtualenvs/
     export PROJECT_HOME=$HOME/Devel/
     source /usr/local/bin/virtualenvwrapper.sh
 fi
 
 # rbenv
-if [ -d "$HOME/.rbenv/bin" ] ; then
-  export PATH="$HOME/.rbenv/bin":$PATH
+if [[ -d "$HOME/.rbenv" ]]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
 

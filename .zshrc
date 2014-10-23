@@ -29,9 +29,6 @@ zstyle ':completion:*:warnings' format 'Nothing to do here'
 autoload -Uz compinit
 compinit
 
-# Common things
-[[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(osx git ruby gem node npm heroku cap bundler brew cake rails3 redis-cli zsh-syntax-highlighting)
@@ -47,3 +44,6 @@ stty icrnl
 
 # Enable reverse search
 bindkey "^R" history-incremental-search-backward
+
+# Common things
+[[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"

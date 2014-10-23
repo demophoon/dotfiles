@@ -41,3 +41,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Enable vi like editing at the command line
 bindkey -v
+
+# Enable enter with interactive prompts
+stty icrnl
+
+# Enable reverse search
+bindkey "^R" history-incremental-search-backward

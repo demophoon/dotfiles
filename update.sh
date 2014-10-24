@@ -12,7 +12,8 @@ else
     git fetch origin
     if [[ -n $(git log HEAD..origin/$branch_name --oneline) ]]
     then
-        git pull -u origin $branch_name -q
+        git fetch origin
+        git merge origin/$branch_name -q
         . ./setup.sh
     else
         echo "Up to date!"

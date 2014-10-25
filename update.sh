@@ -1,7 +1,10 @@
 #!/bin/bash
 
 cd $( dirname `readlink ~/.bashrc` )
-branch_name=$(git symbolic-ref -q HEAD)
+local_branch_name=`git name-rev --name-only HEAD`
+tracking_branch_name=$(git for-each-ref --format='%(upstream)' $(git symbolic-ref -q HEAD))
+tracking_branch_remote=`git config branch.$local_branch_name.remote`
+
 if [[ -n $(git ls-files -m) ]]
 then
     echo "You will need to add and commit the following files to"
@@ -9,11 +12,10 @@ then
     echo `git ls-files -m`
 else
     echo "Checking for updates..."
-    git fetch origin
-    if [[ -n $(git log HEAD..origin/$branch_name --oneline) ]]
+    git fetch tracking_branch_remote
+    if [[ -n $(git log HEAD..$tracking_branch_remote --oneline) ]]
     then
-        git fetch origin
-        git merge origin/$branch_name -q
+        git merge $tracking_branch_name -q
         . ./setup.sh
     else
         echo "Up to date!"

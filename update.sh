@@ -12,7 +12,7 @@ then
     echo `git ls-files -m`
 else
     echo "Checking for updates..."
-    git fetch tracking_branch_remote
+    git fetch $tracking_branch_remote
     if [[ -n $(git log HEAD..$tracking_branch_remote --oneline) ]]
     then
         git merge $tracking_branch_name -q

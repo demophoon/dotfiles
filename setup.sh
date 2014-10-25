@@ -16,7 +16,7 @@ function createLinks() {
     source $HOMEDIR/.bashrc
 }
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
+if [ "$1" == "-f" -o "$1" == "--force" ]; then
     createLinks
 else
     read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1

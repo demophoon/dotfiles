@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 required=(git python vim tmux)
 optional=(python-pip python-virtualenv python-dev irssi mercurial tree git-annex)

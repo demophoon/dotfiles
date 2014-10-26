@@ -8,9 +8,7 @@ tracking_branch_name=$(git for-each-ref --format='%(upstream)' $(git symbolic-re
 tracking_branch_remote=`git config branch.$local_branch_name.remote`
 
 if [[ -n $(git diff --name-only) || -n $(git diff --name-only --cached) ]]; then
-    echo "You will need to stage and commit the following files to your repository in"
-    echo "$dotfiles_repo"
-    echo "-------------------------------------------------------------------------------"
+    echo "You will need to stage and commit the following files to your repository in $dotfiles_repo"
     if [[ -n $(git diff --name-only) ]]; then
         echo "Stage:"
         echo "`git diff --name-status`"

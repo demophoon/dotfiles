@@ -3,19 +3,23 @@
     email = britt@puppetlabs.com
 
 [alias]
-    br  = branch
-    ci  = commit
-    co  = checkout
-    df  = diff
-    g   = grep -I
-    lg  = log -p
+    br = branch
+    ci = commit
+    co = checkout
+    df = diff
+    g = grep -I
+    lg = log -p
     loq = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
-    pb  = publish-branch
-    rb  = rbranch
-    rc  = rank-contributors
-    rv  = review
-    sm  = show-merges
-    st  = status
+    pb = publish-branch
+    rb = rbranch
+    rc = rank-contributors
+    rv = review
+    sm = show-merges
+    st = status
+    stat = status
+    gerp = grep
+    grap = grep
+    dat = clone
 
 [color]
     ui = true

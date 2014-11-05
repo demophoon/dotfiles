@@ -423,6 +423,16 @@
           execute("!clear && rspec " . expand("%p") . ":" . line("."))
         endfunction
         nnoremap <leader>s :call RSpecCurrent()<cr>
+        " Toggle Diff Mode
+        function! DiffToggle()
+            if &diff
+                diffoff
+            else
+                diffthis
+                set fdm=diff
+            endif
+        endfunction
+        nnoremap <leader>d :call DiffToggle()<cr>
     " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1

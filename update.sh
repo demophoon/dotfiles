@@ -25,6 +25,7 @@ else
     if [[ -n $(git log HEAD..$tracking_branch_remote --oneline) ]]
     then
         git merge $tracking_branch_name -q
+        git submodule update
         . ./setup.sh -f
     else
         echo "Up to date!"

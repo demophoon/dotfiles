@@ -1,0 +1,18 @@
+dotfiles=$( dirname `readlink ~/.commonrc` )
+source "$dotfiles/update.sh"
+
+# Editor
+export EDITOR="vim"
+
+# Load aliases
+[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
+
+# Adjust $PATH
+export PATH=$PATH:$dotfiles/utils
+
+# Locale
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# Misc settings
+export EDITOR=vim

@@ -1,12 +1,24 @@
 #!/bin/bash
 
-required=(git python vim tmux)
+required=(git python vim tmux zsh)
 optional=(python-pip python-virtualenv python-dev irssi mercurial tree git-annex)
 graphical=(chromium vlc virtualbox deluge vagrant guake)
 graphicalrequires=(keepass2)
 
+updated_package_list=0
+
+function update_package_list() {
+    if [[ "$updated_package_list" == 0 ]]
+    then
+        echo "Updating sources list..."
+        sudo apt-get update > /dev/null
+        updated_package_list=1
+    fi
+}
+
 function downloadList() {
     varname=$1[@]
+    update_package_list
     list=${!varname}
     for f in $list
     do
@@ -25,6 +37,7 @@ function printList() {
 
 function downloadPackage() {
     package=$1
+    update_package_list
     echo "Installing $package..."
     sudo apt-get install $package -y > /dev/null
 }
@@ -32,7 +45,8 @@ function downloadPackage() {
 function downloadDotfiles() {
     git clone https://github.com/demophoon/dotfiles ~/dotfiles
     cd ~/dotfiles
-    . ~/setup.sh
+    git submodule update --init
+    source ~/dotfiles/setup.sh
     echo "Dotfile installation complete"
 }
 

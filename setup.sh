@@ -13,7 +13,6 @@ function createLinks() {
         rm "$HOMEDIR/$filename"
         ln -s $DIR/$filename $HOMEDIR/$filename
     done
-    source $HOMEDIR/.bashrc
 }
 
 if [[ $1 =~ ^(-f|--force)$ ]]; then

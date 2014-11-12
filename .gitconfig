@@ -20,6 +20,7 @@
     gerp = grep
     grap = grep
     dat = clone
+    mah = checkout
 
 [color]
     ui = true

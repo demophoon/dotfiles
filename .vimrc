@@ -433,6 +433,7 @@
             endif
         endfunction
         nnoremap <leader>d :call DiffToggle()<cr>
+        nnoremap <leader>g :Gstatus<cr>
     " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1

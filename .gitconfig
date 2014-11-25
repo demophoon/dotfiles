@@ -21,6 +21,7 @@
     grap = grep
     dat = clone
     mah = checkout
+    rekt = reset
 
 [color]
     ui = true

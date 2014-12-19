@@ -29,3 +29,12 @@ alias be="bundler exec"
 # PHP Aliases
 alias pear="php /usr/lib/php/pear/pearcmd.php"
 alias pecl="php /usr/lib/php/pear/peclcmd.php"
+
+# Easy Mode Vim!
+alias evim="vim -u ~/.evimrc"
+alias easyvim="vim -u ~/.evimrc"
+alias vvim="vim -u NONE"
+alias vanillavim="vim -u NONE"
+
+# Work Aliases
+alias uninstall_pe="sudo /opt/puppet/bin/puppet-enterprise-uninstaller -dpy"

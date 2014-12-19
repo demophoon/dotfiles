@@ -1,10 +1,8 @@
 " ============================================================================
 "
-" Britt Gresham's 'Perfect' Vimrc
+" Britt Gresham's 'Easy and Perfect' Vimrc
 "
 " Feel free to take whatever helps you the most
-"
-" Welcome BrittG.sexy users ;)
 "
 " ============================================================================
 
@@ -83,8 +81,6 @@
     Bundle 'puppetlabs/puppet-syntax-vim'
     Bundle 'scrooloose/syntastic'
     Bundle 'tristen/vim-sparkup'
-    Bundle 'nanotech/jellybeans.vim'
-    Bundle 'elzr/vim-json'
     Bundle 'tomtom/tlib_vim'
     Bundle 'SirVer/ultisnips'
     Bundle 'honza/vim-snippets'
@@ -93,10 +89,7 @@
     " Testing Bundles
     Bundle 'tpope/vim-fugitive'
     Bundle 'tpope/vim-git'
-    Bundle 'Lokaltog/vim-easymotion'
     Bundle 'ekalinin/Dockerfile.vim'
-    Bundle 'kien/rainbow_parentheses.vim'
-    Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'tpope/vim-dispatch'
 
     filetype plugin indent on
@@ -118,7 +111,6 @@
     augroup MarkdownFiles " Instead of this Modulo file bullshit
         autocmd! BufEnter *.md set filetype=markdown
     augroup end
-    au BufWritePost ~/.bashrc !source %
     au BufRead,BufNewFile *_spec.rb
       \ nmap <F8> :!rspec --color %<CR>
     augroup PatchDiffHighlight
@@ -142,15 +134,11 @@
         " Set to allow you to backspace while back past insert mode
         set backspace=2
 
-        " Disable mouse
-        set mouse=
-
         " Increase History
         set history=100
 
         " Enable relative number in the left column
         set number
-        "set relativenumber
 
         " Give context to where the cursor is positioned in a file
         set scrolloff=14
@@ -165,12 +153,6 @@
         set noswapfile
         set nobackup
         set nowritebackup
-
-        " Enable spell checking
-        set spell
-
-        " Auto Complete Menu
-        set completeopt=longest,menu
 
     " }}}
     " Tabbing and Spaces {{{2
@@ -193,11 +175,6 @@
     " Color Settings {{{2
     " --------------
 
-        " Highlight on 80th and after 120th columns
-        " highlight ColorColumnText ctermbg=darkgrey guibg=darkgrey
-        " all matchadd('ColorColumnText', '\%80v', 1000)
-        " all matchadd('ColorColumnText', '\%>120v.\+', 1000)
-
         " Enable highlight search and highlight when searching
         set hlsearch
         set incsearch
@@ -209,20 +186,8 @@
         " Enable syntax highlighting
         syntax enable
 
-        " Set font and color scheme for Gvim
-        set guifont=Inconsolata\ for\ Powerline:h14
-        if has("gui_running")
-            if has("gui_win32")
-                set guifont=Consolas:h10:cANSI
-            endif
-        else
-            set t_Co=256
-        endif
-        try
-            colorscheme jellybeans
-        catch
-            colorscheme darkblue
-        endtry
+        " Colorscheme
+        colorscheme desert
 
     " }}}
     " Highlight Trailing Whitespace {{{2
@@ -303,17 +268,6 @@
         nmap * *Nzz
         nmap # #Nzz
     " }}}
-    " Disable Arrows {{{2
-    " --------------
-        nmap <Left> :vertical resize -5<CR>
-        nmap <Up> :resize -5<CR>
-        nmap <Right> :vertical resize +5<CR>
-        nmap <Down> :resize +5<CR>
-        imap <Left> <Esc><Esc>a
-        imap <Up> <Esc><Esc>a
-        imap <Right> <Esc><Esc>a
-        imap <Down> <Esc><Esc>a
-    " }}}
     " Y y$ Fix {{{2
     " --------
         " Why the hell isn't this the normal behavior?
@@ -343,10 +297,10 @@
     " Vimrc Toggle {{{2
     " ------------
         function! ToggleVimrc()
-            if expand("%:p") =~ $MYVIMRC
+            if expand("%:p") =~ "~/.evimrc"
                 :bd
             else
-                :vsp $MYVIMRC
+                :vsp ~/.evimrc
             endif
         endfunction
         nmap <leader>v :call ToggleVimrc()<CR>
@@ -370,26 +324,6 @@
     " Format JSON with python {{{2
     " -----------------------
         map <Leader>j !python -m json.tool<CR>
-    " }}}
-    " Multipurpose Tab-key {{{2
-    " --------------------
-    " Taken from https://github.com/gregstallings/vimfiles/blob/master/vimrc
-        " Indent if at the beginning of a line, else do completion
-        function! InsertTabWrapper()
-            let col = col('.') - 1
-            if !col || getline('.')[col - 1] !~ '\k'
-                return "\<tab>"
-            else
-                if CanExpandSnippet() > 0
-                    return "\<C-r>=TriggerSnippet()\<cr>"
-                else
-                    return "\<c-p>"
-                endif
-            endif
-        endfunction
-        "inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-        "inoremap <s-tab> <c-n>
-        "inoremap <c-c> <C-r>=TriggerSnippet()<cr>
     " }}}
     " Toggle Paste/No Paste {{{2
     " --------------------
@@ -465,103 +399,12 @@
     " set syntaxcol=256
 
 " ======================================================================== }}}
-"  Mini Plugins {{{1
-" ============================================================================
-" Thanks https://bitbucket.org/sjl/dotfiles
-    " Highlight Word {{{2
-    "
-    " This mini-plugin provides a few mappings for highlighting words temporarily.
-    "
-    " Sometimes you're looking at a hairy piece of code and would like a certain
-    " word or two to stand out temporarily.  You can search for it, but that only
-    " gives you one color of highlighting.  Now you can use <leader>N where N is
-    " a number from 1-6 to highlight the current word in a specific color.
-        function! HiInterestingWord(n) " {{{3
-            " Save our location.
-            normal! mz
-
-            " Yank the current word into the z register.
-            normal! "zyiw
-
-            " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
-            let mid = 86750 + a:n
-
-            " Clear existing matches, but don't worry if they don't exist.
-            silent! call matchdelete(mid)
-
-            " Construct a literal pattern that has to match at boundaries.
-            let pat = '\V\<' . escape(@z, '\') . '\>'
-
-            " Actually match the words.
-            call matchadd("InterestingWord" . a:n, pat, 1, mid)
-
-            " Move back to our original location.
-            normal! `z
-        endfunction " }}}
-        function! ViHiInterestingWord(n) " {{{3
-            " Yank the current word into the z register.
-            normal! gv"zy
-
-            " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
-            let mid = 86750 + a:n
-
-            " Clear existing matches, but don't worry if they don't exist.
-            silent! call matchdelete(mid)
-
-            " Construct a literal pattern that has to match at boundaries.
-            let pat = escape(@z, '\')
-
-            " Actually match the words.
-            call matchadd("InterestingWord" . a:n, pat, 1, mid)
-
-        endfunction " }}}
-        " Mappings {{{3
-
-        nnoremap <silent> <leader>h1 :call HiInterestingWord(1)<cr>
-        nnoremap <silent> <leader>h2 :call HiInterestingWord(2)<cr>
-        nnoremap <silent> <leader>h3 :call HiInterestingWord(3)<cr>
-        nnoremap <silent> <leader>h4 :call HiInterestingWord(4)<cr>
-        nnoremap <silent> <leader>h5 :call HiInterestingWord(5)<cr>
-        nnoremap <silent> <leader>h6 :call HiInterestingWord(6)<cr>
-        nnoremap <silent> <leader>h7 :call HiInterestingWord(7)<cr>
-        nnoremap <silent> <leader>h8 :call HiInterestingWord(8)<cr>
-        nnoremap <silent> <leader>h9 :call HiInterestingWord(9)<cr>
-        nnoremap <silent> <leader>h0 :call HiInterestingWord(0)<cr>
-
-        vnoremap <silent> <leader>h1 :call ViHiInterestingWord(1)<cr>
-        vnoremap <silent> <leader>h2 :call ViHiInterestingWord(2)<cr>
-        vnoremap <silent> <leader>h3 :call ViHiInterestingWord(3)<cr>
-        vnoremap <silent> <leader>h4 :call ViHiInterestingWord(4)<cr>
-        vnoremap <silent> <leader>h5 :call ViHiInterestingWord(5)<cr>
-        vnoremap <silent> <leader>h6 :call ViHiInterestingWord(6)<cr>
-        vnoremap <silent> <leader>h7 :call ViHiInterestingWord(7)<cr>
-        vnoremap <silent> <leader>h8 :call ViHiInterestingWord(8)<cr>
-        vnoremap <silent> <leader>h9 :call ViHiInterestingWord(9)<cr>
-        vnoremap <silent> <leader>h0 :call ViHiInterestingWord(0)<cr>
-
-        " }}}
-        " Default Highlights {{{3
-
-        hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#00afff ctermbg=39
-        hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#ff5faf ctermbg=205
-        hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#5fff00 ctermbg=82
-        hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#ffff00 ctermbg=226
-        hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff8700 ctermbg=208
-        hi def InterestingWord6 guifg=#0000ff ctermfg=12 gui=bold cterm=bold
-        hi def InterestingWord7 guifg=#ff00ff ctermfg=13 gui=bold cterm=bold
-        hi def InterestingWord8 guifg=#00ff00 ctermfg=10 gui=bold cterm=bold
-        hi def InterestingWord9 guifg=#ff5f00 ctermfg=202 gui=bold cterm=bold
-        hi def InterestingWord0 guifg=#00ffff ctermfg=14 gui=bold cterm=bold
-
-        " }}}
-    " }}}
-" ======================================================================== }}}
 "  Post Configurations {{{1
 " ============================================================================
     " Find ./*.vimrc"
-    if filereadable("./custom.vimrc")
-        silent echo "Loading ./custom.vimrc"
-        source ./custom.vimrc
+    if filereadable("./.vimrc.local")
+        silent echo "Loading ./.vimrc.local"
+        source ./vimrc.local
     endif
     " Remap mappings that get overwritten by plugins
     set rtp+=~/.vim/after/

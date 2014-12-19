@@ -297,11 +297,7 @@
     " Vimrc Toggle {{{2
     " ------------
         function! ToggleVimrc()
-            if expand("%:p") =~ "~/.evimrc"
-                :bd
-            else
-                :vsp ~/.evimrc
-            endif
+            :vsp ~/.evimrc
         endfunction
         nmap <leader>v :call ToggleVimrc()<CR>
     " }}}

@@ -408,6 +408,11 @@
     " --------------------
         cnoremap w!! w !sudo tee % >/dev/null
     " }}}
+    " '' to `` and `` to '' {{{2
+    " --------------------
+        nnoremap '' ``
+        nnoremap `` ''
+    " }}}
     " Leader Maps {{{2
     " --------------------
         " Clear matches

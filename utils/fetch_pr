@@ -1,0 +1,6 @@
+#!/bin/bash
+
+REMOTE=$1
+
+# For now this works, but we should put in additional logic to handle current remote and check if the remote even exists.
+git config --local --add "remote.$REMOTE.fetch" "+refs/pull/*/head:refs/remotes/$REMOTE/pr/*"

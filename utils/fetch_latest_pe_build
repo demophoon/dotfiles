@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+## TODO: comments
+
+set -e
+platform=${PE_PLATFORM:-'ubuntu-12.04-amd64'}
+pe_testing="/Users/britt/projects/work/yellow/pe-installs"
+pe_tarballs="$pe_testing/tarballs/${platform}"
+pe_versions="$pe_testing/versions/${platform}"
+pe_major_version=${TESTING_VERSION:-'3.7'}
+
+pe_download_directory="enterprise.delivery.puppetlabs.net/${pe_major_version}/ci-ready"
+latest_build_version=${PE_VERSION:-$(curl ${pe_download_directory}/LATEST)}
+
+latest_version_dir="$(echo "${latest_build_version?}" | sed -e 's/-g[a-z0-9]\{7\}$//')"
+version_dir="${pe_versions}/${latest_version_dir}"
+file_name="puppet-enterprise-${latest_build_version?}-${platform?}"
+tar_name="${file_name?}.tar"
+
+# Create versions directory if it doesn't exist
+if [ ! -e "${pe_versions}" ]; then
+    mkdir -p $pe_versions
+fi
+
+# Create tarballs directory if it doesn't exist
+if [ ! -e "${pe_tarballs}" ]; then
+    mkdir -p $pe_tarballs
+fi
+
+# If we don't have the latest tarball yet, download it
+if [ ! -e "${pe_tarballs}/${tar_name?}" ]; then
+  echo "Fetching ${tar_name?}"
+  curl ${pe_download_directory}/${tar_name?} -o "${pe_tarballs}/${tar_name?}"
+fi
+
+#untar it if it doesn't exist
+if [ ! -e "${pe_versions}/${file_name?}" ]; then
+  echo "Unpacking tarball to ${pe_versions}/${file_name?}"
+  tar xvf "${pe_tarballs}/${tar_name?}" -C ${pe_versions}
+fi
+
+
+if [ ! -e "${pe_versions}/${latest_build_version?}" -a ! -e "${version_dir?}" ]; then
+  echo "Moving installer directory to ${version_dir?}"
+  mv "${pe_versions}/${file_name?}" "${version_dir?}"
+fi
+
+pushd ${pe_testing} &> /dev/null
+current_version=$(basename "$(readlink puppet-enterprise)")
+if [ "${current_version}" = "${latest_build_version}" ]; then
+  echo "$latest_build_version is already linked"
+else
+  rm -f puppet-enterprise
+  ln -s $version_dir puppet-enterprise
+  pushd $pe_versions
+  rm -f latest
+  ln -s $latest_version_dir latest
+  if [ -n "${current_version}" ]; then
+    echo "Changed from ${current_version} to ${latest_build_version}"
+  else
+    echo "Linked ${latest_build_version}"
+  fi
+fi
+popd &> /dev/null

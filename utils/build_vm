@@ -1,0 +1,391 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+import sys
+import os
+import re
+import urllib
+from subprocess import call
+
+base_vagrant_file = """# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+%s
+end
+"""
+
+provision_script = """
+echo I am provisioning via vagrant.
+date > /etc/vagrant_provisioned_at
+
+sudo apt-get update
+sudo apt-get install -y build-essential git python vim tmux zsh ruby1.9.1-dev
+
+sudo -H -u vagrant bash -c 'git clone https://github.com/demophoon/dotfiles ~/dotfiles'
+sudo -H -u vagrant bash -c 'git clone https://github.com/demophoon/vundle-headless-installer.git ~/vundle-headless-installer'
+sudo -H -u vagrant bash -c 'git --git-dir=~/dotfiles submodule update --init'
+sudo -H -u vagrant bash -c 'source ~/dotfiles/setup.sh -f'
+sudo -H -u vagrant bash -c 'python ~/vundle-headless-installer/install.py'
+
+sudo echo "127.0.0.1 master.vm" >> /etc/hosts
+sudo echo "192.168.33.10 master.vm" >> /etc/hosts
+sudo echo "192.168.33.11 agent.vm" >> /etc/hosts
+"""
+
+vm_rules = {
+    'dotfiles_debian': {
+        'rules': [
+            'ubuntu',
+            'debian',
+        ],
+        'template': {
+            'config': {
+                'vm': {
+                    'provision': provision_script,
+                }
+            }
+        }
+    },
+    'common': {
+        'rules': [
+            ".*",
+        ],
+        'template': {
+            'config': {
+                'vm': {
+                    'synced_folder': [
+                        (
+                            '/Users/britt/projects',
+                            '/local',
+                            'nfs',
+                        ),
+                        (
+                            os.getcwd(),
+                            '/vagrant',
+                            'nfs',
+                        ),
+                    ]
+                }
+            }
+        },
+    },
+    'master': {
+        'rules': [
+            "master.*\.vm$",
+        ],
+        'template': {
+            'config': {
+                'vm': {
+                    'provider': {
+                        'virtualbox': {
+                            'memory': 2048,
+                        }
+                    },
+                    'network': '192.168.33.10',
+                }
+            }
+        },
+    },
+    'agent': {
+        'rules': [
+            "agent.*\.vm$",
+        ],
+        'template': {
+            'config': {
+                'vm': {
+                    'network': '192.168.33.11',
+                }
+            }
+        },
+    },
+}
+
+indent_level = 0
+
+
+def merge(a, b, path=None):
+    "merges b into a"
+    if path is None:
+        path = []
+    for key in b:
+        if key in a:
+            if isinstance(a[key], dict) and isinstance(b[key], dict):
+                merge(a[key], b[key], path + [str(key)])
+            elif isinstance(a[key], dict) and isinstance(b[key], list):
+                a[key] += b[key]
+            elif a[key] == b[key]:
+                # same leaf value
+                pass
+            else:
+                if a[key]:
+                    print "Warning '%s' option overridden from '%s' to '%s'" % (
+                        key,
+                        a[key],
+                        b[key],
+                    )
+                a[key] = b[key]
+        else:
+            a[key] = b[key]
+    return a
+
+BASE_VAGRANT_FILE = """
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+%(config)s
+end
+"""
+
+vagrant_options = {
+    'basic': 'config.%s.%s = "%s"',
+    'network': 'config.%s.%s "private_network", ip: "%s"',
+    'synced_folder': 'config.%s.%s "%s", "%s", type: "%s"',
+    'provider': 'config.%s.provider "%s" do\n'
+                '%s\n',
+    'provision': 'config.%s.%s "shell", inline: <<SCRIPT\n'
+                 '%s\n'
+                 'SCRIPT',
+    'block': 'config.%s.%s "virtualbox" do |v|\n'
+             '%s',
+    'block_option': 'v.%s = "%s"',
+    'end': 'end',
+}
+
+
+def build_block(vm, config, options):
+    global indent_level
+    ret_configs = []
+    indent_level += 1
+    for block in options:
+        block_configs = []
+        configs = options[block]
+        for option in configs:
+            option_template = vagrant_options['block_option']
+            option_template = get_indentation() + option_template
+            options = option_template % (
+                option,
+                configs[option],
+            )
+            block_configs.append(options)
+        block_configs = '\n'.join(block_configs)
+        indent_level -= 1
+        option_template = vagrant_options['block']
+        option_template = get_indentation() + option_template
+        ret_configs.append(option_template % (
+            vm,
+            config,
+            block_configs
+        ))
+        option_template = vagrant_options['end']
+        option_template = get_indentation() + option_template
+        ret_configs.append(option_template)
+    return '\n'.join(ret_configs)
+
+
+def get_indentation():
+    return '    ' * indent_level
+
+
+def build_configs(template):
+    global indent_level
+    configs = []
+    indent_level += 1
+    for vm in template['config']:
+        for option in template['config'][vm]:
+            if not isinstance(template['config'][vm][option], list):
+                template['config'][vm][option] = [
+                    template['config'][vm][option]]
+            for param in template['config'][vm][option]:
+                print option, param
+                if isinstance(param, str):
+                    option_template = vagrant_options.get(
+                        option,
+                        vagrant_options['basic'])
+                    option_template = get_indentation() + option_template
+                    options = (vm, option, param)
+                    configs.append(option_template % options)
+                elif isinstance(param, tuple):
+                    option_template = vagrant_options.get(option)
+                    option_template = get_indentation() + option_template
+                    options = [vm, option]
+                    options += list(param)
+                    options = tuple(options)
+                    configs.append(option_template % options)
+                elif isinstance(param, dict):
+                    block = build_block(vm, option, param)
+                    configs.append(block)
+    return configs
+
+
+def filter_list(l, *args, **kwargs):
+    selection = ['name', 'os', 'arch']
+    final_list = []
+    if args:
+        for item in l:
+            for k, v in item.items():
+                if k not in selection:
+                    continue
+                results = []
+                for arg in args:
+                    m = re.compile(arg, re.IGNORECASE)
+                    results.append(re.search(m, v))
+                if all(results):
+                    final_list.append(item)
+    for k, v in kwargs.items():
+        for item in l:
+            matches = re.search(re.compile(v, re.IGNORECASE), item[k])
+            if k in item and matches:
+                final_list.append(item)
+    final_list = list({x['url']: x for x in final_list}.values())
+    return final_list
+
+
+def get_box_type(hostname, args):
+    base_url = "http://puppet-vagrant-boxes.puppetlabs.com"
+
+    selection = [
+        'os',
+        'name',
+        'arch',
+        'url',
+    ]
+
+    # Scrap page for boxes
+    box_regex = re.compile(
+        "<td>([a-zA-Z ]+)</td>\n\s*<td>([a-zA-Z0-9\.\-]+)"
+        "</td>\n\s*<td>([a-zA-Z0-9\-\.]+)</td>\n\s*<td>"
+        "([a-zA-Z0-9 \.\-]+)</td>\n\s*"
+        "<td><a href=\"([a-zA-Z0-9\.\-]+)\">plain</a></td>\n"
+        "\s*<td><a href=\"([a-zA-Z0-9\.\-]+)\">nocm</a></td>",
+        re.DOTALL)
+
+    contents = urllib.urlopen(base_url).read()
+    boxes = re.findall(box_regex, contents)
+    matches = []
+    for match in boxes:
+        matches.append(
+            {
+                'name': ' '.join(match[0:2]),
+                'os': match[0],
+                'version': match[1],
+                'arch': match[2],
+                'guest': match[3],
+                'url': base_url + "/%s" % match[4],
+            }
+        )
+        matches.append(
+            {
+                'name': ' '.join(match[0:2]) + " - nocm",
+                'os': match[0],
+                'version': match[1],
+                'arch': match[2],
+                'guest': match[3],
+                'url': base_url + "/%s" % match[5],
+            }
+        )
+    shostname = hostname.split(".")
+    shostname += hostname.split("-")
+    shostname += hostname.split("_")
+    hostname_matches = []
+    for match in matches:
+        for x in selection:
+            test = match.get(x)
+            for s in shostname:
+                if re.search(re.compile(
+                    s,
+                    re.IGNORECASE,
+                ), test):
+                    hostname_matches.append(s)
+    args += hostname_matches
+    args = list(set(args))
+
+    matches = filter_list(matches, guest='virtualbox')
+    matches = filter_list(matches, *args)
+
+    for select_filter in selection:
+        if not matches:
+            print "Unable to find matching box."
+            break
+        elif len(matches[0]) == 1:
+            print "Match found"
+            break
+        unique = list(set([x[select_filter] for x in matches]))
+        unique = sorted(unique)
+        if not len(unique) == 1:
+            print "\nSelect %s:" % select_filter
+            print "\n".join(["\t %d ) %s" % (
+                x[0] + 1, x[1]
+            ) for x in enumerate(unique)])
+            try:
+                selection = raw_input()
+                if selection.isdigit():
+                    selection = unique[int(selection) - 1]
+            except Exception:
+                print "Invalid selection"
+                break
+            matches = filter_list(matches, **{select_filter: selection})
+            print len(matches)
+    if not len(matches) == 1:
+        return None
+    return matches[0]
+
+
+def run_command(args):
+    print ' '.join(args)
+    #call(args)
+
+
+def main():
+    template = {
+        'config': {
+            'vm': {
+                'box': None,
+                'box_url': None,
+                'hostname': None,
+                'network': None,
+                'provision': [],
+                'provider': {
+                    'virtualbox': {
+                        'memory': 512,
+                        'cpus': 1,
+                        'name': None,
+                    }
+                }
+            }
+        }
+    }
+
+    if os.path.isfile("./Vagrantfile2"):
+        print "A Vagrantfile already exists in this directory!"
+        output = open('Vagrantfile', 'r').read()
+    else:
+        args = sys.argv[1:]
+        box = get_box_type(args[0], args[1:])
+        if box:
+            template['config']['vm']['box'] = box['name']
+            template['config']['vm']['box_url'] = box['url']
+        template['config']['vm']['hostname'] = args[0]
+        template['config']['vm']['provider']['virtualbox']['name'] = '-'.join(args)
+
+        # Find other settings
+        for key, rule in vm_rules.items():
+            hostname_expression = re.compile("(?:%s)" % '|'.join(rule['rules']))
+            for arg in args:
+                if re.search(hostname_expression, arg):
+                    merge(template, rule['template'])
+        output = base_vagrant_file % '\n'.join(build_configs(template))
+    print "Starting vm with vagrant file below:"
+    print "===================================="
+    print output
+    print "===================================="
+    f = open('./Vagrantfile', 'w')
+    f.write(output)
+    f.close()
+    run_command(['vagrant', 'up'])
+    run_command(['vagrant', 'ssh'])
+
+if __name__ == '__main__':
+    main()

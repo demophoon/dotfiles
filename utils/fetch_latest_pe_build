@@ -2,11 +2,12 @@
 ## TODO: comments
 
 set -e
-platform=${PE_PLATFORM:-'ubuntu-12.04-amd64'}
+platform=${1:-$PE_PLATFORM}
+platform=${platform:-'ubuntu-12.04-amd64'}
+pe_major_version=${TESTING_VERSION:-'3.7'}
 pe_testing="/Users/britt/projects/work/yellow/pe-installs"
 pe_tarballs="$pe_testing/tarballs/${platform}"
 pe_versions="$pe_testing/versions/${platform}"
-pe_major_version=${TESTING_VERSION:-'3.7'}
 
 pe_download_directory="enterprise.delivery.puppetlabs.net/${pe_major_version}/ci-ready"
 latest_build_version=${PE_VERSION:-$(curl ${pe_download_directory}/LATEST)}

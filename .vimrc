@@ -563,10 +563,12 @@
 " ======================================================================== }}}
 "  Post Configurations {{{1
 " ============================================================================
-    " Find ./*.vimrc"
-    if filereadable("./custom.vimrc")
-        silent echo "Loading ./custom.vimrc"
-        source ./custom.vimrc
+    " Find local Vim files"
+    if filereadable("~/.vimrc.local")
+        source ~/.vimrc.local
+    endif
+    if filereadable("./.vimrc.local")
+        source ./.vimrc.local
     endif
     " Remap mappings that get overwritten by plugins
     set rtp+=~/.vim/after/

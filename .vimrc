@@ -565,12 +565,8 @@
 "  Post Configurations {{{1
 " ============================================================================
     " Find local Vim files"
-    if filereadable("~/.vimrc.local")
-        source ~/.vimrc.local
-    endif
-    if filereadable("./.vimrc.local")
-        source ./.vimrc.local
-    endif
+    silent! source ~/.vimrc.local
+    silent! source ./.vimrc.local
     " Remap mappings that get overwritten by plugins
     set rtp+=~/.vim/after/
 "" }}}

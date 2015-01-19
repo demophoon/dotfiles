@@ -279,6 +279,7 @@
         let g:pymode_folding = 0
         let g:pymode_rope_complete_on_dot = 0
         let g:pymode_rope_lookup_project = 0
+        let g:pymode_rope_regenerate_on_write = 0
     " }}}
     " CtrlP Settings {{{2
     " --------------------

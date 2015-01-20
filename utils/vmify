@@ -74,4 +74,9 @@ end
 
 output = `curl -d --url http://vcloud.delivery.puppetlabs.net/vm/#{curl_string} ;`
 match = /\"hostname\": \"(.*)\"/.match(output)
-exec("sshvm #{match[1]}")
+created_at = Time.new.to_i
+hostname = match[1]
+open(File.expand_path('~/.vcloudvms.log'), 'a') do |f|
+    f.puts "#{hostname}, #{created_at}\n"
+end
+exec("sshvm #{hostname}")

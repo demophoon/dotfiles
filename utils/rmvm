@@ -1,3 +1,33 @@
-#! /bin/bash
+#!/usr/bin/env ruby
 
- curl -X DELETE --url http://vcloud.delivery.puppetlabs.net/vm/$1 ;
+hostname = ARGV[0]
+
+def rmvm(hostname)
+    output = `curl -X DELETE --url http://vcloud.delivery.puppetlabs.net/vm/#{hostname}; > /dev/null`
+    if /ok/.match(output)
+        puts "Successfully removed #{hostname}"
+        return true
+    else
+        puts "Unable to remove #{hostname}"
+        return false
+    end
+end
+
+if hostname == '-a'
+    new_file = []
+    content = open(File.expand_path("~/.vcloudvms.log"), "r").read()
+    hostnames = content.scan(/(\w+), (\d+)/)
+else
+    hostnames = [[hostname, 0]]
+end
+
+for host in hostnames
+    if ! rmvm(host[0])
+        new_file.append(host)
+    end
+end
+open(File.expand_path("~/.vcloudvms.log"), "w") { |f|
+    for line in new_file
+        f.puts("#{line[0]}, #{line[1]}\n")
+    end
+}

@@ -108,7 +108,7 @@
     au BufRead,BufNewFile *vimrc
       \ set foldmethod=marker
     augroup Puppet
-        autocmd! BufEnter *.pp set filetype=puppet
+        autocmd! BufEnter *.pp set filetype=puppet tabstop=2 sts=2 shiftwidth=2
     augroup end
     augroup RubySyntaxFiles " Ruby syntax
         autocmd! BufRead,BufEnter *.rb,*.rake set tabstop=2 sts=2 shiftwidth=2 filetype=ruby

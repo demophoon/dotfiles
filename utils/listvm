@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+content = open(File.expand_path("~/.vcloudvms.log"), "r").read()
+hostnames = content.scan(/(\w+), \d+/)
+for host in hostnames
+    puts host
+end

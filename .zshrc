@@ -32,9 +32,24 @@ compinit
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(osx git ruby gem node npm heroku cap bundler brew cake rails3 redis-cli zsh-syntax-highlighting)
-plugins=(osx ssh-agent git ruby rbenv gem bundler brew zsh-syntax-highlighting python virtualenvwrapper)
+plugins=(osx ssh-agent git ruby rbenv gem bundler brew zsh-syntax-highlighting python virtualenvwrapper zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
+
+# Setup zsh-autosuggestions
+source $ZSH/plugins/zsh-autosuggestions/autosuggestions.zsh
+
+# Enable autosuggestions automatically
+zle-line-init() {
+    zle autosuggest-start
+}
+
+zle -N zle-line-init
+
+# use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
+# zsh-autosuggestions is designed to be unobtrusive)
+bindkey '^T' autosuggest-toggle
+bindkey '^f' vi-forward-word
 
 # Enable vi like editing at the command line
 bindkey -v

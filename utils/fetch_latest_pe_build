@@ -4,22 +4,26 @@
 set -e
 platform=${1:-$PE_PLATFORM}
 platform=${platform:-'ubuntu-12.04-amd64'}
+pe_archive=${PE_ARCHIVE:-0}
 current_maj_version='3.7'
 pe_major_version=${PE_VERSION:-$current_maj_version}
 pe_testing="/Users/britt/projects/work/yellow/pe-installs"
 pe_tarballs="$pe_testing/tarballs/${platform}"
 pe_versions="$pe_testing/versions/${platform}"
 
-if [ "$pe_major_version" != "$current_maj_version" ]; then
+if [ "$pe_archive" != "0" ]; then
     pe_download_directory="http://enterprise.delivery.puppetlabs.net/archives/releases/${pe_major_version}/"
+    latest_build_version=${PE_VERSION:-$(curl ${pe_download_directory}/LATEST)}
 else
-    pe_download_directory="enterprise.delivery.puppetlabs.net/${pe_major_version}/ci-ready"
+    pe_download_directory="http://enterprise.delivery.puppetlabs.net/${pe_major_version}/ci-ready"
+    latest_build_version=$(curl ${pe_download_directory}/LATEST)
 fi
-latest_build_version=${PE_VERSION:-$(curl ${pe_download_directory}/LATEST)}
+echo "Downloading PE ${latest_build_version}"
+
 latest_version_dir="$(echo "${latest_build_version?}" | sed -e 's/-g[a-z0-9]\{7\}$//')"
 version_dir="${pe_versions}/${latest_version_dir}"
 file_name="puppet-enterprise-${latest_build_version?}-${platform?}"
-if [ "$pe_major_version" != "$current_maj_version" ]; then
+if [ "$pe_archive" != "0" ]; then
     tar_name="${file_name?}.tar.gz"
 else
     tar_name="${file_name?}.tar"

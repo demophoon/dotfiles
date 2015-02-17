@@ -429,7 +429,15 @@
         function! RSpecCurrent()
           execute("!clear && rspec " . expand("%p") . ":" . line("."))
         endfunction
-        nnoremap <leader>s :call RSpecCurrent()<cr>
+        " Toggle Scrollbind
+        function! ScrollbindToggle()
+            if &scrollbind
+                set noscrollbind
+            else
+                set scrollbind
+            endif
+        endfunction
+        nnoremap <leader>s :call ScrollbindToggle()<cr>
         " Toggle Diff Mode
         function! DiffToggle()
             if &diff

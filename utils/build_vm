@@ -369,7 +369,7 @@ def get_box_type(hostname, args):
 
 def run_command(args):
     print ' '.join(args)
-    call(args)
+    #call(args)
 
 
 def main():
@@ -392,7 +392,7 @@ def main():
         }
     }
 
-    if os.path.isfile("./Vagrantfile"):
+    if os.path.isfile("./Vagrantfile") and False:
         print "A Vagrantfile already exists in this directory!"
         output = open('Vagrantfile', 'r').read()
     else:

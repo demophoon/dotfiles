@@ -8,6 +8,10 @@ alias vi="vim"
 alias cdc="cd ~/projects/"
 alias tp="attach"
 alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
+alias cfecter="cfacter"
+alias fecter="facter"
+alias peppet="puppet"
+alias heere="hiera"
 
 # Git Aliases
 alias gs="git status"

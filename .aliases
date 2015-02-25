@@ -28,7 +28,7 @@ alias irssi="TERM=screen-256color irssi"
 alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
 
 # Ruby Bundler Aliases
-alias be="bundler exec"
+alias be="bundle exec"
 
 # PHP Aliases
 alias pear="php /usr/lib/php/pear/pearcmd.php"

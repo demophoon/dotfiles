@@ -96,6 +96,7 @@
     Bundle 'kien/rainbow_parentheses.vim'
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'tpope/vim-dispatch'
+    Bundle 'kchmck/vim-coffee-script'
 
     filetype plugin indent on
 

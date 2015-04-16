@@ -97,6 +97,7 @@
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'tpope/vim-dispatch'
     Bundle 'kchmck/vim-coffee-script'
+    Bundle 'demophoon/bash-fold-expr'
 
     filetype plugin indent on
 

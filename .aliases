@@ -12,6 +12,7 @@ alias cfecter="cfacter"
 alias fecter="facter"
 alias peppet="puppet"
 alias heere="hiera"
+alias irc="attach irc -d"
 
 # Git Aliases
 alias gs="git status"

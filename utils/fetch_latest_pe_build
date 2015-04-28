@@ -8,7 +8,7 @@ pe_archive=${PE_ARCHIVE:-0}
 current_maj_version='3.7'
 pe_major_version=${PE_VERSION:-$current_maj_version}
 pe_testing="/Users/britt/projects/work/yellow/pe-installs"
-pe_tarballs="$pe_testing/tarballs/${platform}"
+pe_tarballs="$pe_testing/tarballs"
 pe_versions="$pe_testing/versions/${platform}"
 
 if [ "$pe_archive" != "0" ]; then

@@ -410,6 +410,10 @@
     " --------------------
         cnoremap w!! w !sudo tee % >/dev/null
     " }}}
+    " Insert Last Command {{{2
+    " --------------------
+        cnoremap :: <C-r>:
+    " }}}
     " '' to `` and `` to '' {{{2
     " --------------------
         nnoremap '' ``

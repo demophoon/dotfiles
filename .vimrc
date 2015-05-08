@@ -105,22 +105,26 @@
 "  Filetype Association {{{1
 " ============================================================================
 
-    au BufRead,BufNewFile *vimrc
-      \ set foldmethod=marker
+    au BufRead,BufNewFile *vimrc set foldmethod=marker
+
     augroup Puppet
         autocmd! BufEnter *.pp set filetype=puppet tabstop=2 sts=2 shiftwidth=2
     augroup end
-    augroup RubySyntaxFiles " Ruby syntax
+
+    augroup RubySyntaxFiles
         autocmd! BufRead,BufEnter *.rb,*.rake set tabstop=2 sts=2 shiftwidth=2 filetype=ruby
         autocmd! BufEnter Rakefile set filetype=ruby
         autocmd! BufEnter Gemfile set filetype=ruby
     augroup end
+
     augroup MarkdownFiles " Instead of this Modulo file bullshit
         autocmd! BufEnter *.md set filetype=markdown
     augroup end
+
     au BufWritePost ~/.bashrc !source %
-    au BufRead,BufNewFile *_spec.rb
-      \ nmap <F8> :!rspec --color %<CR>
+
+    au BufRead,BufNewFile *_spec.rb nmap <F8> :!rspec --color %<CR>
+
     augroup PatchDiffHighlight
         autocmd!
         autocmd BufEnter *.patch,*.rej,*.diff syntax enable

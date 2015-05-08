@@ -74,7 +74,7 @@
     Bundle 'tpope/vim-repeat'
     Bundle 'tpope/vim-speeddating'
     Bundle 'tpope/vim-surround'
-    Bundle 'vim-scripts/AutoClose'
+    Bundle 'Townk/vim-autoclose'
     Bundle 'pangloss/vim-javascript'
     Bundle 'bling/vim-airline'
     Bundle 'bling/vim-bufferline'
@@ -124,6 +124,10 @@
     augroup PatchDiffHighlight
         autocmd!
         autocmd BufEnter *.patch,*.rej,*.diff syntax enable
+    augroup end
+
+    augroup ClojureFiles
+        autocmd! BufEnter *.clj let g:AutoClosePairs_del = "''"
     augroup end
 
 " ========================================================================= }}}

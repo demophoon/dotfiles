@@ -98,6 +98,7 @@
     Bundle 'tpope/vim-dispatch'
     Bundle 'kchmck/vim-coffee-script'
     Bundle 'demophoon/bash-fold-expr'
+    Bundle 'kovisoft/slimv'
 
     filetype plugin indent on
 
@@ -131,7 +132,7 @@
     augroup end
 
     augroup ClojureFiles
-        autocmd! BufEnter *.clj let g:AutoClosePairs_del = "''"
+        autocmd! BufRead,BufEnter *.clj let b:AutoClosePairs = AutoClose#ParsePairs("{} [] \"\" `")
     augroup end
 
 " ========================================================================= }}}

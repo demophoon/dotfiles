@@ -13,6 +13,7 @@
     pb = publish-branch
     rb = rbranch
     rc = rank-contributors
+    reflog = reflog --format="* %C(yellow)%h%Creset %gd %C(cyan)%ar%Creset: %gs"
     rv = review
     sm = show-merges
     st = status

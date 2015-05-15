@@ -98,7 +98,7 @@
     Bundle 'tpope/vim-dispatch'
     Bundle 'kchmck/vim-coffee-script'
     Bundle 'demophoon/bash-fold-expr'
-    Bundle 'kovisoft/slimv'
+    autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
 
     filetype plugin indent on
 

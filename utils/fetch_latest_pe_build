@@ -16,7 +16,7 @@ if [ "$pe_archive" != "0" ]; then
     latest_build_version=${PE_VERSION:-$(curl ${pe_download_directory}/LATEST)}
 else
     pe_download_directory="http://enterprise.delivery.puppetlabs.net/${pe_major_version}/ci-ready"
-    latest_build_version=$(curl ${pe_download_directory}/LATEST)
+    latest_build_version=${DOWNLOAD_VERSION:-$(curl ${pe_download_directory}/LATEST)}
 fi
 echo "Downloading PE ${latest_build_version}"
 

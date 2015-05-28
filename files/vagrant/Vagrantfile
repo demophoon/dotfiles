@@ -1,0 +1,127 @@
+# vi: set ft=ruby :
+
+BASE_IP = "192.168.33"
+
+BOXES = [
+    #{:box => "puppetlabs/ubuntu-14.04-64-nocm", :name => "ubuntu14"},
+    {:box => "puppetlabs/ubuntu-12.04-64-nocm", :name => "ubuntu12"},
+    {:box => "puppetlabs/centos-6.6-64-nocm", :name => "centos6"},
+    {:box => "puppetlabs/centos-7.0-64-nocm", :name => "centos7"},
+    #{:box => "puppetlabs/debian-7.8-64-nocm", :name => "debian7"},
+    #{:box => "puppetlabs/debian-6.0.10-64-nocm", :name => "debian6"},
+]
+
+# Helper Functions
+
+def create_vm(config, box, name)
+    cpus = 1
+    memory = 512
+    ip = 9
+    boxname = box[:name]
+    box = box[:box]
+    hostname = name.to_s
+
+    case name.to_s
+    when /master.*/
+        memory = 2048
+        ip = 10
+        hostname = "master.vm"
+    when /agent.*/
+        ip = 11
+        hostname = "agent.vm"
+    when /puppetdb.*/
+        ip = 12
+        hostname = "puppetdb.vm"
+    when /console.*/
+        ip = 13
+        hostname = "console.vm"
+    when /compile.*/
+        memory = 2048
+        ip = 14
+        hostname = "compile.vm"
+    end
+
+    ip_modifier = /\S+(\d+).*/.match(name)
+    if ip_modifier
+        ip = 10 * ip_modifier[1].to_i + ip
+    end
+    ip = "#{BASE_IP}.#{ip}"
+    name = "#{name}-#{boxname}.vm"
+    config.vm.define name.to_sym do |vbox|
+        vbox.vm.box = box
+        vbox.vm.hostname = hostname
+        vbox.vm.network "private_network", ip: ip
+        vbox.vm.provider "virtualbox" do |v|
+            v.cpus = cpus
+            v.name = name
+            v.memory = memory
+        end
+        if scripts = get_platform_scripts(boxname)
+            vbox.vm.provision "shell", inline: scripts
+        end
+    end
+end
+
+def get_platform_scripts(boxname)
+    el_script = <<-SCRIPT
+    sudo service firewalld stop
+    SCRIPT
+
+    deb_script = <<-SCRIPT
+    sudo apt-get update
+    sudo apt-get install -y build-essential git python vim tmux zsh ruby1.9.1-dev
+
+    sudo -H -u vagrant bash -c 'git clone https://github.com/demophoon/dotfiles ~/dotfiles'
+    sudo -H -u vagrant bash -c 'git clone https://github.com/demophoon/vundle-headless-installer.git ~/vundle-headless-installer'
+    sudo -H -u vagrant bash -c 'git --git-dir=~/dotfiles submodule update --init'
+    sudo -H -u vagrant bash -c 'source ~/dotfiles/setup.sh -f'
+    sudo -H -u vagrant bash -c 'python ~/vundle-headless-installer/install.py'
+    SCRIPT
+
+    case boxname
+    when /ubuntu.*/
+        deb_script
+    when /centos.*|el.*/
+        el_script
+    else
+        nil
+    end
+end
+
+def create_pe_vms(config, box, suffix)
+    create_vm config, box, "master#{suffix}"
+    create_vm config, box, "agent#{suffix}"
+    create_vm config, box, "puppetdb#{suffix}"
+    create_vm config, box, "console#{suffix}"
+    create_vm config, box, "compile#{suffix}"
+end
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+    config.vm.synced_folder "/Users/britt/projects", "/local", type: "nfs"
+    config.vm.synced_folder "/Users/britt/projects/vagrant/ubuntu-master", "/vagrant", type: "nfs"
+    config.vm.provision "shell", inline: <<-SCRIPT
+    echo I am provisioning via vagrant.
+    date > /etc/vagrant_provisioned_at
+    mkdir -p /root/.ssh/
+    cat /local/work/yellow/pe_acceptance_tests/id_rsa-acceptance.pub > /root/.ssh/authorized_keys
+    echo "192.168.33.10 master.vm" >> /etc/hosts
+    echo "192.168.33.11 agent.vm" >> /etc/hosts
+    echo "192.168.33.12 puppetdb.vm" >> /etc/hosts
+    echo "192.168.33.13 console.vm" >> /etc/hosts
+    echo "192.168.33.14 compile.vm" >> /etc/hosts
+
+    echo "192.168.33.20 master2.vm" >> /etc/hosts
+    echo "192.168.33.21 agent2.vm" >> /etc/hosts
+    echo "192.168.33.22 puppetdb2.vm" >> /etc/hosts
+    echo "192.168.33.23 console2.vm" >> /etc/hosts
+    echo "192.168.33.24 compile2.vm" >> /etc/hosts
+    SCRIPT
+
+    BOXES.map { |box|
+        create_pe_vms config, box, ""
+    }
+end

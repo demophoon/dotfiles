@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+import sys
+
+from subprocess import call
+
+
+def cmd(command, suppress_warning=False):
+    return_code = call(command)
+    if return_code != 0 and not suppress_warning:
+        print("Couldn't perform `{}`".format(' '.join(command)))
+        exit(return_code)
+
+
+def main():
+    args = sys.argv[1:]
+    if not args:
+        cmd(["vagrant"] + args, suppress_warning=True)
+    elif args[0] == 'boot':
+        cmd(["vagrant", "up"] + args[1:])
+        cmd(["vagrant", "ssh"] + args[1:])
+    elif args[0] == 'reboot':
+        cmd(["vagrant", "destroy", "--force"] + args[1:])
+        cmd(["vagrant", "up"] + args[1:])
+        cmd(["vagrant", "ssh"] + args[1:])
+    else:
+        cmd(["vagrant"] + args, suppress_warning=True)
+
+if __name__ == '__main__':
+    main()

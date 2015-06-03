@@ -43,3 +43,8 @@ alias vanillavim="vim -u NONE"
 
 # Work Aliases
 alias uninstall_pe="sudo /opt/puppet/bin/puppet-enterprise-uninstaller -dpy"
+
+# Vagrant wrapper remapping
+if [ -x "$(which python)" ]; then
+    alias vagrant="vagrant-wrapper"
+fi

@@ -2,29 +2,30 @@
 
 # Paranoid mode. Exit on error.
 set -e
-dotfiles_repo=$( dirname `readlink ~/.bashrc` )
 
-cd $dotfiles_repo
-local_branch_name=`git name-rev --name-only HEAD`
-tracking_branch_name=$(git for-each-ref --format='%(upstream)' $(git symbolic-ref -q HEAD))
-tracking_branch_remote=`git config branch.$local_branch_name.remote`
+common_rc_path=$(readlink ~/.bashrc)
+dotfiles_repo=$(dirname "${common_rc_path:?}")
 
-if [[ -n $(git diff --name-only) || -n $(git diff --name-only --cached) ]]; then
+cd "${dotfiles_repo:?}"
+local_branch_name=$(git name-rev --name-only HEAD)
+tracking_branch_name=$(git for-each-ref --format='%(upstream)' "$(git symbolic-ref -q HEAD)")
+tracking_branch_remote=$(git config branch."${local_branch_name}".remote)
+
+if [ -n "$(git diff --name-only)" -o -n "$(git diff --name-only --cached)" ]; then
     echo "You will need to stage and commit the following files to your repository in $dotfiles_repo"
-    if [[ -n $(git diff --name-only) ]]; then
+    if [ -n "$(git diff --name-only)" ]; then
         echo "Stage:"
-        echo "`git diff --name-status`"
+        git --no-pager diff --name-status
     fi
-    if [[ -n $(git diff --name-only --cached) ]]; then
+    if [ -n "$(git diff --name-only --cached)" ]; then
         echo "Commit:"
-        echo "`git diff --name-status --cached`"
+        git --no-pager diff --name-status --cached
     fi
 else
     echo "Checking for updates..."
-    git fetch $tracking_branch_remote
-    if [[ -n $(git log HEAD..$tracking_branch_remote --oneline) ]]
-    then
-        git merge $tracking_branch_name -q
+    git fetch "${tracking_branch_remote:?}"
+    if [ -n "$(git log HEAD.."${tracking_branch_remote:?}" --oneline)" ]; then
+        git merge "${tracking_branch_name:?}" -q
         git submodule update
         . ./setup.sh -f
     else

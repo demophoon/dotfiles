@@ -25,6 +25,7 @@ function updateVimPlugins() {
 
 if [ "$1" = '-f' -o "$1" = '--force' ]; then
     createLinks
+    updateVimPlugins
 else
     read -n 1 -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " reply
     echo

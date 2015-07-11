@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+output = `curl -d --url http://127.0.0.1:5000/vm/master.vm ;`
+match = /\"hostname\": \"(.*)\"/.match(output)
+
+hostname = match[1]
+exec("vagrant ssh #{hostname}")

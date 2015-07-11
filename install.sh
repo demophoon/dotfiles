@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Paranoid mode. Exit on error.
+set -e
+
 required=(git python vim tmux zsh)
 optional=(python-pip python-virtualenv python-dev irssi mercurial tree git-annex)
 graphical=(chromium vlc virtualbox deluge vagrant guake)

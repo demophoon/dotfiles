@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Paranoid mode. Exit on error.
+set -e
 dotfiles_repo=$( dirname `readlink ~/.bashrc` )
 
 cd $dotfiles_repo

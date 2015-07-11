@@ -10,7 +10,7 @@ function createLinks() {
         if [[ ${ignoredfiles[*]} =~ "$filename" ]]; then
             continue
         fi
-        rm -f "$HOMEDIR/$filename" > /dev/null
+        rm -rf "${HOMEDIR:?}/${filename:?}" > /dev/null
         ln -s $DIR/$filename $HOMEDIR/$filename
     done
 }

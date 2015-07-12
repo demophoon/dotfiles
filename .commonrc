@@ -1,5 +1,5 @@
 dotfiles=$( dirname `readlink ~/.commonrc` )
-source "$dotfiles/update.sh"
+$dotfiles/update.sh
 
 # Editor
 export EDITOR="vim"

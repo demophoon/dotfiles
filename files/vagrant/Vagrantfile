@@ -2,10 +2,11 @@
 
 BASE_IP = "192.168.33"
 
+VM_TYPES = ["master", "agent", "puppetdb", "console", "compile", "postgresql"]
 BOXES = [
     #{:box => "puppetlabs/ubuntu-14.04-64-nocm", :name => "ubuntu14"},
-    {:box => "puppetlabs/ubuntu-12.04-64-nocm", :name => "ubuntu12"},
-    {:box => "puppetlabs/centos-6.6-64-nocm", :name => "centos6"},
+    #{:box => "puppetlabs/ubuntu-12.04-64-nocm", :name => "ubuntu12"},
+    #{:box => "puppetlabs/centos-6.6-64-nocm", :name => "centos6"},
     {:box => "puppetlabs/centos-7.0-64-nocm", :name => "centos7"},
     #{:box => "puppetlabs/debian-7.8-64-nocm", :name => "debian7"},
     #{:box => "puppetlabs/debian-6.0.10-64-nocm", :name => "debian6"},
@@ -20,33 +21,40 @@ def create_vm(config, box, name)
     boxname = box[:name]
     box = box[:box]
     hostname = name.to_s
+    scripts = []
 
     case name.to_s
     when /master.*/
         memory = 2048
-        ip = 10
         hostname = "master.vm"
     when /agent.*/
-        ip = 11
         hostname = "agent.vm"
     when /puppetdb.*/
-        ip = 12
         hostname = "puppetdb.vm"
     when /console.*/
-        ip = 13
         hostname = "console.vm"
     when /compile.*/
         memory = 2048
-        ip = 14
         hostname = "compile.vm"
+    when /postgresql.*/
+        hostname = "postgresql.vm"
     end
+
+    ip = get_vm_ip name
 
     ip_modifier = /\S+(\d+).*/.match(name)
     if ip_modifier
-        ip = 10 * ip_modifier[1].to_i + ip
+        ip_modifier = ip_modifier[1].to_i
+    else
+        ip_modifier = 1
     end
+    ip = 10 * ip_modifier + ip
     ip = "#{BASE_IP}.#{ip}"
     name = "#{name}-#{boxname}.vm"
+
+    scripts.push get_ip_addresses(ip_modifier)
+    scripts.push get_platform_scripts(boxname)
+
     config.vm.define name.to_sym do |vbox|
         vbox.vm.box = box
         vbox.vm.hostname = hostname
@@ -56,11 +64,41 @@ def create_vm(config, box, name)
             v.name = name
             v.memory = memory
         end
-        if scripts = get_platform_scripts(boxname)
-            vbox.vm.provision "shell", inline: scripts
+        scripts.each do |script|
+            vbox.vm.provision "shell", inline: script
         end
     end
 end
+
+def get_vm_ip(hostname)
+    case hostname.to_s
+    when /master.*/
+        0
+    when /agent.*/
+        1
+    when /puppetdb.*/
+        2
+    when /console.*/
+        3
+    when /compile.*/
+        4
+    when /postgresql.*/
+        5
+    end
+end
+
+def get_ip_addresses(modifier)
+    VM_TYPES.map do |vm|
+        ip = get_vm_ip(vm) + (10 * modifier)
+        if modifier == 1
+          modifier_str = ""
+        else
+          modifier_str == modifier
+        end
+        "echo '192.168.33.#{ip} #{vm}#{modifier_str}.vm' >> /etc/hosts"
+    end.join("\n")
+end
+
 
 def get_platform_scripts(boxname)
     el_script = <<-SCRIPT
@@ -89,11 +127,7 @@ def get_platform_scripts(boxname)
 end
 
 def create_pe_vms(config, box, suffix)
-    create_vm config, box, "master#{suffix}"
-    create_vm config, box, "agent#{suffix}"
-    create_vm config, box, "puppetdb#{suffix}"
-    create_vm config, box, "console#{suffix}"
-    create_vm config, box, "compile#{suffix}"
+    VM_TYPES.each { |type| create_vm(config, box, "#{type}#{suffix}") }
 end
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
@@ -103,25 +137,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.synced_folder "/Users/britt/projects", "/local", type: "nfs"
     config.vm.synced_folder "/Users/britt/projects/vagrant/ubuntu-master", "/vagrant", type: "nfs"
-    config.vm.provision "shell", inline: <<-SCRIPT
-    echo I am provisioning via vagrant.
-    date > /etc/vagrant_provisioned_at
-    mkdir -p /root/.ssh/
-    cat /local/work/yellow/pe_acceptance_tests/id_rsa-acceptance.pub > /root/.ssh/authorized_keys
-    echo "192.168.33.10 master.vm" >> /etc/hosts
-    echo "192.168.33.11 agent.vm" >> /etc/hosts
-    echo "192.168.33.12 puppetdb.vm" >> /etc/hosts
-    echo "192.168.33.13 console.vm" >> /etc/hosts
-    echo "192.168.33.14 compile.vm" >> /etc/hosts
-
-    echo "192.168.33.20 master2.vm" >> /etc/hosts
-    echo "192.168.33.21 agent2.vm" >> /etc/hosts
-    echo "192.168.33.22 puppetdb2.vm" >> /etc/hosts
-    echo "192.168.33.23 console2.vm" >> /etc/hosts
-    echo "192.168.33.24 compile2.vm" >> /etc/hosts
-    SCRIPT
-
     BOXES.map { |box|
         create_pe_vms config, box, ""
+        create_pe_vms config, box, "2"
     }
+
+    config.vm.provision "shell", inline: <<-SCRIPT
+    mkdir -p /root/.ssh/
+    cat /local/work/yellow/pe_acceptance_tests/id_rsa-acceptance.pub > /root/.ssh/authorized_keys
+    SCRIPT
 end

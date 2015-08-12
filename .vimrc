@@ -100,6 +100,11 @@
     "Bundle 'demophoon/bash-fold-expr'
     "autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
 
+    " Overtone stuff!
+    Bundle 'guns/vim-clojure-static'
+    Bundle 'tpope/vim-fireplace'
+    Bundle 'tpope/vim-classpath'
+
     filetype plugin indent on
 
 " ========================================================================= }}}
@@ -466,6 +471,11 @@
         endfunction
         nnoremap <leader>d :call DiffToggle()<cr>
         nnoremap <leader>g :Gstatus<cr>
+    " }}}
+    " c-* mappings {{{2
+    " --------------------
+        nnoremap <c-e> :Eval<CR>
+        vnoremap <c-e> :Eval<CR>
     " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1

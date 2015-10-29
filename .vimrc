@@ -186,6 +186,12 @@
         " Auto Complete Menu
         set completeopt=longest,menu
 
+        " Hilight current line
+        set cursorline
+
+        " Diff ignore whitespace
+        set diffopt+=iwhite
+
     " }}}
     " Tabbing and Spaces {{{2
     " ------------------

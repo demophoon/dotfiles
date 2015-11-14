@@ -2,7 +2,14 @@
 
 BASE_IP = "192.168.33"
 
-VM_TYPES = ["master", "agent", "puppetdb", "console", "compile", "postgresql"]
+VM_TYPES = [
+    "master",
+    "agent",
+    "puppetdb",
+    "console",
+    "compile",
+    "postgresql",
+]
 BOXES = [
     #{:box => "puppetlabs/ubuntu-14.04-64-nocm", :name => "ubuntu14"},
     #{:box => "puppetlabs/ubuntu-12.04-64-nocm", :name => "ubuntu12"},
@@ -25,20 +32,14 @@ def create_vm(config, box, name)
 
     case name.to_s
     when /master.*/
-        memory = 2048
-        hostname = "master.vm"
-    when /agent.*/
-        hostname = "agent.vm"
-    when /puppetdb.*/
-        hostname = "puppetdb.vm"
-    when /console.*/
-        hostname = "console.vm"
+        cpus = 2
+        memory = 4096
     when /compile.*/
-        memory = 2048
-        hostname = "compile.vm"
-    when /postgresql.*/
-        hostname = "postgresql.vm"
+        cpus = 2
+        memory = 4096
     end
+
+    hostname = "#{name}.vm"
 
     ip = get_vm_ip name
 
@@ -50,10 +51,14 @@ def create_vm(config, box, name)
     end
     ip = 10 * ip_modifier + ip
     ip = "#{BASE_IP}.#{ip}"
+
     name = "#{name}-#{boxname}.vm"
 
     scripts.push get_ip_addresses(ip_modifier)
     scripts.push get_platform_scripts(boxname)
+    if script = get_platform_scripts(boxname)
+        scripts.push script
+    end
 
     config.vm.define name.to_sym do |vbox|
         vbox.vm.box = box
@@ -61,7 +66,7 @@ def create_vm(config, box, name)
         vbox.vm.network "private_network", ip: ip
         vbox.vm.provider "virtualbox" do |v|
             v.cpus = cpus
-            v.name = name
+            v.name = "#{name}#{Dir.pwd}".gsub('/', '-')
             v.memory = memory
         end
         scripts.each do |script|
@@ -126,8 +131,8 @@ def get_platform_scripts(boxname)
     end
 end
 
-def create_pe_vms(config, box, suffix)
-    VM_TYPES.each { |type| create_vm(config, box, "#{type}#{suffix}") }
+def create_pe_vms(config, box)
+    VM_TYPES.each { |type| create_vm(config, box, type) }
 end
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
@@ -138,8 +143,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.synced_folder "/Users/britt/projects", "/local", type: "nfs"
     config.vm.synced_folder "/Users/britt/projects/vagrant/ubuntu-master", "/vagrant", type: "nfs"
     BOXES.map { |box|
-        create_pe_vms config, box, ""
-        create_pe_vms config, box, "2"
+        create_pe_vms config, box
     }
 
     config.vm.provision "shell", inline: <<-SCRIPT

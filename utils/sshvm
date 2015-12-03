@@ -1,3 +1,5 @@
 #! /bin/bash
 
-ssh -i ~/.ssh/id_rsa-acceptance root@$1.delivery.puppetlabs.net -o StrictHostKeyChecking=no;
+t_hostname="${1%*.delivery.puppetlabs.net}"
+
+ssh -i ~/.ssh/id_rsa-acceptance root@${t_hostname:?} -o StrictHostKeyChecking=no;

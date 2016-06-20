@@ -207,7 +207,7 @@
         set autoindent
 
         " replace trailing whitespace and tabs with unicode characters
-        exec "set listchars=tab:\uBB\uBB,trail:\u2716,nbsp:~"
+        exec "set listchars=tab:>-,trail:$,nbsp:~"
         set list
 
     " }}}

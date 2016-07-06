@@ -1,6 +1,7 @@
 [user]
     name = Britt Gresham
-	email = brittcgresham@gmail.com
+	email = britt@brittg.com
+	signingkey = F47773D3
 
 [alias]
     br = branch
@@ -9,7 +10,7 @@
     df = diff
     g = grep -I
     lg = log -p
-    loq = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
+    loq = log --graph --all --format=format:'%C(dim cyan)%G? %C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
     pb = publish-branch
     rb = rbranch
     rc = rank-contributors

@@ -97,6 +97,7 @@
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'tpope/vim-dispatch'
     Bundle 'kchmck/vim-coffee-script'
+    Bundle 'vim-ruby/vim-ruby'
     "Bundle 'demophoon/bash-fold-expr'
     "autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
 
@@ -206,7 +207,7 @@
         set autoindent
 
         " replace trailing whitespace and tabs with unicode characters
-        exec "set listchars=tab:\uBB\uBB,trail:\u2716,nbsp:~"
+        exec "set listchars=tab:>-,trail:$,nbsp:~"
         set list
 
     " }}}

@@ -15,5 +15,9 @@ else
     tmux new-session -d -s "$PROJ_NAME"
 fi
 
+# Set color to determined random color
+color_num=$(bash -c 'echo $(RANDOM=$(hostname); expr $RANDOM % 255);')
+tmux set-option -g status-bg "colour${color_num}"
+
 ATTACH_COMMAND="tmux attach-session ${*:2} -t $PROJ_NAME"
 $ATTACH_COMMAND

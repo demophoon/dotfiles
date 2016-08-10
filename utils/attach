@@ -1,5 +1,25 @@
 #!/bin/bash
 
+colors=(
+    27
+    34
+    57
+    70
+    124
+    136
+    141
+    160
+    202
+    238
+)
+
+num_colors=${#colors}
+
+# Set color to determined random color
+color_num=$(bash -c 'RANDOM=$(hostname); echo $RANDOM')
+color_num=$(expr ${color_num} % ${num_colors})
+color_num=${colors[$color_num]}
+
 if [ ! -z $1 ]; then
     PROJ_NAME=${1}
 else
@@ -16,7 +36,6 @@ else
 fi
 
 # Set color to determined random color
-color_num=$(bash -c 'echo $(RANDOM=$(hostname); expr $RANDOM % 255);')
 tmux set-option -g status-bg "colour${color_num}"
 
 ATTACH_COMMAND="tmux attach-session ${*:2} -t $PROJ_NAME"

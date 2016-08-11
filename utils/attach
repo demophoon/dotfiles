@@ -13,7 +13,7 @@ colors=(
     238
 )
 
-num_colors=${#colors}
+num_colors=${#colors[@]}
 
 # Set color to determined random color
 color_num=$(bash -c 'RANDOM=$(hostname); echo $RANDOM')

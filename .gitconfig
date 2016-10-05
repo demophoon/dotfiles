@@ -24,6 +24,7 @@
     dat = clone
     mah = checkout
     rekt = reset
+    uncommit = reset HEAD~
 
 [color]
     ui = true

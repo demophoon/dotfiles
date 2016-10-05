@@ -477,7 +477,6 @@
             endif
         endfunction
         nnoremap <leader>d :call DiffToggle()<cr>
-        nnoremap <leader>g :Gstatus<cr>
     " }}}
     " c-* mappings {{{2
     " --------------------

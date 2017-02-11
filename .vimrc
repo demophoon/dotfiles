@@ -128,8 +128,6 @@
         autocmd! BufEnter *.md set filetype=markdown
     augroup end
 
-    au BufWritePost ~/.bashrc !source %
-
     au BufRead,BufNewFile *_spec.rb nmap <F8> :!rspec --color %<CR>
 
     augroup PatchDiffHighlight

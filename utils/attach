@@ -3,28 +3,26 @@
 colors=(
     27
     34
-    57
-    70
+    39
     124
     136
     141
-    160
-    202
-    238
+    208
 )
+#colors=({1..127})
 
 num_colors=${#colors[@]}
 
+chr() {
+  printf \\$(printf '%03o' $1)
+}
+
 # Set color to determined random color
-color_num=$(bash -c 'RANDOM=$(hostname); echo $RANDOM')
+color_num=$(bash -c 'RANDOM=$(hostname --long); echo $RANDOM')
 color_num=$(expr ${color_num} % ${num_colors})
 color_num=${colors[$color_num]}
 
-if [ ! -z $1 ]; then
-    PROJ_NAME=${1}
-else
-    PROJ_NAME="untitled_project"
-fi
+PROJ_NAME=${1-"untitled_project"}
 
 unset TMUX
 
@@ -36,7 +34,13 @@ else
 fi
 
 # Set color to determined random color
-tmux set-option -g status-bg "colour${color_num}"
+tmux set-option -g status-fg "colour253" > /dev/null
+tmux set-option -g status-bg "colour${color_num}" > /dev/null
+tmux set-option -g status-attr "dim" > /dev/null
+tmux set-option -g window-status-attr "dim" > /dev/null
+tmux set-option -g window-status-current-attr "bold" > /dev/null
+tmux set-option -g window-status-current-fg "colour255" > /dev/null
+tmux set-option -g window-status-current-bg "colour235" > /dev/null
 
 ATTACH_COMMAND="tmux attach-session ${*:2} -t $PROJ_NAME"
 $ATTACH_COMMAND

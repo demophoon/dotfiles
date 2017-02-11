@@ -29,6 +29,12 @@ zstyle ':completion:*:warnings' format 'Nothing to do here'
 autoload -Uz compinit
 compinit
 
+
+# Default virtualenvwrapper to python3 if avaliable
+if [ -e "/usr/bin/python3" ]; then
+    export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
+fi
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(osx git ruby gem node npm heroku cap bundler brew cake rails3 redis-cli zsh-syntax-highlighting)

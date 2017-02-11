@@ -19,6 +19,10 @@ fi
 
 # Python virtualenvwrapper
 if [[ -e "/usr/local/bin/virtualenvwrapper.sh" ]]; then
+    # Default to python3 if avaliable
+    if [ -e "/usr/bin/python3" ]; then
+        export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
+    fi
     export WORKON_HOME=$HOME/.virtualenvs/
     export PROJECT_HOME=$HOME/Devel/
     source /usr/local/bin/virtualenvwrapper.sh

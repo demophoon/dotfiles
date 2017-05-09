@@ -14,6 +14,7 @@ alias peppet="puppet"
 alias pupper="puppet"
 alias heere="hiera"
 alias irc="attach irc -d"
+alias notepad="vim ~/.notes.md"
 
 # Git Aliases
 alias gs="git status"

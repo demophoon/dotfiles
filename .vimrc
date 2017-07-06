@@ -486,6 +486,27 @@
         nnoremap <c-e> :Eval<CR>
         vnoremap <c-e> :Eval<CR>
     " }}}
+    " Quicklist toggle {{{2
+    " --------------
+        function! QuickListToggleOrFocus()
+            if &filetype =~ "qt"
+                :cclose
+            else
+                :copen
+            endif
+        endfunction
+        nnoremap <leader>c :call QuickListToggleOrFocus()<CR>
+    " }}}
+    " Open files in Quicklist {{{2
+    " --------------------
+        autocmd! FileType qf nnoremap <buffer> o <c-w><CR>
+        autocmd! FileType qf nnoremap <buffer> o <c-w><CR>
+        autocmd! FileType qf nnoremap <buffer> <leader>c :q<CR>
+    " }}}
+    " Insert pwd {{{2
+    " --------------------
+        inoremap <c-p> <c-r>=substitute(system("pwd",[]),'\n\+$','','')<cr>
+    " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1
 " ============================================================================

@@ -25,6 +25,9 @@
     mah = checkout
     rekt = reset
     uncommit = reset HEAD~
+    cp = cherry-pick
+    cpc = cherry-pick --continue
+    cpa = cherry-pick --abort
 
 [color]
     ui = true

@@ -28,6 +28,8 @@
     cp = cherry-pick
     cpc = cherry-pick --continue
     cpa = cherry-pick --abort
+    fixup = commit -p --fixup
+    commit-fixup = !git rebase -i --autosquash $(git merge-base HEAD $1) && git status
 
 [color]
     ui = true

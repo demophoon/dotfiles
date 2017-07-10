@@ -505,7 +505,7 @@
     " }}}
     " Insert pwd {{{2
     " --------------------
-        inoremap <c-p> <c-r>=substitute(system("pwd",[]),'\n\+$','','')<cr>
+        inoremap <c-d> <c-r>=substitute(system("pwd",[]),'\n\+$','','')<cr>
     " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1

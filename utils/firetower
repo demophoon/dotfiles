@@ -1,0 +1,246 @@
+#!/bin/bash
+
+# Taken from https://github.com/mweitzel/firetower/
+
+# exit codes
+# firetower -r specific
+EC_RESTART_NO_PID_FILE=3           # no .firetower file
+EC_RESTART_ILLEGAL_PARENT_ID=4     # first process ID in .firetower isn't alive
+EC_RESTART_ILLEGAL_CHILD_ID=5      # second process ID in .firetower isn't alive
+
+FOREVER_SECONDS=1000000000         # still a bash int, but effectively forever
+
+tmp_file_name=".firetower"
+
+trap gentle_close SIGTERM SIGINT
+trap restart_child_command SIGHUP
+
+function gentle_close() {
+  # clear lockfile with PIDs from directory
+  rm -f $tmp_file_name
+  # clear title
+  title
+  # clear trap and send sigterm to process group
+  trap - SIGTERM && kill -- -$$
+}
+
+function restart_child_command() {
+  hup_sent_since_iteration_start=true
+}
+
+function rewrite_pid_tmpfile() {
+  local parent_pid="$1"
+  local child_pid="$2"
+  echo $parent_pid $child_pid > $tmp_file_name
+}
+
+function sleep_forever() {
+  exec sleep 1000000000
+  # 'exec' here ensures the sleep process ends on HUP
+}
+
+function announce_command_start() {
+  local command="$1"
+  test -n "$preserve_scrollback" || {
+    echo -en '\0033\0143'                # clear most terminals
+    echo -en '\033]50;ClearScrollback\a' # clear iTerm
+  }
+  pwd
+  echo "firetower started \`$command\` at $(date $T)"
+  echo
+  title $command
+}
+
+function announce_command_finish() {
+  local command="$1"
+  local ecode="$2"
+  printf "\nexit code: $ecode\n"
+  title "($ecode) $command"
+}
+
+function title() {
+  local text=$*
+  echo -ne "\033]0;$text\007"
+  #          ESC         BEL
+  # http://tldp.org/HOWTO/Xterm-Title-4.html
+}
+
+function UI_restart() {
+  ( firetower -r & ) 2>&1 > /dev/null
+}
+
+function accept_ctr_r_for_restart() {
+  stty quit ^r
+  trap UI_restart SIGQUIT
+}
+
+function run_child_command() {
+  accept_ctr_r_for_restart
+
+  should_preserve_scrollback "$@" && preserve_scrollback=true
+
+  local command="$(get_command "$@")"
+  cd "$(get_directory "$@")"
+  abort_if_existing_tmp_file "$@"
+  while :; do
+    hup_sent_since_iteration_start=""
+    time fork_and_wait "$command" true
+    test -n "$hup_sent_since_iteration_start" && continue
+    fork_and_wait "sleep $FOREVER_SECONDS" false
+  done
+}
+
+function fork_and_wait() {
+  local command="$1"
+  local display_output=$2
+
+  test "$display_output" = true && announce_command_start "$command"
+  bash -c "$command" &     # fork comand
+  rewrite_pid_tmpfile $$ $!  # store PIDs [this, last_background]
+  wait_ $!                   # twiddle thumbs
+  local ecode=$?
+  test "$display_output" = true && announce_command_finish "$command" "$ecode"
+}
+
+function wait_() {
+  local pid="$1"
+  # `wait` doesn't always block until the process is compeletely closed
+  wait $pid
+  local ecode=$?
+  # so we make sure it closes
+  while process_is_alive $pid ; do sleep 0.01 ; done
+  # weird bugs preventing the next command from starting occur without this
+  # I believe its from when the HUP is recieved and 'restart_hup_sent...' is reset.
+  # this 'while' usually only blocks for a few iterations, if at all
+  return $ecode
+}
+
+function is_integer() {
+  test "$1" -eq "$1" >/dev/null 2>&1
+}
+
+function process_is_alive() {
+  kill -0 $1 >/dev/null 2>&1
+}
+
+function abort_if_existing_tmp_file() {
+  test -f $tmp_file_name && {
+    echo "'.firetower' file already exists in $(pwd)"
+    echo "is there already a process using this directory?"
+    echo "aborting.."
+    exit 1
+  }
+}
+
+function restart_command() {
+  cd "$(get_directory "$@")"
+  test -f $tmp_file_name || return $EC_RESTART_NO_PID_FILE
+
+  # send HUP to existing firetower so it will continue
+  # a HUP won't register until the parent process isn't blocked
+  # we send it first so it comes into effect immediately the blocking child dies
+  local firetower_id="$(cat $tmp_file_name | cut -d ' ' -f 1)"
+  process_is_alive $firetower_id || return $EC_RESTART_ILLEGAL_PARENT_ID
+
+  kill -HUP $firetower_id
+
+  # double tap - some programs request a "ctr-c again to exit"
+  local child_id="$(cat $tmp_file_name | cut -d ' ' -f 2)"
+  process_is_alive $child_id || return $EC_RESTART_ILLEGAL_CHILD_ID
+
+  # SIGTERM
+  kill -15 $child_id
+  # SIGINT (ctrl-c)
+  kill -2  $child_id
+}
+
+function stop_firetower() {
+  cd "$(get_directory "$@")"
+  test -f $tmp_file_name || {
+    return 1
+  }
+  kill $(cat $tmp_file_name)
+  rm -f "$tmp_file_name"
+}
+
+function usage() {
+  echo "usage: firetower [-h | -c | -r | -s] [command] [--directory=directory] [--preserve-scrollback]
+  -h help
+  -c command - accepts a command to be rand as a string
+  -r restart - restarts child process for existing firetower instance
+  -s stop    - stops existing firetower instance
+  [--directory=directory] specify directory, defaults to current
+  [--preserve-scrollback] don't clear terminal on each restart "
+  exit 0
+}
+
+function help() {
+  usage
+}
+
+function get_flag() {
+  if [[ $1 == '-h' ]] ; then
+    echo 'help'
+  elif [[ $1 == '-c' ]] ; then
+    echo 'run_child_command'
+  elif [[ $1 == '-r' ]] ; then
+    echo 'restart_command'
+  elif [[ $1 == '-s' ]] ; then
+    echo 'stop_firetower'
+  elif [[ ${1:0:1} == '-' ]] || [ "$#" == "0" ] ; then
+    # if any other flags are passed, display usage
+    echo 'usage'
+  else
+    echo 'run_child_command'
+  fi
+}
+
+function should_preserve_scrollback() {
+  for var in "$@" ; do
+    if [[ $var == --preserve-scrollback ]] || [[ $var == -p ]] ; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+function get_directory() {
+  for (( i=1; i<=$#; i++)); do
+    j=$((i+1))
+    local flag=${!i}
+    local dir_name=${!j}
+    if ( [[ $flag == -d ]] && [[ $dir_name == * ]] ) ; then
+      echo "$dir_name"
+      return
+    elif ( [[ $flag == --directory=* ]] ) ; then
+      echo "$flag" | cut -d '=' -f 2
+      return
+    fi
+  done
+  echo "./"
+}
+
+function get_command() {
+  local flag_passed=""
+  local first_arg=$1
+  if [[ $first_arg == "-c" ]] ; then
+    echo "$2"
+  else
+    echo "$1"
+  fi
+}
+
+function debug() {
+  echo 'DEBUG'
+  echo fla - $(get_flag "$@")
+  echo dir - $(get_directory "$@")
+  echo com - $(get_command "$@")
+  exit 0
+}
+# debug "$@"
+
+function main() {
+  $(get_flag "$@") "$@"
+}
+
+test $SOURCE_FIRETOWER_FOR_UNIT_TESTING || main "$@"

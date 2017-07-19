@@ -626,6 +626,42 @@
 
         " }}}
     " }}}
+    " Firetower {{{2
+    "
+    " This function will enable the ability to trigger firetower when saving buffers in vim.
+    "
+    " Usage with firetower:
+    "
+    " $ cd project/dir
+    " $ firetower -c 'bundle exec rake spec'
+    "
+    " In a new window open vim in the same directory that firetower was
+    " running in.
+    "
+    " :Firetower
+    "
+    function! ToggleFiretower() " {{{3
+        if exists("b:FiretowerEnabled") && b:FiretowerEnabled == 1
+            let b:FiretowerEnabled = 0
+            echo "Firetower Disabled."
+        else
+            let b:FiretowerEnabled = 1
+            echo "Firetower Enabled."
+            autocmd BufWritePost * :call Firetower()
+        endif
+    endfunction " }}}
+
+    function! Firetower() " {{{3
+        if exists("b:FiretowerEnabled") && b:FiretowerEnabled == 1
+            :silent ! firetower -r
+        endif
+    endfunction " }}}
+
+    command! Firetower :call Firetower()
+    nnoremap <leader>f :call ToggleFiretower()<CR>
+
+    " }}}
+
 " ======================================================================== }}}
 "  Post Configurations {{{1
 " ============================================================================

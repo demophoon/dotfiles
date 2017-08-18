@@ -17,12 +17,13 @@ chr() {
   printf \\$(printf '%03o' $1)
 }
 
-# Set color to determined random color
-color_num=$(bash -c 'RANDOM=$(hostname --long); echo $RANDOM')
-color_num=$(expr ${color_num} % ${num_colors})
-color_num=${colors[$color_num]}
+export PROJ_NAME=${1-"untitled_project"}
 
-PROJ_NAME=${1-"untitled_project"}
+# Set color to determined random color
+seed="$(hostname)${PROJ_NAME}"
+color_num=$(python -c "import random; random.seed(sum(map(ord,'${seed}'))); print(random.randint(0,${num_colors}))")
+export _TMUX_COLOR=${color_num}
+
 
 unset TMUX
 
@@ -35,7 +36,7 @@ fi
 
 # Set color to determined random color
 tmux set-option -g status-fg "colour253" > /dev/null
-tmux set-option -g status-bg "colour${color_num}" > /dev/null
+tmux set-option -g status-bg "colour${_TMUX_COLOR}" > /dev/null
 tmux set-option -g status-attr "dim" > /dev/null
 tmux set-option -g window-status-attr "dim" > /dev/null
 tmux set-option -g window-status-current-attr "bold" > /dev/null

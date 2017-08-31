@@ -45,4 +45,5 @@ ${TMUX_COMMAND:?} set-option -g window-status-current-attr "bold" > /dev/null
 ${TMUX_COMMAND:?} set-option -g window-status-current-fg "colour255" > /dev/null
 ${TMUX_COMMAND:?} set-option -g window-status-current-bg "colour235" > /dev/null
 
-${TMUX_COMMAND:?} attach-session "${*:2}" -t "$PROJECT_NAME"
+ATTACH_COMMAND="${TMUX_COMMAND:?} attach-session ${*:2} -t $PROJECT_NAME"
+$ATTACH_COMMAND

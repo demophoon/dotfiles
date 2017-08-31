@@ -17,31 +17,32 @@ chr() {
   printf \\$(printf '%03o' $1)
 }
 
-export PROJ_NAME=${1-"untitled_project"}
-
-# Set color to determined random color
-seed="$(hostname)${PROJ_NAME}"
-color_num=$(python -c "import random; random.seed(sum(map(ord,'${seed}'))); print(random.randint(0,${num_colors}))")
-export _TMUX_COLOR=${color_num}
-
-
-unset TMUX
-
-if tmux has-session -t "$PROJ_NAME"; then
-    echo "Attaching to session $PROJ_NAME"
-else
-    echo "Creating session $PROJ_NAME"
-    tmux new-session -d -s "$PROJ_NAME"
+export PROJECT_NAME=${1-"untitled_project"}
+if [ -z "${TMUX_COMMAND}" ]; then
+    export TMUX_COMMAND='tmux'
 fi
 
 # Set color to determined random color
-tmux set-option -g status-fg "colour253" > /dev/null
-tmux set-option -g status-bg "colour${_TMUX_COLOR}" > /dev/null
-tmux set-option -g status-attr "dim" > /dev/null
-tmux set-option -g window-status-attr "dim" > /dev/null
-tmux set-option -g window-status-current-attr "bold" > /dev/null
-tmux set-option -g window-status-current-fg "colour255" > /dev/null
-tmux set-option -g window-status-current-bg "colour235" > /dev/null
+seed="$(hostname)${PROJECT_NAME}"
+color_num=$(python -c "import random; random.seed(sum(map(ord,'${seed}'))); print(random.randint(0,${num_colors}-1))")
+export _TMUX_COLOR=${colors[${color_num}]}
 
-ATTACH_COMMAND="tmux attach-session ${*:2} -t $PROJ_NAME"
-$ATTACH_COMMAND
+unset TMUX
+
+if ${TMUX_COMMAND:?} has-session -t "$PROJECT_NAME"; then
+    echo "Attaching to session $PROJECT_NAME"
+else
+    echo "Creating session $PROJECT_NAME"
+    ${TMUX_COMMAND:?} new-session -d -s "$PROJECT_NAME"
+fi
+
+# Set color to determined random color
+${TMUX_COMMAND:?} set-option -g status-fg "colour253" > /dev/null
+${TMUX_COMMAND:?} set-option -g status-bg "colour${_TMUX_COLOR}" > /dev/null
+${TMUX_COMMAND:?} set-option -g status-attr "dim" > /dev/null
+${TMUX_COMMAND:?} set-option -g window-status-attr "dim" > /dev/null
+${TMUX_COMMAND:?} set-option -g window-status-current-attr "bold" > /dev/null
+${TMUX_COMMAND:?} set-option -g window-status-current-fg "colour255" > /dev/null
+${TMUX_COMMAND:?} set-option -g window-status-current-bg "colour235" > /dev/null
+
+${TMUX_COMMAND:?} attach-session "${*:2}" -t "$PROJECT_NAME"

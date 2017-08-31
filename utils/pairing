@@ -1,0 +1,26 @@
+#!/bin/bash
+
+export PROJECT_NAME=${1-"pairing"}
+export TMUX_SOCKET="/tmp/${PROJECT_NAME:?}"
+export TMUX_COMMAND="tmux -S ${TMUX_SOCKET:?}"
+
+function is_pairing_session_running {
+    if [ -e "${TMUX_SOCKET:?}" -a -S "${TMUX_SOCKET:?}" ]; then
+        echo "file exists."
+        ${TMUX_COMMAND:?} list-sessions
+        return $?
+    else
+        echo "no file exists."
+        return 1
+    fi
+}
+
+if ! is_pairing_session_running; then
+    echo "Cleaning up things..."
+    rm -f "${TMUX_SOCKET:?}"
+    rm -f "${TMUX_SOCKET:?}.lock"
+    ${TMUX_COMMAND:?} new-session -d -s "${PROJECT_NAME:?}"
+fi
+
+chmod 777 "${TMUX_SOCKET:?}"
+attach "${PROJECT_NAME:?}"

@@ -37,12 +37,6 @@
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
 
-        if iCanHazVundle == 0
-            echo "Installing Bundles, please ignore key map error messages"
-            echo ""
-            :BundleInstall
-        endif
-
     " Set Leader
     let mapleader = ","
 
@@ -107,6 +101,12 @@
     Bundle 'tpope/vim-classpath'
 
     filetype plugin indent on
+
+    if iCanHazVundle == 0
+        echo "Installing Bundles, please ignore key map error messages"
+        echo ""
+        :BundleInstall
+    endif
 
 " ========================================================================= }}}
 "  Filetype Association {{{1

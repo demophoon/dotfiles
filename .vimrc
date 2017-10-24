@@ -59,46 +59,57 @@
 
     " Required Plugins
     Bundle 'gmarik/vundle'
+    Bundle 'tomtom/tlib_vim'
 
-    " Approved Bundles
-    Bundle 'godlygeek/tabular'
-    Bundle 'klen/python-mode'
+    " Vim feels
     Bundle 'nelstrom/vim-visual-star-search'
-    Bundle 'scrooloose/nerdtree'
     Bundle 'tpope/vim-repeat'
     Bundle 'tpope/vim-speeddating'
     Bundle 'tpope/vim-surround'
     Bundle 'Townk/vim-autoclose'
-    Bundle 'pangloss/vim-javascript'
+
+    " Vim looks
     Bundle 'bling/vim-airline'
     Bundle 'bling/vim-bufferline'
-    Bundle 'puppetlabs/puppet-syntax-vim'
-    Bundle 'scrooloose/syntastic'
-    Bundle 'tristen/vim-sparkup'
-    Bundle 'nanotech/jellybeans.vim'
-    Bundle 'elzr/vim-json'
-    Bundle 'tomtom/tlib_vim'
-    Bundle 'SirVer/ultisnips'
-    Bundle 'honza/vim-snippets'
-    Bundle 'kien/ctrlp.vim'
 
-    " Testing Bundles
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'tpope/vim-git'
-    Bundle 'Lokaltog/vim-easymotion'
-    Bundle 'ekalinin/Dockerfile.vim'
+    " Snippets and Code Completion
+    Bundle 'rstacruz/sparkup'
+    Bundle 'SirVer/ultisnips'
+
+    " Color schemes
+    Bundle 'nanotech/jellybeans.vim'
+
+    " File traversal
+    Bundle 'scrooloose/nerdtree'
+    "Bundle 'kien/ctrlp.vim'
+    Bundle 'junegunn/fzf'
+
+    " Code readability/helpers
     Bundle 'kien/rainbow_parentheses.vim'
     Bundle 'nathanaelkane/vim-indent-guides'
-    Bundle 'tpope/vim-dispatch'
-    Bundle 'kchmck/vim-coffee-script'
-    Bundle 'vim-ruby/vim-ruby'
-    "Bundle 'demophoon/bash-fold-expr'
-    "autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
+    Bundle 'sheerun/vim-polyglot'
+    Bundle 'scrooloose/syntastic'
+    Bundle 'godlygeek/tabular'
 
-    " Overtone stuff!
+    " Git
+    Bundle 'tpope/vim-fugitive'
+    Bundle 'tpope/vim-git'
+
+    " Python
+    Bundle 'klen/python-mode'
+
+    " Ruby
+    Bundle 'vim-ruby/vim-ruby'
+    Bundle 'tpope/vim-endwise'
+
+    " Bash
+    "Bundle 'demophoon/bash-fold-expr'
+
+    " Clojure
     Bundle 'guns/vim-clojure-static'
     Bundle 'tpope/vim-fireplace'
     Bundle 'tpope/vim-classpath'
+    "Bundle 'kovisoft/slimv'
 
     filetype plugin indent on
 
@@ -506,6 +517,10 @@
     " Insert pwd {{{2
     " --------------------
         inoremap <c-d> <c-r>=substitute(system("pwd",[]),'\n\+$','','')<cr>
+    " }}}
+    " fzf ctrlp {{{2
+    " --------------------
+        nnoremap <c-p> :FZF<CR>
     " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1

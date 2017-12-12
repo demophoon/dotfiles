@@ -8,13 +8,22 @@ alias vi="vim"
 alias cdc="cd ~/projects/"
 alias tp="attach"
 alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
-alias cfecter="cfacter"
-alias fecter="facter"
-alias peppet="puppet"
 alias pupper="puppet"
-alias heere="hiera"
 alias irc="attach irc -d"
 alias notepad="vim ~/.notes.md"
+
+function fecter() {
+    facter ${*} | sed 's/[a|A|e|E|i|I]/e/g'
+}
+function peppet() {
+    puppet ${*} | sed 's/[a|A|e|E|i|I]/e/g'
+}
+function heere() {
+    hiera ${*} | sed 's/[a|A|e|E|i|I]/e/g'
+}
+function cfecter() {
+    cfacter ${*} | sed 's/[a|A|e|E|i|I]/e/g'
+}
 
 # Git Aliases
 alias gs="git status"

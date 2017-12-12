@@ -1,4 +1,18 @@
 #!/bin/bash
+#
+# The `pairing` command is used to start a shared tmux session on a machine
+# automatically.
+# This script should take care of session management as well as
+# opening up the session to the world.
+#
+# WARNING: THIS WILL LEAVE YOUR ACCOUNT ACCESSIBLE TO ANYONE WHO HAS ACCESS TO
+# LOGIN TO THE MACHINE. KILL YOUR TMUX SESSION TO END SHARING. DO NOT JUST
+# DETACH FROM THE TMUX SESSION.
+#
+# For automatic pairing when logging in via ssh configure the authorized_keys
+# file.
+# Putting "command='tmux -S /tmp/pairing' attach-session -t pairing" before the
+# ssh key will automatically connect that ssh key to the 'pairing' server.
 
 export PROJECT_NAME=${1-"pairing"}
 export TMUX_SOCKET="/tmp/${PROJECT_NAME:?}"

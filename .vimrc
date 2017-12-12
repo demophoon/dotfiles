@@ -537,6 +537,11 @@
     " --------------------
         nnoremap <c-p> :FZF<CR>
     " }}}
+    " Tmux style splitting {{{2
+    " --------------------
+        nnoremap <c-w>" :set noea<cr>:sp<cr>:set equalalways<cr>
+        nnoremap <c-w>% :set noea<cr>:vs<cr>:set equalalways<cr>
+    " }}}
 " ========================================================================= }}}
 "  Performance Optimizations {{{1
 " ============================================================================

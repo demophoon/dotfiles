@@ -38,7 +38,7 @@ fi
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 #plugins=(osx git ruby gem node npm heroku cap bundler brew cake rails3 redis-cli zsh-syntax-highlighting)
-plugins=(osx gpg-agent ssh-agent git ruby rbenv gem bundler brew zsh-syntax-highlighting python virtualenvwrapper zsh-autosuggestions vagrant)
+plugins=(osx gpg-agent ssh-agent git ruby rbenv gem bundler zsh-syntax-highlighting python virtualenvwrapper zsh-autosuggestions vagrant)
 
 source $ZSH/oh-my-zsh.sh
 

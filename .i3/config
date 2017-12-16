@@ -175,8 +175,8 @@ bar {
 focus_follows_mouse no
 
 # Screen brightness controls with notification
-bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'" # increase screen brightness with notification
-bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'" # decrease screen brightness with notification
+bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
+bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
 
 # Pulse Audio Controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +5%"

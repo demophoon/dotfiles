@@ -7,6 +7,7 @@ export EDITOR="vim"
 # Load aliases
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 [[ -f "$HOME/.dockerfunc" ]] && source "$HOME/.dockerfunc"
+[[ -f "$HOME/.localrc" ]] && source "$HOME/.localrc"
 
 # Adjust $PATH
 export PATH=$PATH:$dotfiles/utils

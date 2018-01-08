@@ -1,6 +1,10 @@
 dotfiles=$( dirname `readlink ~/.commonrc` )
 $dotfiles/update.sh
 
+command_exists() {
+    type "${1}" &> /dev/null ;
+}
+
 # Editor
 export EDITOR="vim"
 
@@ -8,6 +12,10 @@ export EDITOR="vim"
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 [[ -f "$HOME/.dockerfunc" ]] && source "$HOME/.dockerfunc"
 [[ -f "$HOME/.localrc" ]] && source "$HOME/.localrc"
+
+if command_exists gpg2; then
+    alias gpg=gpg2
+fi
 
 # Adjust $PATH
 export PATH=$PATH:$dotfiles/utils
@@ -19,3 +27,5 @@ export LANG=en_US.UTF-8
 # Misc settings
 export EDITOR=vim
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
+
+# vim: ft=sh

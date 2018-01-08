@@ -1,3 +1,4 @@
+#!/bin/bash
 # ============================================================================
 # Brewfile - One to install them all
 # Britt Gresham
@@ -37,21 +38,23 @@ fi
 update
 
 # Add additional taps
-tap homebrew/dupes
-tap phinze/cask
-tap samueljohn/python
-tap neovim/homebrew-neovim
+tap caskroom/cask
 
+# Install cli tools
 install git
 install mercurial
 
 install vim
 install tmux
-install --HEAD neovim
+install neovim
 
 install python
+install python3
 install ruby
 install rbenv
+
+install gpg2
+install gpg-agent
 
 install gti
 
@@ -63,6 +66,7 @@ install gti
 install brew-cask
 cask install google-chrome
 cask install google-hangouts
+cask install firefox
 cask install iterm2
 cask install virtualbox
 cask install vagrant
@@ -70,7 +74,4 @@ cask install slate
 cask install flux
 cask install caffeine
 cask install tunnelblick
-
-# Testing
-cask install alfred
-cask install google-drive
+cask install owncloud

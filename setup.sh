@@ -5,7 +5,7 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 HOMEDIR=${HOME:?}
-ignoredfiles=(.git .gitmodules LICENSE.md README.md push.sh setup.sh update.sh install.sh install.py utils .DS_Store Brewfile.sh assets files)
+ignoredfiles=(.git .gitmodules LICENSE.md README.md push.sh setup.sh update.sh install.sh install.py utils .DS_Store Brewfile assets files Filefile)
 
 function createLinks() {
     for f in ${DIR:?}/{*,.*}; do

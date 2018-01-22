@@ -1,7 +1,7 @@
 [user]
-    name = Britt Gresham
+	name = Britt Gresham
 	email = britt@brittg.com
-	signingkey = F47773D3
+	signingkey = 6F6B15509CF8E59E6E469F327F438280EF8D349F
 
 [alias]
     br = branch

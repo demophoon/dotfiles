@@ -11,6 +11,7 @@ alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
 alias pupper="puppet"
 alias irc="attach irc -d"
 alias notepad="vim ~/.notes.md"
+alias run_puppet="sudo /etc/puppetlabs/code/environments/production/install.sh run"
 
 function fecter() {
     facter ${*} | sed 's/[a|A|e|E|i|I]/e/g'

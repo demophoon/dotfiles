@@ -74,7 +74,7 @@
 
     " Snippets and Code Completion
     Bundle 'rstacruz/sparkup'
-    Bundle 'SirVer/ultisnips'
+    "Bundle 'SirVer/ultisnips'
 
     " Color schemes
     Bundle 'nanotech/jellybeans.vim'

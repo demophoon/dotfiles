@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#set -x
+
+YAY_DIR="${HOME:?}/.yay/"
+NOTE=${1:-win}
+NEW_REPO=0
+
+if [ ! -d "${YAY_DIR:?}" ]; then
+    mkdir -p ${YAY_DIR:?}
+    pushd ${YAY_DIR:?} > /dev/null
+    git init .
+    cat > README.md << EOF
+Yay repo for ${USER}!
+=====================
+
+Use this repo to track your successes. Just type Yay and document your success in as much detail as you want.
+When you save the file it will automatically sync to a remote you specify!
+
+Other helpful commands:
+
+Status for yay repo.
+
+    yay status
+
+Git commands for yay repo
+
+    yay git log
+EOF
+    git add .
+    git commit -m 'Yay! Initialized yay repo!'
+    popd > /dev/null
+fi
+
+pushd ${YAY_DIR:?} > /dev/null
+    case ${NOTE:?} in
+    git)
+        $@
+        ;;
+    status)
+        git $@
+        ;;
+    *)
+        YAYFILE="$(date +"%Y-%m-%d")-${NOTE:?}.md"
+        if [ ! -f "${YAYFILE:?}" ]; then
+            cat > "${YAYFILE:?}" << EOL
+Summary here!
+==================
+EOL
+            git add "${YAYFILE:?}"
+        fi
+
+        $EDITOR "${YAYFILE:?}"
+
+        if git diff-index --quiet HEAD -- "${YAYFILE:?}" ; then
+            git add "${YAYFILE:?}"
+            git commit -m "$(head -n 1 "${YAYFILE:?}")"
+        else
+            git reset --hard HEAD
+        fi
+        ;;
+    esac
+popd > /dev/null

@@ -55,3 +55,14 @@ alias vanillavim="vim -u NONE"
 
 # Work Aliases
 alias uninstall_pe="sudo /opt/puppet/bin/puppet-enterprise-uninstaller -dpy"
+
+# s3cmd encrypted
+function s3cmde() {
+    if [ -f ~/.s3cfg.encrypted ]; then
+        gpg --decrypt -o ~/.s3cfg ~/.s3cfg.encrypted
+        s3cmd $@
+        rm ~/.s3cfg
+    else
+        s3cmd $@
+    fi
+}

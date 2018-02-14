@@ -2,14 +2,18 @@
 
 #set -x
 
-YAY_DIR="${HOME:?}/.yay/"
 NOTE=${1:-win}
-NEW_REPO=0
 
-if [ ! -d "${YAY_DIR:?}" ]; then
-    mkdir -p ${YAY_DIR:?}
-    pushd ${YAY_DIR:?} > /dev/null
+YAY_REPO="${HOME:?}/.yay/"
+YAY_DATE=$(date +"%Y-%m-%d")
+YAY_REMOTE="${YAY_REMOTE:-origin}"
+YAY_BRANCH="${YAY_BRANCH:-master}"
+
+if [ ! -d "${YAY_REPO:?}" ]; then
+    mkdir -p ${YAY_REPO:?}
+    pushd ${YAY_REPO:?} > /dev/null
     git init .
+    git checkout -b "${YAY_BRANCH:?}"
     cat > README.md << EOF
 Yay repo for ${USER}!
 =====================
@@ -29,34 +33,42 @@ Git commands for yay repo
 EOF
     git add .
     git commit -m 'Yay! Initialized yay repo!'
+    echo "Url to yay repo: "
+    read YAY_REPO_URL
+    git remote add "${YAY_REMOTE:?}" "${YAY_REPO_URL:?}"
     popd > /dev/null
 fi
 
-pushd ${YAY_DIR:?} > /dev/null
+pushd ${YAY_REPO:?} > /dev/null
     case ${NOTE:?} in
     git)
         $@
         ;;
-    status)
+    status|remote|log)
         git $@
         ;;
     *)
-        YAYFILE="$(date +"%Y-%m-%d")-${NOTE:?}.md"
+        YAY_DIR=${YAY_DATE}
+        mkdir -p ${YAY_DIR:?}
+        YAYFILE="${YAY_DIR:?}/${NOTE:?}.md"
         if [ ! -f "${YAYFILE:?}" ]; then
             cat > "${YAYFILE:?}" << EOL
 Summary here!
 ==================
 EOL
-            git add "${YAYFILE:?}"
         fi
+        git add "${YAYFILE:?}"
 
         $EDITOR "${YAYFILE:?}"
 
-        if git diff-index --quiet HEAD -- "${YAYFILE:?}" ; then
+        if git diff --quiet -- "${YAYFILE:?}" ; then
+            git reset --hard HEAD
+        else
             git add "${YAYFILE:?}"
             git commit -m "$(head -n 1 "${YAYFILE:?}")"
-        else
-            git reset --hard HEAD
+            git fetch ${YAY_REMOTE:?}
+            git rebase "${YAY_REMOTE:?}/${YAY_BRANCH:?}"
+            git push "${YAY_REMOTE:?}" "${YAY_BRANCH:?}"
         fi
         ;;
     esac

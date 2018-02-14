@@ -9,6 +9,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id radiotray
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id setxkbmap -option caps:swapescape
+exec --no-startup-id  feh --bg-scale ~/ownCloud/Downloads/firewatch-bg.jpg
 
 set $mod Mod4
 

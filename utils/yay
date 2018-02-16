@@ -55,6 +55,13 @@ pushd ${YAY_REPO:?} > /dev/null
             cat > "${YAYFILE:?}" << EOL
 Summary here!
 ==================
+
+EOL
+        else
+            cat >> "${YAYFILE:?}" << EOL
+New Summary Here
+==================
+
 EOL
         fi
         git add "${YAYFILE:?}"
@@ -65,7 +72,7 @@ EOL
             git reset --hard HEAD
         else
             git add "${YAYFILE:?}"
-            git commit -m "$(head -n 1 "${YAYFILE:?}")"
+            git commit -m "$(grep '===' -B 1 "${YAYFILE:?}" | tail -n2 | head -n1)"
             git fetch ${YAY_REMOTE:?}
             git rebase "${YAY_REMOTE:?}/${YAY_BRANCH:?}"
             git push "${YAY_REMOTE:?}" "${YAY_BRANCH:?}"

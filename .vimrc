@@ -262,7 +262,7 @@
         highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
         match ExtraWhitespace /\s\+$/
     " }}}
-    " Persistent Undo {{{2
+    " Persistent Undo / Persistent Copy/Paste {{{2
     " ---------------
         if v:version >= 703
             set undofile

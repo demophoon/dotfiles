@@ -99,8 +99,8 @@
     Bundle 'klen/python-mode'
 
     " Ruby
-    Bundle 'vim-ruby/vim-ruby'
-    Bundle 'tpope/vim-endwise'
+    "Bundle 'vim-ruby/vim-ruby'
+    "Bundle 'tpope/vim-endwise'
 
     " Bash
     "Bundle 'demophoon/bash-fold-expr'

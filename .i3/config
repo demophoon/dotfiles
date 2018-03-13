@@ -11,6 +11,12 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id setxkbmap -option caps:swapescape
 exec --no-startup-id  feh --bg-scale ~/ownCloud/Downloads/firewatch-bg.jpg
 
+# Laptop touchpad settings
+exec --no-startup-id synclient RightButtonAreaLeft=0
+exec --no-startup-id synclient RightButtonAreaTop=0
+exec --no-startup-id synclient PalmDetect=1
+
+
 set $mod Mod4
 
 # Simulate Alt-tab behavior

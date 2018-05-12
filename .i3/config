@@ -184,6 +184,10 @@ focus_follows_mouse no
 # Screen brightness controls with notification
 bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
 bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
+bindsym $shift+XF86MonBrightnessUp exec "light -A 25; notify-send 'brightness up'"
+bindsym $shift+XF86MonBrightnessDown exec "light -U 25; notify-send 'brightness down'"
+bindsym $mod+XF86MonBrightnessUp exec "light -S 100; notify-send 'brightness full'"
+bindsym $mod+XF86MonBrightnessDown exec "light -S 1; notify-send 'brightness dim'"
 
 # Pulse Audio Controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +5%"

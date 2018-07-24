@@ -11,8 +11,6 @@ export DISPLAY=:0
 # Git autocomplete
 source ~/.git-completion.sh
 
-source $HOME/.commonrc
-
 if [ -e "$HOME/.bashrc.local" ]; then
     source $HOME/.bashrc.local
 fi

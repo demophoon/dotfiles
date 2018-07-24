@@ -62,7 +62,6 @@ plugins=(
     git
     zsh-syntax-highlighting
     python
-    virtualenvwrapper
     zsh-autosuggestions
     vagrant
 )

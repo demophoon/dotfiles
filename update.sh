@@ -6,7 +6,7 @@ set -e
 common_rc_path=$(readlink ~/.bashrc)
 dotfiles_repo=$(dirname "${common_rc_path:?}")
 
-cd "${dotfiles_repo:?}"
+pushd "${dotfiles_repo:?}" > /dev/null
 local_branch_name=$(git name-rev --name-only HEAD)
 tracking_branch_name=$(git for-each-ref --format='%(upstream)' "$(git symbolic-ref -q HEAD)")
 tracking_branch_remote=$(git config branch."${local_branch_name}".remote)
@@ -32,4 +32,4 @@ else
         echo "Up to date!"
     fi
 fi
-cd - > /dev/null
+popd > /dev/null

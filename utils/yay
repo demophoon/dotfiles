@@ -47,6 +47,10 @@ pushd ${YAY_REPO:?} > /dev/null
     status|remote|log)
         git $@
         ;;
+    remind|reminder)
+        reminder_file=$(find ${YAY_REPO:?} -type f -name '*.md' ! -name 'README.md' | python -c 'import sys, random; print(random.choice(sys.stdin.readlines()).strip())')
+        cat ${reminder_file:?} | grep -e '=' -B1 | grep -v '='
+        ;;
     *)
         YAY_DIR=${YAY_DATE}
         mkdir -p ${YAY_DIR:?}

@@ -96,7 +96,7 @@
     Bundle 'tpope/vim-git'
 
     " Python
-    Bundle 'klen/python-mode'
+    "Bundle 'klen/python-mode'
 
     " Ruby
     "Bundle 'vim-ruby/vim-ruby'

@@ -20,6 +20,11 @@ fi
 # Adjust $PATH
 export PATH=$PATH:$dotfiles/utils
 
+if [ -d "${HOME}/.yay/" ]; then
+    yay remind
+    yay check
+fi
+
 # Locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8

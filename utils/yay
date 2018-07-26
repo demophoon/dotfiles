@@ -65,6 +65,10 @@ pushd ${YAY_REPO:?} > /dev/null
             echo "You have not recorded a success today yet. Remember to record a success today with '${cy}yay${wh}'!${re}"
         fi
         ;;
+    update)
+        git fetch ${YAY_REMOTE:?}
+        git merge "${YAY_REMOTE:?}/${YAY_BRANCH:?}"
+        ;;
     *)
         YAY_DIR=${YAY_DATE}
         mkdir -p ${YAY_DIR:?}

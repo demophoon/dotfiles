@@ -1,3 +1,6 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = git://github.com/demophoon/oh-my-zsh.git
+[submodule ".emacs.d"]
+	path = .emacs.d
+	url = git@github.com:demophoon/spacemacs.git

@@ -39,6 +39,7 @@
 
     " Set Leader
     let mapleader = ","
+    let maplocalleader = "\\"
 
     " Wildmode options {{{2
     " ----------------
@@ -113,6 +114,8 @@
     Bundle 'tpope/vim-fireplace'
     Bundle 'tpope/vim-classpath'
     "Bundle 'kovisoft/slimv'
+
+    Bundle 'jceb/vim-orgmode'
 
     filetype plugin indent on
 

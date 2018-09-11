@@ -350,6 +350,14 @@
         endif "
 
     " }}}
+    " Org Mode Options {{{2
+    " --------------------
+    let g:org_todo_keywords=[
+                \ ['TODO', 'IN_PROGRESS', 'BLOCKED', '|', 'DONE'],
+                \ ['DELEGATED', '|', 'COMPLETE'],
+                \ ['CANCELLED']]
+
+    " }}}
 "" ======== }}}
 "  Mappings {{{1
 " ============================================================================

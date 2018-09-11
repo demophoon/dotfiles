@@ -353,9 +353,10 @@
     " Org Mode Options {{{2
     " --------------------
     let g:org_todo_keywords=[
-                \ ['TODO', 'IN_PROGRESS', 'BLOCKED', '|', 'DONE'],
+                \ ['TODO', 'IN_PROGRESS', 'BLOCKED', 'SCHEDULED', '|', 'DONE'],
                 \ ['DELEGATED', '|', 'COMPLETE'],
                 \ ['CANCELLED']]
+    let g:org_agenda_files = ['~/org/*.org', '~/Nextcloud/Org/*.org']
 
     " }}}
 "" ======== }}}

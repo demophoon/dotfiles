@@ -1,4 +1,5 @@
 ;; -*- mode: emacs-lisp -*-
+;; vim: ft=lisp
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -338,6 +339,9 @@ you should place your code here."
 ;; Add these files to Org mode agenda
 (setq org-agenda-files (list "~/Nextcloud/Org/Work.org"
                              "~/Nextcloud/Org/Personal.org"))
+
+(setq org-default-notes-file (concat org-directory "~/Nextcloud/Org/Captured.org"))
+     (define-key global-map "\C-cc" 'org-capture)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

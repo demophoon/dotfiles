@@ -1,5 +1,0 @@
-#! /bin/bash
-
-t_hostname="${1%*.delivery.puppetlabs.net}"
-
-ssh -i ~/.ssh/id_rsa-acceptance root@${t_hostname:?} -o StrictHostKeyChecking=no;

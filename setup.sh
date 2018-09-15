@@ -11,7 +11,7 @@ ignoredfiles=(.git .gitmodules LICENSE.md README.md push.sh setup.sh update.sh i
 # If we force links to directories which we are deep merging, we gonna have a bad time...
 ignoredfiles+=(${merge_directories[@]})
 
-function createLinks() {
+createLinks() {
     for f in ${DIR:?}/{*,.*}; do
         filename=$(basename "$f")
         if [[ ${ignoredfiles[*]} =~ $filename ]]; then
@@ -22,7 +22,7 @@ function createLinks() {
     done
 }
 
-function updateVimPlugins() {
+updateVimPlugins() {
     echo "Updating Vim Plugins..."
     vim -i NONE -c BundleInstall -c BundleClean -c qall!
 }
@@ -57,9 +57,13 @@ mergeDirs() {
     done
 }
 
-if [ "$1" = '-f' -o "$1" = '--force' ]; then
+linkDotfiles() {
     createLinks
     mergeDirs
+}
+
+if [ "$1" = '-f' -o "$1" = '--force' ]; then
+    linkDotfiles
 else
     read -n 1 -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " reply
     echo
@@ -67,8 +71,6 @@ else
     reply=$(echo "$reply" | tr '[:upper:]' '[:lower:]')
 
     if [ "${reply}" = 'y' ]; then
-        createLinks
-        mergeDirs
+        linkDotfiles
     fi
 fi
-unset createLinks

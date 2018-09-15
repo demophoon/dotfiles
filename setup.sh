@@ -5,8 +5,26 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 HOMEDIR=${HOME:?}
-merge_directories=(.config)
-ignoredfiles=(.git .gitmodules LICENSE.md README.md push.sh setup.sh update.sh install.sh install.py utils .DS_Store Brewfile assets files Filefile)
+merge_directories=(
+    .config
+)
+ignoredfiles=(
+    .git
+    .gitmodules
+    LICENSE.md
+    README.md
+    push.sh
+    setup.sh
+    update.sh
+    install.sh
+    install.py
+    utils
+    .DS_Store
+    Brewfile
+    assets
+    files
+    Filefile
+)
 
 # If we force links to directories which we are deep merging, we gonna have a bad time...
 ignoredfiles+=(${merge_directories[@]})

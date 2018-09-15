@@ -22,11 +22,6 @@ createLinks() {
     done
 }
 
-updateVimPlugins() {
-    echo "Updating Vim Plugins..."
-    vim -i NONE -c BundleInstall -c BundleClean -c qall!
-}
-
 realizeDirectories() {
     filepath=${1:?}
     realize_path="${HOMEDIR:?}/${filepath%/*}"

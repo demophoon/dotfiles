@@ -1,5 +1,5 @@
 dotfiles=$( dirname `readlink ~/.commonrc` )
-$dotfiles/update.sh
+#$dotfiles/update.sh
 
 command_exists() {
     type "${1}" &> /dev/null ;

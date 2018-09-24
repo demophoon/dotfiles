@@ -396,10 +396,9 @@
         map <C-k> <C-w>k
         map <C-l> <C-w>l
     " }}}
-    " Space folds and unfolds {{{2
+    " Tab folds and unfolds {{{2
     " -----------------------
-        nnoremap <Space> za
-        vnoremap <Space> za
+        nnoremap <Tab> za
     " }}}
     " Zencoding {{{2
     " ---------

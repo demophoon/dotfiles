@@ -337,11 +337,20 @@ you should place your code here."
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 ;; Add these files to Org mode agenda
-(setq org-agenda-files (list "~/Nextcloud/Org/Work.org"
-                             "~/Nextcloud/Org/Personal.org"))
+(setq org-agenda-files (file-expand-wildcards "~/Nextcloud/Org/*.org"))
 
 (setq org-default-notes-file (concat org-directory "~/Nextcloud/Org/Captured.org"))
-     (define-key global-map "\C-cc" 'org-capture)
+
+(define-key global-map "\C-cc" 'org-capture)
+
+(defun org-archive-done-tasks ()
+  (interactive)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+   "/DONE" 'tree))
+(define-key global-map "\C-c\C-xa" 'org-archive-done-tasks)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

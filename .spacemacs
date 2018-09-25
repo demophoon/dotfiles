@@ -314,6 +314,9 @@ you should place your code here."
 
 (setq neo-theme 'nerd)
 
+;; Follow symlinks in to git repos
+(setq vc-follow-symlinks t)
+
 ;;;;Org mode configuration
 ;; Enable Org mode
 (require 'org)

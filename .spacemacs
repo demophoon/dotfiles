@@ -323,7 +323,15 @@ you should place your code here."
 
 (setq org-todo-keywords
       '(
-        (sequence "TODO" "IN_PROGRESS" "BLOCKED" "SCHEDULED" "DONE")
+        (sequence "TODO(t)" "IN_PROGRESS(p)" "BLOCKED(!)" "SCHEDULED(s)" "IN_CR(r)" "|" "DONE(d)")
+        ))
+
+(setq org-todo-keyword-faces
+      '(("TODO" . org-warning)
+        ("IN_PROGRESS" . "yellow")
+        ("SCHEDULED" . "yellow")
+        ("IN_CR" . "yellow")
+        ("BLOCKED" . (:foreground "white" :background "red" :weight bold))
         ))
 
 (setq org-tag-alist '(
@@ -334,7 +342,12 @@ you should place your code here."
                       ("Meeting" . ?m) ("Tips" . ?t) ("Misc" . ?x)
                       ("Finance" . ?f) ("Errand" . ?e) ("Fun" ?F)
                       (:endgroup . nil)
+                      ("Archived" . ?A)
                       ))
+
+(setq org-tag-faces
+      '(("Archived" . (:foreground "#606060"))
+        ))
 
 ;; Make Org mode work with files ending in .org
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
@@ -344,16 +357,41 @@ you should place your code here."
 
 (setq org-default-notes-file (concat org-directory "~/Nextcloud/Org/Captured.org"))
 
+(setq org-refile-targets (quote (("~/Nextcloud/Org/Archives/Work.org" :maxlevel . 3)
+                                 ("~/Nextcloud/Org/Archives/Personal.org" :maxlevel . 2))))
+
 (define-key global-map "\C-cc" 'org-capture)
 
-(defun org-archive-done-tasks ()
-  (interactive)
-  (org-map-entries
-   (lambda ()
-     (org-archive-subtree)
-     (setq org-map-continue-from (outline-previous-heading)))
-   "/DONE" 'tree))
-(define-key global-map "\C-c\C-xa" 'org-archive-done-tasks)
+(setq org-capture-templates
+    '(
+    ("t" "Tasks")
+    ;; Work Task
+    ("tw" "Work Todo     (w) Work" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
+     "* TODO %?" :prepend t)
+
+    ;; Personal Task
+    ("tp" "Personal Todo     (p) Personal" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
+     "* TODO %?" :prepend t)
+
+    ;; New Jira Ticket
+    ("tt" "Work Ticket     (t) Jira" entry (file+olp "~/Nextcloud/Org/Work.org" "Tasks" "Sprint Tickets")
+     "* TODO [[https://brighthealth.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
+
+    ("m" "Meeting")
+    ;; 1:1 meetings
+    ("m1" "1:1     (1) One on One" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+     "* TODO %u %^{Who are you meeting with?} / Britt
+** Pre-meeting notes
+** Notes
+** Action Items" :prepend t)
+
+    ;; Generic Meeting
+    ("mm" "Generic     (m)" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+     "* TODO [%t] %?
+** Pre-meeting notes
+** Notes
+** Action Items" :prepend t)
+    ))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

@@ -2,13 +2,10 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-#--no-startup-id gnome-settings-daemon
-exec --no-startup-id unity-settings-daemon
 exec --no-startup-id ssh-add
 exec --no-startup-id nm-applet
 exec --no-startup-id radiotray
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id setxkbmap -option caps:swapescape
 exec --no-startup-id nextcloud
 exec --no-startup-id  feh --bg-scale ~/Nextcloud/Downloads/firewatch-bg.jpg
 
@@ -198,7 +195,6 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 exec /usr/bin/gnome-settings-daemon
-exec setxkbmap -option
 
 # Enable tap to click
 exec xinput --set-prop 13 279 1

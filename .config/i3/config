@@ -198,3 +198,9 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 exec /usr/bin/gnome-settings-daemon
+exec setxkbmap -option
+
+# Enable tap to click
+exec xinput --set-prop 13 279 1
+# Disable right mouse button click
+exec xinput --set-prop 13 295 0 0

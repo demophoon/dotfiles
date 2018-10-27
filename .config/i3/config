@@ -12,12 +12,6 @@ exec --no-startup-id setxkbmap -option caps:swapescape
 exec --no-startup-id nextcloud
 exec --no-startup-id  feh --bg-scale ~/Nextcloud/Downloads/firewatch-bg.jpg
 
-# Laptop touchpad settings
-exec --no-startup-id synclient RightButtonAreaLeft=0
-exec --no-startup-id synclient RightButtonAreaTop=0
-exec --no-startup-id synclient PalmDetect=1
-
-
 set $mod Mod4
 
 # Simulate Alt-tab behavior

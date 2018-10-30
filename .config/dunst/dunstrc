@@ -25,16 +25,16 @@ plain_text = no
 format = "<b>%s</b>\n%b"
 
 # Sort messages by urgency.
-sort = no
+sort = yes
 
 # Show how many messages are currently hidden (because of geometry).
 indicate_hidden = yes
 
 # Alignment of message text.
 # Possible values are "left", "center" and "right".
-alignment = center
+alignment = left
 
-# The frequency with wich text that is longer than the notification
+# The frequency with which text that is longer than the notification
 # window allows bounces back and forth.
 # This option conflicts with "word_wrap".
 # Set to 0 to disable.
@@ -70,7 +70,7 @@ hide_duplicates_count = yes
 # The width can be negative.  In this case the actual width is the
 # screen width minus the width defined in within the geometry option.
 #geometry = "250x50-40+40"
-geometry = "300x50-15+49"
+geometry = "600x50-15+49"
 
 # Shrink window if it's smaller than the width.  Will be ignored if
 # width is 0.

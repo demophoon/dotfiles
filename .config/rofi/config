@@ -1,0 +1,5 @@
+rofi.combi-modi: run,ssh,window
+rofi.theme: sidebar
+rofi.modi: run,drun,window,ssh,combi
+rofi.font: Inconsolata 24
+rofi.show-icons: true

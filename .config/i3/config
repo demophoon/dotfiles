@@ -53,9 +53,7 @@ bindsym $mod+Shift+d exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # Show rofi
-set $bgcolor #2f343f
-set $textcolor #f3f4f5
-bindsym $mod+space exec "rofi -show run -lines 20 -eh 1.3 -opacity '90' -bw 0 -bc '$bgcolor' -bg '$bgcolor' -fg '$textcolor' -hlbg '$textcolor' -hlfg '$bgcolor' -font 'System San Francisco Display 24'"
+bindsym $mod+space exec "rofi -show run"
 
 # change focus
 bindsym $mod+h focus left

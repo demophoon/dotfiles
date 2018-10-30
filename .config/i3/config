@@ -230,11 +230,3 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 exec /usr/bin/gnome-settings-daemon
-
-# Enable tap to click
-exec always --no-startup-id xinput --set-prop "SynPS/2 Synaptics TouchPad" 279 1
-# Disable right mouse button click
-exec always --no-startup-id xinput --set-prop "SynPS/2 Synaptics TouchPad" 295 0 0
-
-# Enable touchpad gestures
-exec --no-startup-id libinput-gestures-setup restart

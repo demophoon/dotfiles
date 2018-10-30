@@ -2,6 +2,15 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# class                 border  bground text    indicator child_border
+client.focused          #18C0F0 #18C0F0 #01002A #18C0F0   #18C0F0
+client.focused_inactive #000030 #000030 #0388D7 #000030   #000030
+client.unfocused        #000030 #000030 #818888 #000030   #000030
+client.urgent           #FBCF48 #FBCF48 #01002A #FBCF48   #FBCF48
+client.placeholder      #000030 #000030 #FFFFFF #000030   #000030
+
+client.background       #3E0563
+
 exec --no-startup-id ssh-add
 exec --no-startup-id nm-applet
 exec --no-startup-id radiotray

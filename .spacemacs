@@ -545,7 +545,7 @@ before packages are loaded."
      "* TODO %?" :prepend t)
 
     ;; New Jira Ticket
-    ("tt" "Work Ticket     (t) Jira" entry (file+olp "~/Nextcloud/Org/Work.org" "Tasks" "Sprint Tickets")
+    ("tt" "Work Ticket     (t) Jira" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
      "* TODO [[https://brighthealth.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
 
     ("m" "Meeting")
@@ -558,7 +558,7 @@ before packages are loaded."
 
     ;; Generic Meeting
     ("mm" "Generic     (m)" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
-     "* TODO [%t] %?
+     "* TODO %u %?
 ** Pre-meeting notes
 ** Notes
 ** Action Items" :prepend t)

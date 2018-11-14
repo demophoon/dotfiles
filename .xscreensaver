@@ -31,8 +31,8 @@ dpmsSuspend:	2:00:00
 dpmsOff:	4:00:00
 grabDesktopImages:  False
 grabVideoFrames:    False
-chooseRandomImages: False
-imageDirectory:	
+chooseRandomImages: True
+imageDirectory:	/home/britt/Nextcloud/backgrounds/
 
 mode:		random
 selected:	-1

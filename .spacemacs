@@ -528,13 +528,31 @@ before packages are loaded."
 ;; Add these files to Org mode agenda
 (setq org-agenda-files (file-expand-wildcards "~/Nextcloud/Org/*.org"))
 
-(setq org-refile-targets (quote (("~/Nextcloud/Org/Archives/Work.org" :maxlevel . 3)
-                                 ("~/Nextcloud/Org/Archives/Personal.org" :maxlevel . 2))))
+(setq org-refile-targets '((nil :maxlevel . 9)
+                           (org-agenda-files :maxlevel . 9)
+                           ("~/Nextcloud/Org/Archives/Work.org" :maxlevel . 9)
+                           ("~/Nextcloud/Org/Archives/Personal.org" :maxlevel . 9)))
+;;(setq org-outline-path-complete-in-steps nil)
+(setq org-refile-use-outline-path t)
 
 (define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-ca" 'org-agenda)
 
 (setq org-capture-templates
     '(
+    ;; Journal
+    ;; ================================================================================
+      ("j" "Journal" entry (file+olp+datetree "~/Nextcloud/Org/Journal.org")
+       ":PROPERTIES:
+:Mood: %^{Rate your mood from 1-10:}
+:END:
+Mood: %\\1 / 10
+
+* Comments
+%?" :prepend t :tree-type week)
+
+    ;; Tasks
+    ;; ================================================================================
     ("t" "Tasks")
     ;; Work Task
     ("tw" "Work Todo     (w) Work" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
@@ -548,6 +566,8 @@ before packages are loaded."
     ("tt" "Work Ticket     (t) Jira" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
      "* TODO [[https://brighthealth.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
 
+    ;; Meetings
+    ;; ================================================================================
     ("m" "Meeting")
     ;; 1:1 meetings
     ("m1" "1:1     (1) One on One" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")

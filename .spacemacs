@@ -581,6 +581,35 @@ before packages are loaded."
 ** Pre-meeting notes
 ** Notes
 ** Action Items" :prepend t)
+
+    ;; D&d templates
+    ;; ================================================================================
+    ("d" "D&D")
+
+    ;; Waterdeep Campaign
+    ;; --------------------------------------------------------------------------------
+    ("dw"  "Waterdeep   (w)")
+
+    ;; New Session
+    ("dws" "Session     (s)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Sessions")
+     "* Session %^{Session number}
+     %?" :prepend t)
+
+    ;; New Character
+    ("dwc" "Character   (c)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Characters")
+     "* %^{Character name}
+     %?" :prepend t)
+
+    ;; New Location
+    ("dwl" "Location    (l)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Locations")
+     "* %^{Location name}
+     %?" :prepend t)
+
+    ;; New Quest
+    ("dwq" "Quest       (q)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Quests")
+     "* TODO %^{Quest name}
+     %?" :prepend t)
+
     ))
   )
 

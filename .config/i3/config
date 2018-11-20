@@ -18,6 +18,8 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id nextcloud
 exec --no-startup-id feh --bg-scale ~/Nextcloud/Downloads/firewatch-bg.jpg
 exec --no-startup-id compton
+exec --no-startup-id xscreensaver
+exec --no-startup-id emacs --daemon
 
 exec killall -q notify-osd
 exec --no-startup-id dunst
@@ -236,5 +238,8 @@ bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+# Bind emacs capture mode
+bindsym $mod+c exec emacsclient -c -F '(quote (name . "org-protocol-capture"))' -e '(org-capture)'
 
 exec /usr/bin/gnome-settings-daemon

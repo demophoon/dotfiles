@@ -241,5 +241,6 @@ bindsym XF86AudioPrev exec playerctl previous
 
 # Bind emacs capture mode
 bindsym $mod+c exec emacsclient -c -F '(quote (name . "org-protocol-capture"))' -e '(org-capture)'
+bindsym $mod+$shift+c exec emacsclient -c
 
 exec /usr/bin/gnome-settings-daemon

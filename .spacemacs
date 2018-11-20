@@ -543,12 +543,11 @@ before packages are loaded."
     ;; Journal
     ;; ================================================================================
       ("j" "Journal" entry (file+olp+datetree "~/Nextcloud/Org/Journal.org")
-       ":PROPERTIES:
+       "* Comments - %U
+:PROPERTIES:
 :Mood: %^{Rate your mood from 1-10:}
+:Severity: %^{Rate severity of mood from 1-10:}
 :END:
-Mood: %\\1 / 10
-
-* Comments
 %?" :prepend t :tree-type week)
 
     ;; Tasks

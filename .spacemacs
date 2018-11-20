@@ -554,29 +554,29 @@ before packages are loaded."
     ;; ================================================================================
     ("t" "Tasks")
     ;; Work Task
-    ("tw" "Work Todo     (w) Work" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
+    ("tw" "Work Todo" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
      "* TODO %?" :prepend t)
 
     ;; Personal Task
-    ("tp" "Personal Todo     (p) Personal" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
+    ("tp" "Personal Todo" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
      "* TODO %?" :prepend t)
 
     ;; New Jira Ticket
-    ("tt" "Work Ticket     (t) Jira" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
+    ("tt" "Work Ticket" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
      "* TODO [[https://brighthealth.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
 
     ;; Meetings
     ;; ================================================================================
     ("m" "Meeting")
     ;; 1:1 meetings
-    ("m1" "1:1     (1) One on One" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+    ("m1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
      "* TODO %u %^{Who are you meeting with?} / Britt
 ** Pre-meeting notes
 ** Notes
 ** Action Items" :prepend t)
 
     ;; Generic Meeting
-    ("mm" "Generic     (m)" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+    ("mm" "Generic" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
      "* TODO %u %?
 ** Pre-meeting notes
 ** Notes
@@ -588,25 +588,25 @@ before packages are loaded."
 
     ;; Waterdeep Campaign
     ;; --------------------------------------------------------------------------------
-    ("dw"  "Waterdeep   (w)")
+    ("dw"  "Waterdeep")
 
     ;; New Session
-    ("dws" "Session     (s)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Sessions")
+    ("dws" "Session" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Sessions")
      "* Session %^{Session number}
      %?" :prepend t)
 
     ;; New Character
-    ("dwc" "Character   (c)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Characters")
+    ("dwc" "Character" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Characters")
      "* %^{Character name}
      %?" :prepend t)
 
     ;; New Location
-    ("dwl" "Location    (l)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Locations")
+    ("dwl" "Location" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Locations")
      "* %^{Location name}
      %?" :prepend t)
 
     ;; New Quest
-    ("dwq" "Quest       (q)" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Quests")
+    ("dwq" "Quest" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Quests")
      "* TODO %^{Quest name}
      %?" :prepend t)
 

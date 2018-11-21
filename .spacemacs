@@ -598,7 +598,7 @@ before packages are loaded."
 
     ;; New Character
     ("dwc" "Character" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Characters")
-     "* %^{Character name}
+     "* %^{Character name} %^g
 %^{Met_Location}p
 %?
 

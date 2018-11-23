@@ -176,7 +176,7 @@ bindsym $mod+p workspace prev
 
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+#bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
@@ -223,8 +223,8 @@ focus_follows_mouse no
 # Screen brightness controls with notification
 bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
 bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
-bindsym $shift+XF86MonBrightnessUp exec "light -A 25; notify-send 'brightness up'"
-bindsym $shift+XF86MonBrightnessDown exec "light -U 25; notify-send 'brightness down'"
+bindsym Shift+XF86MonBrightnessUp exec "light -A 25; notify-send 'brightness up'"
+bindsym Shift+XF86MonBrightnessDown exec "light -U 25; notify-send 'brightness down'"
 bindsym $mod+XF86MonBrightnessUp exec "light -S 100; notify-send 'brightness full'"
 bindsym $mod+XF86MonBrightnessDown exec "light -S 1; notify-send 'brightness dim'"
 
@@ -240,7 +240,7 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Bind emacs capture mode
-bindsym $mod+c exec emacsclient -c -F '(quote (name . "org-protocol-capture"))' -e '(org-capture)'
-bindsym $mod+$shift+c exec emacsclient -c
+bindsym $mod+c exec emacsclient -a '' -c -F '(quote (name . "org-protocol-capture"))' -e '(org-capture)'
+bindsym $mod+Shift+c exec emacsclient -a '' -c
 
 exec /usr/bin/gnome-settings-daemon

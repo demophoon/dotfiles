@@ -20,6 +20,12 @@ fi
 # Adjust $PATH
 export PATH=$PATH:$dotfiles/utils
 
+# Include rust binaries
+cargo_path="$HOME/.cargo/bin"
+if [[ -d ${cargo_path} ]]; then
+    export PATH="${PATH}:${cargo_path}"
+fi
+
 if [ -d "${HOME}/.yay/" ]; then
     yay remind
     yay check

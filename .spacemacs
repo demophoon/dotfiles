@@ -526,7 +526,8 @@ before packages are loaded."
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 ;; Add these files to Org mode agenda
-(setq org-agenda-files (file-expand-wildcards "~/Nextcloud/Org/*.org"))
+(setq org-agenda-files (list "~/Nextcloud/Org/"
+                             "~/Nextcloud/Org/Calendars/"))
 
 (setq org-refile-targets '((nil :maxlevel . 9)
                            (org-agenda-files :maxlevel . 9)

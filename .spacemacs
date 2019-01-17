@@ -551,37 +551,40 @@ before packages are loaded."
 :END:
 %?" :prepend t :tree-type week)
 
-    ;; Tasks
+    ;; Work Tasks
     ;; ================================================================================
-    ("t" "Tasks")
-    ;; Work Task
-    ("tw" "Work Todo" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
-     "* TODO %?" :prepend t)
-
-    ;; Personal Task
-    ("tp" "Personal Todo" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
+    ("w" "Work")
+    ("wt" "Todo" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
      "* TODO %?" :prepend t)
 
     ;; New Jira Ticket
-    ("tt" "Work Ticket" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
+    ("wj" "Jira Ticket (Bright.md)" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
      "* TODO [[https://brighthealth.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
 
-    ;; Meetings
-    ;; ================================================================================
-    ("m" "Meeting")
     ;; 1:1 meetings
-    ("m1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
-     "* TODO %u %^{Who are you meeting with?} / Britt
+    ("w1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+     "* TODO %u %^{Who are you meeting with?} / Britt   :1on1:
+     %T
 ** Pre-meeting notes
 ** Notes
 ** Action Items" :prepend t)
 
     ;; Generic Meeting
-    ("mm" "Generic" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+    ("wm" "Generic" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
      "* TODO %u %?
+     %T
 ** Pre-meeting notes
 ** Notes
 ** Action Items" :prepend t)
+
+    ;; Personal
+    ;; ================================================================================
+    ("p" "Personal")
+    ("pt" "Todo" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
+     "* TODO %?" :prepend t)
+
+    ("pp" "Project" entry (file+headline "~/Nextcloud/Org/Personal.org" "Projects")
+     "* TODO %?" :prepend t)
 
     ;; D&d templates
     ;; ================================================================================

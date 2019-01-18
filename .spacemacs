@@ -541,16 +541,6 @@ before packages are loaded."
 
 (setq org-capture-templates
     '(
-    ;; Journal
-    ;; ================================================================================
-      ("j" "Journal" entry (file+olp+datetree "~/Nextcloud/Org/Journal.org")
-       "* Comments - %U
-:PROPERTIES:
-:Mood: %^{Rate your mood from 1-10:}
-:Severity: %^{Rate severity of mood from 1-10:}
-:END:
-%?" :prepend t :tree-type week)
-
     ;; Work Tasks
     ;; ================================================================================
     ("w" "Work")
@@ -583,8 +573,25 @@ before packages are loaded."
     ("pt" "Todo" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
      "* TODO %?" :prepend t)
 
+    ;; Project
     ("pp" "Project" entry (file+headline "~/Nextcloud/Org/Personal.org" "Projects")
      "* TODO %?" :prepend t)
+
+    ;; Journal
+    ("pj" "Journal" entry (file+olp+datetree "~/Nextcloud/Org/Journal.org")
+     "* Comments - %U
+:PROPERTIES:
+:Mood: %^{Rate your mood from 1-10:}
+:Severity: %^{Rate severity of mood from 1-10:}
+:END:
+%?" :prepend t :tree-type week)
+
+    ;; Blog Post Template
+    ;; ================================================================================
+    ("b" "Blog" entry (file+headline "~/Nextcloud/Org/Blogs.org" "Blogs")
+     "* Draft %?
+** Notes
+" :prepend t)
 
     ;; D&d templates
     ;; ================================================================================
@@ -648,6 +655,36 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
+ '(org-agenda-custom-commands
+   (quote
+    (("w" "Work Agenda"
+      ((todo "BLOCKED"
+             ((org-agenda-overriding-header "Blocked Items")))
+       (tags-todo "Work:JIRA"
+                  ((org-agenda-overriding-header "Open Tickets")))
+       (tags-todo "Work:Tasks"
+                  ((org-agenda-overriding-header "Tasks")))
+       (tags-todo "1on1"
+                  ((org-agenda-overriding-header "1 on 1 Agenda Items")
+                   (org-agenda-prefix-format ""))))
+      nil)
+     ("p" "Personal Agenda"
+      ((todo "BLOCKED" nil)
+       (tags-todo "Personal:Tasks"
+                  ((org-agenda-overriding-header "Tasks")))
+       (tags-todo "Blogs"
+                  ((org-agenda-overriding-header "Blogs"))))
+      nil)
+     ("n" "Agenda and all TODOs"
+      ((agenda "" nil)
+       (alltodo "" nil))
+      nil))))
+ '(org-stuck-projects
+   (quote
+    ("+LEVEL=2/-DONE"
+     ("TODO" "NEXT" "NEXTACTION" "IN_PROGRESS" "CANCELED" "DELEGATED" "ASKED")
+     nil "")))
  '(package-selected-packages
    (quote
     (yasnippet web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js less-css-mode impatient-mode htmlize simple-httpd helm-css-scss haml-mode flycheck emmet-mode counsel-css company-web web-completion-data company add-node-modules-path ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org symon string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file neotree nameless move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish define-word counsel-projectile column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line))))

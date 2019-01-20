@@ -586,6 +586,14 @@ before packages are loaded."
 :END:
 %?" :prepend t :tree-type week)
 
+    ;; Generic Meeting
+    ("pm" "Meeting" entry (file+headline "~/Nextcloud/Org/Personal.org" "Meetings")
+     "* %u %?
+     %T
+** Pre-meeting notes
+** Notes
+** Action Items" :prepend t)
+
     ;; Blog Post Template
     ;; ================================================================================
     ("b" "Blog" entry (file+headline "~/Nextcloud/Org/Blogs.org" "Blogs")

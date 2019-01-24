@@ -16,7 +16,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id radiotray
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nextcloud
-exec --no-startup-id feh --bg-scale ~/Nextcloud/Downloads/firewatch-bg.jpg
+exec --no-startup-id ~/Nextcloud/backgrounds/set_background.sh
 exec --no-startup-id compton
 exec --no-startup-id xscreensaver
 exec --no-startup-id emacs --daemon

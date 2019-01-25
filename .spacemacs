@@ -692,7 +692,8 @@ This function is called at the very end of Spacemacs initialization."
         (quote
          ("+Work")))))
      ("rp" "Personal Week" agenda ""
-      ((org-agenda-span 'fortnight)
+      ((org-agenda-span
+        (quote fortnight))
        (org-agenda-start-day "-1w")
        (org-agenda-start-on-weekday 1)
        (org-agenda-log-mode-items
@@ -711,6 +712,13 @@ This function is called at the very end of Spacemacs initialization."
      ("w" "Work Agenda"
       ((todo "BLOCKED"
              ((org-agenda-overriding-header "Blocked Items")))
+       (tags "Work:GTD_Today"
+             ((org-agenda-skip-function
+               (quote
+                (org-agenda-skip-entry-if
+                 (quote todo)
+                 (quote done))))
+              (org-agenda-overriding-header "Today's Goals")))
        (tags-todo "Work:JIRA"
                   ((org-agenda-overriding-header "Open Tickets")))
        (tags-todo "Work:Tasks"

@@ -670,7 +670,23 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(org-agenda-custom-commands
    (quote
-    (("w" "Work Agenda"
+    (("s" "Standup" agenda ""
+      ((org-agenda-span 3)
+       (org-agenda-start-day "-2d")
+       (org-agenda-log-mode-items
+        (quote
+         (state)))
+       (org-agenda-show-log t)
+       (org-agenda-start-with-log-mode t)
+       (org-agenda-skip-function
+        (quote
+         (org-agenda-skip-entry-if
+          (quote todo)
+          (quote todo))))
+       (org-agenda-tag-filter-preset
+        (quote
+         ("+Work")))))
+     ("w" "Work Agenda"
       ((todo "BLOCKED"
              ((org-agenda-overriding-header "Blocked Items")))
        (tags-todo "Work:JIRA"

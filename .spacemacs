@@ -670,7 +670,12 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(org-agenda-custom-commands
    (quote
-    (("s" "Standup" agenda ""
+    (("t" "Unfiled Tasks" alltodo ""
+      ((org-agenda-tag-filter-preset
+        (quote
+         ("+Mobile")))))
+     ("r" . "Review")
+     ("rw" "Work Standup" agenda ""
       ((org-agenda-span 3)
        (org-agenda-start-day "-2d")
        (org-agenda-log-mode-items
@@ -686,6 +691,23 @@ This function is called at the very end of Spacemacs initialization."
        (org-agenda-tag-filter-preset
         (quote
          ("+Work")))))
+     ("rp" "Personal Week" agenda ""
+      ((org-agenda-span 'fortnight)
+       (org-agenda-start-day "-1w")
+       (org-agenda-start-on-weekday 1)
+       (org-agenda-log-mode-items
+        (quote
+         (state)))
+       (org-agenda-show-log t)
+       (org-agenda-start-with-log-mode t)
+       (org-agenda-skip-function
+        (quote
+         (org-agenda-skip-entry-if
+          (quote todo)
+          (quote todo))))
+       (org-agenda-tag-filter-preset
+        (quote
+         ("-Work")))))
      ("w" "Work Agenda"
       ((todo "BLOCKED"
              ((org-agenda-overriding-header "Blocked Items")))

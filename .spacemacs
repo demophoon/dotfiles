@@ -538,6 +538,7 @@ before packages are loaded."
 
 (define-key global-map "\C-cc" 'org-capture)
 (define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cr" 'org-refile)
 
 (setq org-capture-templates
     '(
@@ -649,6 +650,9 @@ before packages are loaded."
 ")
 
     ))
+
+    (setq org-log-done 'time)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -676,8 +676,9 @@ This function is called at the very end of Spacemacs initialization."
          ("+Mobile")))))
      ("r" . "Review")
      ("rw" "Work Standup" agenda ""
-      ((org-agenda-span 3)
-       (org-agenda-start-day "-2d")
+      ((org-agenda-span 8)
+       (org-agenda-start-day "-1w")
+       (org-agenda-start-on-weekday 1)
        (org-agenda-log-mode-items
         (quote
          (state)))

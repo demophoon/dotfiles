@@ -484,16 +484,6 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-;; Disable Mouse
-  ;; Dummy function
-  (defun silence ()
-    (interactive))
-  ;; Don't jump the cursor around in the window on clicking
-  (define-key evil-motion-state-map [down-mouse-1] 'silence)
-  ;; also avoid any '<mouse-1> is undefined' when setting to 'undefined
-  (define-key evil-motion-state-map [mouse-1] 'silence)
-
-
 (setq neo-theme 'nerd)
 
 ;; Follow symlinks in to git repos
@@ -662,6 +652,15 @@ before packages are loaded."
 
     (setq org-log-done 'time)
 
+;; Disable Mouse
+  ;; Dummy function
+  (defun silence ()
+    (interactive))
+  ;; Don't jump the cursor around in the window on clicking
+  (define-key evil-motion-state-map [down-mouse-1] 'silence)
+  ;; also avoid any '<mouse-1> is undefined' when setting to 'undefined
+  (define-key evil-motion-state-map [mouse-1] 'silence)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -722,13 +721,13 @@ This function is called at the very end of Spacemacs initialization."
      ("w" "Work Agenda"
       ((todo "BLOCKED"
              ((org-agenda-overriding-header "Blocked Items")))
-       (tags "Work:GTD_Today"
-             ((org-agenda-skip-function
-               (quote
-                (org-agenda-skip-entry-if
-                 (quote todo)
-                 (quote done))))
-              (org-agenda-overriding-header "Today's Goals")))
+       (tags-todo "Work:GTD_Today"
+                  ((org-agenda-skip-function
+                    (quote
+                     (org-agenda-skip-entry-if
+                      (quote todo)
+                      (quote done))))
+                   (org-agenda-overriding-header "Today's Goals")))
        (tags-todo "Work:JIRA"
                   ((org-agenda-overriding-header "Open Tickets")))
        (tags-todo "Work:Tasks"

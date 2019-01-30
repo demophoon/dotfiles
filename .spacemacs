@@ -484,6 +484,15 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+;; Disable Mouse
+  ;; Dummy function
+  (defun silence ()
+    (interactive))
+  ;; Don't jump the cursor around in the window on clicking
+  (define-key evil-motion-state-map [down-mouse-1] 'silence)
+  ;; also avoid any '<mouse-1> is undefined' when setting to 'undefined
+  (define-key evil-motion-state-map [mouse-1] 'silence)
+
 
 (setq neo-theme 'nerd)
 

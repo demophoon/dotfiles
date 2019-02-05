@@ -683,6 +683,14 @@ This function is called at the very end of Spacemacs initialization."
         (quote
          ("+Mobile")))))
      ("r" . "Review")
+     ("ra" "Ready for Archive" tags "ARCHIVE"
+      ((org-agenda-log-mode-items
+        (quote
+         (state)))
+       (org-agenda-show-log t)
+       (org-agenda-start-with-log-mode t)
+       (org-agenda-archives-mode t)
+       (org-agenda-overriding-header "Mark with 'm' and Archive with 'B$'")))
      ("rw" "Work Standup" agenda ""
       ((org-agenda-span 8)
        (org-agenda-start-day "-1w")
@@ -726,7 +734,8 @@ This function is called at the very end of Spacemacs initialization."
                     (quote
                      (org-agenda-skip-entry-if
                       (quote todo)
-                      (quote done))))
+                      (quote done)
+                      (quote in_progress))))
                    (org-agenda-overriding-header "Today's Goals")))
        (tags-todo "Work:JIRA"
                   ((org-agenda-overriding-header "Open Tickets")))

@@ -683,10 +683,22 @@ This function is called at the very end of Spacemacs initialization."
         (quote
          ("+Mobile")))))
      ("r" . "Review")
-     ("ra" "Ready for Archive" tags "ARCHIVE"
-      ((org-agenda-log-mode-items
+     ("ra" "Overall Review" agenda ""
+      ((org-agenda-span 8)
+       (org-agenda-start-day "-1w")
+       (org-agenda-start-on-weekday 1)
+       (org-agenda-log-mode-items
         (quote
          (state)))
+       (org-agenda-show-log t)
+       (org-agenda-start-with-log-mode t)
+       (org-agenda-skip-function
+        (quote
+         (org-agenda-skip-entry-if
+          (quote todo)
+          (quote todo))))))
+     ("rA" "Ready for Archive" tags "ARCHIVE:Work|ARCHIVE:Personal"
+      ((org-agenda-log-mode-items t)
        (org-agenda-show-log t)
        (org-agenda-start-with-log-mode t)
        (org-agenda-archives-mode t)

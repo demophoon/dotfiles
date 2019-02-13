@@ -231,8 +231,11 @@ bindsym $mod+XF86MonBrightnessDown exec "light -S 1; notify-send 'brightness dim
 # Pulse Audio Controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +5%"
 bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 0 -5%"
+bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 100%"
+bindsym $mod+XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 0 0%"
 bindsym XF86AudioMute exec --no-startup-id "pactl set-sink-mute 0 toggle"
 
+# Mic Mute
 bindsym XF86AudioMicMute exec --no-startup-id "amixer set Capture toggle"
 
 # Media player controls
@@ -244,5 +247,8 @@ bindsym XF86AudioPrev exec playerctl previous
 # Bind emacs capture mode
 bindsym $mod+c exec emacsclient -a '' -c -F '(quote (name . "org-protocol-capture"))' -e '(org-capture)'
 bindsym $mod+Shift+c exec emacsclient -a '' -c
+
+# Screen Capture
+bindsym $mod+XF86Display exec shutter -s -n -e
 
 exec /usr/bin/gnome-settings-daemon

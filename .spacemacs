@@ -751,7 +751,7 @@ This function is called at the very end of Spacemacs initialization."
                    (org-agenda-overriding-header "Today's Goals")))
        (tags-todo "Work:JIRA"
                   ((org-agenda-overriding-header "Open Tickets")))
-       (tags-todo "Work:Tasks"
+       (tags-todo "Work:Tasks|Work:Meeting-1on1"
                   ((org-agenda-overriding-header "Tasks")))
        (tags-todo "1on1"
                   ((org-agenda-overriding-header "1 on 1 Agenda Items")

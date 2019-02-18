@@ -228,6 +228,10 @@ bindsym Shift+XF86MonBrightnessDown exec "light -U 25; notify-send 'brightness d
 bindsym $mod+XF86MonBrightnessUp exec "light -S 100; notify-send 'brightness full'"
 bindsym $mod+XF86MonBrightnessDown exec "light -S 1; notify-send 'brightness dim'"
 
+# Redshift (F.lux)
+bindsym $mod+Shift+XF86MonBrightnessUp exec redshift -x
+bindsym $mod+Shift+XF86MonBrightnessDown exec redshift -o 3000
+
 # Pulse Audio Controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +5%"
 bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 0 -5%"

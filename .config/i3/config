@@ -97,6 +97,9 @@ bindsym $mod+z split h
 # split in vertical orientation
 bindsym $mod+v split v
 
+# Toggle split orientation
+bindsym $mod+t split toggle
+
 mode "Window manager" {
     # change container layout (stacked, tabbed, toggle split)
     bindsym s layout stacking; mode "default"

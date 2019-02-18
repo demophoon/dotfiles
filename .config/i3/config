@@ -253,6 +253,9 @@ bindsym $mod+c exec emacsclient -a '' -c -F '(quote (name . "org-protocol-captur
 bindsym $mod+Shift+c exec emacsclient -a '' -c
 
 # Screen Capture
-bindsym $mod+XF86Display exec shutter -s -n -e
+bindsym $mod+Print exec shutter -s -n -e
+
+# Clipboard QR Code
+bindsym $mod+Control+v exec qrencode -o - -s 1 "$(xclip -out -selection clipboard)" | feh --zoom max -F --force-aliasing --image-bg white -
 
 exec /usr/bin/gnome-settings-daemon

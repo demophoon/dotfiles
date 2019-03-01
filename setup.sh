@@ -19,6 +19,7 @@ ignoredfiles=(
     .DS_Store
     assets
     files
+    Filefile
 )
 
 # If we force links to directories which we are deep merging, we gonna have a bad time...

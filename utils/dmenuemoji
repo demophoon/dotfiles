@@ -5,10 +5,10 @@
 # Must have xclip installed to even show menu.
 xclip -h >/dev/null || exit
 
-emoji=$(grep -v '#' ~/.emoji | sed 's/;.*//' | cut -d' ' -f 2- | dmenu -i -l 20 -p "Emoji?" -fn Monospace-20)
+emoji=$(grep -v '#' ~/.emoji | cut -f 2 | dmenu -i -l 20 -p "Emoji?" -fn Monospace-20)
 
 [ "$emoji" != "" ] || exit
 
-c=$(grep -v '#' ~/.emoji | sed 's/;.*//' | grep -e "${emoji}\$" | cut -d' ' -f 1)
-echo "$c" | tr -d '\n' | xclip -selection clipboard
-notify-send "'$c' copied to clipboard." &
+selected=$(grep -v '#' ~/.emoji | grep -P "\t${emoji}\t" | cut -f 1 | cut -d' ' -f 1)
+echo "$selected" | tr -d '\n' | xclip -selection clipboard
+notify-send "'$selected' copied to clipboard." &

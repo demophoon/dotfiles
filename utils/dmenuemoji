@@ -9,6 +9,6 @@ emoji=$(grep -v '#' ~/.emoji | cut -f 2 | dmenu -i -l 20 -p "Emoji?" -fn Monospa
 
 [ "$emoji" != "" ] || exit
 
-selected=$(grep -v '#' ~/.emoji | grep -P "\t${emoji}\t" | cut -f 1 | cut -d' ' -f 1)
+selected=$(grep -v '#' ~/.emoji | grep -P "\t${emoji}\t" | cut -f 1)
 echo "$selected" | tr -d '\n' | xclip -selection clipboard
 notify-send "'$selected' copied to clipboard." &

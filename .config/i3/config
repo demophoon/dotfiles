@@ -261,4 +261,7 @@ bindsym $mod+Print exec shutter -s -n -e
 # Clipboard QR Code
 bindsym $mod+Control+v exec qrencode -o - -s 1 "$(xclip -out -selection clipboard)" | feh --zoom max -F --force-aliasing --image-bg white -
 
+# Emoji Quick Select
+bindsym $mod+Insert exec --no-startup-id dmenuemoji
+
 exec /usr/bin/gnome-settings-daemon

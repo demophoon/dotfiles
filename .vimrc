@@ -359,6 +359,12 @@
     let g:org_agenda_files = ['~/org/*.org', '~/Nextcloud/Org/*.org']
 
     " }}}
+    " Syntastic Validator Settings {{{2
+    " --------------------
+    let g:syntastic_html_checkers=["validator"]
+    let g:syntastic_html_validator_api="http://localhost:8888"
+    let g:syntastic_html_validator_parser="html5"
+    " }}}
 "" ======== }}}
 "  Mappings {{{1
 " ============================================================================

@@ -32,6 +32,9 @@
     commit-fixup = !git rebase -i --autosquash $(git merge-base HEAD $1) && git status
     serve = daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
 
+[rebase]
+    instructionFormat = (%an <%ae>) %s
+
 [color]
     ui = true
 

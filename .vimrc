@@ -668,16 +668,16 @@
         " }}}
         " Default Highlights {{{3
 
-        hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#00afff ctermbg=39
-        hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#ff5faf ctermbg=205
-        hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#5fff00 ctermbg=82
-        hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#ffff00 ctermbg=226
-        hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff8700 ctermbg=208
-        hi def InterestingWord6 guifg=#0000ff ctermfg=12 gui=bold cterm=bold
-        hi def InterestingWord7 guifg=#ff00ff ctermfg=13 gui=bold cterm=bold
-        hi def InterestingWord8 guifg=#00ff00 ctermfg=10 gui=bold cterm=bold
-        hi def InterestingWord9 guifg=#ff5f00 ctermfg=202 gui=bold cterm=bold
-        hi def InterestingWord0 guifg=#00ffff ctermfg=14 gui=bold cterm=bold
+        hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ff0000 ctermbg=9
+        hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#ff5f00 ctermbg=202
+        hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#ffff00 ctermbg=226
+        hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#00ff00 ctermbg=46
+        hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#005fff ctermbg=27
+        hi def InterestingWord6 guifg=#ff0000 ctermfg=9 gui=bold cterm=bold
+        hi def InterestingWord7 guifg=#ff5f00 ctermfg=202 gui=bold cterm=bold
+        hi def InterestingWord8 guifg=#ffff00 ctermfg=226 gui=bold cterm=bold
+        hi def InterestingWord9 guifg=#00ff00 ctermfg=46 gui=bold cterm=bold
+        hi def InterestingWord0 guifg=#005fff ctermfg=27 gui=bold cterm=bold
 
         " }}}
     " }}}

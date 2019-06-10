@@ -22,7 +22,7 @@ exec --no-startup-id xscreensaver
 exec --no-startup-id emacs --daemon
 
 exec killall -q notify-osd
-exec --no-startup-id dunst
+exec --no-startup-id dunst -conf ~/.config/dunst/dunstrc
 
 set $mod Mod4
 

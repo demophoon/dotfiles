@@ -22,7 +22,7 @@ plain_text = no
 #   %I  iconname (without its path)
 #   %p  progress value if set ([  0%] to [100%]) or nothing
 # Markup is allowed
-format = "<b>%s</b>\n%b"
+format = "<big><b><u>%s</u></b> %p</big>\n%b\n<small><sub>%a</sub></small>"
 
 # Sort messages by urgency.
 sort = yes
@@ -70,7 +70,7 @@ hide_duplicates_count = yes
 # The width can be negative.  In this case the actual width is the
 # screen width minus the width defined in within the geometry option.
 #geometry = "250x50-40+40"
-geometry = "600x50-15+49"
+geometry = "750x150-15-49"
 
 # Shrink window if it's smaller than the width.  Will be ignored if
 # width is 0.
@@ -79,7 +79,7 @@ shrink = no
 # The transparency of the window.  Range: [0; 100].
 # This option will only work if a compositing windowmanager is
 # present (e.g. xcompmgr, compiz, etc.).
-transparency = 5
+transparency = 15
 
 # Don't remove messages, if the user is idle (no mouse or keyboard input)
 # for longer than idle_threshold seconds.
@@ -181,23 +181,23 @@ context = ctrl+shift+period
 [urgency_low]
 # IMPORTANT: colors have to be defined in quotation marks.
 # Otherwise the "#" and following would be interpreted as a comment.
-frame_color = "#3B7C87"
-foreground = "#3B7C87"
-background = "#191311"
+frame_color = "#2a2a2a"
+foreground = "#a8a8a8"
+background = "#1f1f1f"
 #background = "#2B313C"
 timeout = 4
 
 [urgency_normal]
-frame_color = "#5B8234"
-foreground = "#5B8234"
-background = "#191311"
+frame_color = "#ffffff"
+foreground = "#f1f1f1"
+background = "#2a2a2a"
 #background = "#2B313C"
 timeout = 6
 
 [urgency_critical]
-frame_color = "#B7472A"
-foreground = "#B7472A"
-background = "#191311"
+frame_color = "#ffc3c3"
+foreground = "#ffffff"
+background = "#cc3333"
 #background = "#2B313C"
 timeout = 8
 

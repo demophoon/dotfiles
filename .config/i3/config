@@ -18,7 +18,7 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id nextcloud
 exec --no-startup-id ~/Nextcloud/backgrounds/set_background.sh
 exec --no-startup-id compton
-exec --no-startup-id xscreensaver
+exec --no-startup-id xautolock -time 10 -locker '~/.dotfiles/utils/lock' -notify 30 -notifier "notify-send -t 30000 -a 'xautolock' -u 'critical' 'Locking screen in 30 seconds due to inactivity!'" -corners '-+00' -cornerdelay 2
 exec --no-startup-id emacs --daemon
 
 exec killall -q notify-osd

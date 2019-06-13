@@ -224,12 +224,12 @@ bar {
 focus_follows_mouse no
 
 # Screen brightness controls with notification
-bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
-bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
-bindsym Shift+XF86MonBrightnessUp exec "light -A 25; notify-send 'brightness up'"
-bindsym Shift+XF86MonBrightnessDown exec "light -U 25; notify-send 'brightness down'"
-bindsym $mod+XF86MonBrightnessUp exec "light -S 100; notify-send 'brightness full'"
-bindsym $mod+XF86MonBrightnessDown exec "light -S 1; notify-send 'brightness dim'"
+bindsym XF86MonBrightnessUp exec "~/.dotfiles/utils/lightplusplus +5"
+bindsym XF86MonBrightnessDown exec "~/.dotfiles/utils/lightplusplus -5"
+bindsym Shift+XF86MonBrightnessUp exec "~/.dotfiles/utils/lightplusplus +25"
+bindsym Shift+XF86MonBrightnessDown exec "~/.dotfiles/utils/lightplusplus -25"
+bindsym $mod+XF86MonBrightnessUp exec "~/.dotfiles/utils/lightplusplus 100"
+bindsym $mod+XF86MonBrightnessDown exec "~/.dotfiles/utils/lightplusplus 1"
 
 # Redshift (F.lux)
 bindsym $mod+Shift+XF86MonBrightnessUp exec redshift -l 45:-122 -x

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+args=()
+
+case $1 in
+    +*)
+        args+=(-A)
+        args+=(${1##+})
+        ;;
+    -*)
+        args+=(-U)
+        args+=(${1##-})
+        ;;
+    *)
+        if [ ! -z "$1" ]; then
+            args+=(-S)
+            args+=(${1})
+        fi
+        ;;
+esac
+
+# shellcheck disable=SC2068
+light ${args[@]}
+notify-send -a "$(basename "$0")" 'Brightness' "Backlight set to $(light) ($1)"

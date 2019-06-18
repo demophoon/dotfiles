@@ -70,3 +70,8 @@ function s3cmde() {
 # xclipboard aliases
 alias clipcopy="xclip -selection c"
 alias clippaste="xclip -selection c -o"
+
+if command_exists hub; then
+  alias git='hub'
+fi
+

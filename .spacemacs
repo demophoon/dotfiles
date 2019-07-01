@@ -554,8 +554,8 @@ before packages are loaded."
      "* TODO %?" :prepend t)
 
     ;; New Jira Ticket
-    ("wj" "Jira Ticket (Bright.md)" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
-     "* TODO [[https://brighthealth.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
+    ("wj" "Jira Ticket (CircleCI)" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
+     "* TODO [[https://circleci.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
 
     ;; 1:1 meetings
     ("w1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
@@ -572,6 +572,11 @@ before packages are loaded."
 ** Pre-meeting notes
 ** Notes
 ** Action Items" :prepend t)
+
+    ;; Generic Note
+    ("wn" "Note" entry (file+headline "~/Nextcloud/Org/Work.org" "Notes")
+     "* %u %?
+     %T" :prepend t)
 
     ;; Personal
     ;; ================================================================================

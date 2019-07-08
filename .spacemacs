@@ -555,7 +555,10 @@ before packages are loaded."
 
     ;; New Jira Ticket
     ("wj" "Jira Ticket (CircleCI)" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
-     "* TODO [[https://circleci.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?" :prepend t)
+     "* TODO [[https://circleci.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?
+     :PROPERTIES:
+     :CUSTOM_ID: %\\1
+     :END:" :prepend t)
 
     ;; 1:1 meetings
     ("w1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")

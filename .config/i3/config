@@ -265,3 +265,7 @@ bindsym $mod+Control+v exec qrencode -o - -s 1 "$(xclip -out -selection clipboar
 bindsym $mod+Insert exec --no-startup-id dmenuemoji
 
 exec /usr/bin/gnome-settings-daemon
+
+# Firefox Profile Bindings
+bindsym $mod+Shift+f exec firefox -P 'default' -new-window 'about:blank'
+bindsym $mod+Shift+w exec firefox -P 'work' -new-window 'about:blank'

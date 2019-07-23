@@ -269,3 +269,7 @@ exec /usr/bin/gnome-settings-daemon
 # Firefox Profile Bindings
 bindsym $mod+Shift+f exec firefox -P 'default' -new-window 'about:blank'
 bindsym $mod+Shift+w exec firefox -P 'work' -new-window 'about:blank'
+
+# Window settings
+assign [class="(?i)zoom"] 4
+assign [class="(?i)slack"] 2

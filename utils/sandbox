@@ -1,26 +1,15 @@
 #!/bin/bash
 
-PROJ_NAME="sandbox"
+PROJECT_NAME='sandbox'
 
-if tmux has-session -t "$PROJ_NAME"; then
-    echo "Attaching to session $PROJ_NAME"
-else
-    echo "Creating session $PROJ_NAME"
-    tmux new-session -d -s "$PROJ_NAME"
+customize_session() {
+    tmux=$1
 
-    tmux send-keys -t $PROJ_NAME "unset TMUX; reset" c-m
+    ${tmux:?} send-keys -t "$PROJECT_NAME unset TMUX; reset" c-m
+    ${tmux:?} set-option -t "$PROJECT_NAME" prefix c-a
+    ${tmux:?} set-option -t "$PROJECT_NAME" status off
+    ${tmux:?} set-option status-position top
+}
 
-    tmux set-option -t $PROJ_NAME prefix c-a
-
-    #tmux unbind-key -t $PROJ_NAME c-b
-    tmux bind-key c-a send-prefix
-
-    tmux set-option -t $PROJ_NAME status off
-    tmux set-option status-position top
-fi
-
-if [ ! -z $1 ]; then
-    tmux attach-session -dt "$PROJ_NAME"
-else
-    tmux attach-session -t "$PROJ_NAME"
-fi
+# shellcheck disable=SC1090
+source "$(which attach)"

@@ -1,49 +1,66 @@
 #!/bin/bash
 
-colors=(
-    27
-    34
-    39
-    124
-    136
-    141
-    208
-)
-#colors=({1..127})
+PROJECT_NAME=${PROJECT_NAME:-${1}}
+tmux='tmux'
+shift
 
-num_colors=${#colors[@]}
+if [ -n "${TMUX_SOCKET}" ]; then
+    tmux="${tmux:?} -S ${TMUX_SOCKET}"
+fi
 
-chr() {
-  printf \\$(printf '%03o' $1)
+session_exists() {
+    ${tmux:?} has-session -t "${PROJECT_NAME}" 2>/dev/null
+    return $?
 }
 
-export PROJECT_NAME=${1-"untitled_project"}
-if [ -z "${TMUX_COMMAND}" ]; then
-    export TMUX_COMMAND='tmux'
+create_session() {
+    ${tmux:?} new-session -d -s "${PROJECT_NAME}"
+}
+
+attach_session() {
+    ${tmux:?} attach-session "$@" -t "${PROJECT_NAME}"
+}
+
+default_customize_session() {
+    colors=(
+        27
+        34
+        39
+        124
+        136
+        141
+        208
+    )
+    #colors=({1..127})
+
+    num_colors=${#colors[@]}
+
+    # Set color to determined random color
+    seed="$(hostname)${PROJECT_NAME}"
+    color_num=$(python -c "import random; random.seed(sum(map(ord,'${seed}'))); print(random.randint(0,${num_colors}-1))")
+    _TMUX_COLOR=${colors[${color_num}]}
+
+    # Set color to determined random color
+    ${tmux:?} set-option status-fg "colour253" > /dev/null
+    ${tmux:?} set-option status-bg "colour${_TMUX_COLOR}" > /dev/null
+    ${tmux:?} set-option status-attr "dim" > /dev/null
+    ${tmux:?} set-option window-status-attr "dim" > /dev/null
+    ${tmux:?} set-option window-status-current-attr "bold" > /dev/null
+    ${tmux:?} set-option window-status-current-fg "colour255" > /dev/null
+    ${tmux:?} set-option window-status-current-bg "colour235" > /dev/null
+}
+
+if ! session_exists; then
+    if [ -n "${TMUX_SOCKET}" ]; then
+        rm -f "${TMUX_SOCKET}"
+    fi
+    create_session
+
+    if type 'customize_session' 2>/dev/null | grep -q 'function'; then
+        customize_session "${tmux:?}"
+    else
+        default_customize_session
+    fi
 fi
 
-# Set color to determined random color
-seed="$(hostname)${PROJECT_NAME}"
-color_num=$(python -c "import random; random.seed(sum(map(ord,'${seed}'))); print(random.randint(0,${num_colors}-1))")
-export _TMUX_COLOR=${colors[${color_num}]}
-
-unset TMUX
-
-if ${TMUX_COMMAND:?} has-session -t "$PROJECT_NAME"; then
-    echo "Attaching to session $PROJECT_NAME"
-else
-    echo "Creating session $PROJECT_NAME"
-    ${TMUX_COMMAND:?} new-session -d -s "$PROJECT_NAME"
-fi
-
-# Set color to determined random color
-${TMUX_COMMAND:?} set-option -g status-fg "colour253" > /dev/null
-${TMUX_COMMAND:?} set-option -g status-bg "colour${_TMUX_COLOR}" > /dev/null
-${TMUX_COMMAND:?} set-option -g status-attr "dim" > /dev/null
-${TMUX_COMMAND:?} set-option -g window-status-attr "dim" > /dev/null
-${TMUX_COMMAND:?} set-option -g window-status-current-attr "bold" > /dev/null
-${TMUX_COMMAND:?} set-option -g window-status-current-fg "colour255" > /dev/null
-${TMUX_COMMAND:?} set-option -g window-status-current-bg "colour235" > /dev/null
-
-ATTACH_COMMAND="${TMUX_COMMAND:?} attach-session ${*:2} -t $PROJECT_NAME"
-$ATTACH_COMMAND
+attach_session "$@"

@@ -1,0 +1,56 @@
+! Jellybeans Terminal Colours
+*.background: #151515
+*.foreground: #ffffff
+! black
+*.color0: #888888
+*.color8: #525252
+! red
+*.color1: #cf6a4c
+*.color9: #ff9d80
+! green
+*.color2: #99ad6a
+*.color10: #c3e6ad
+! yellow
+*.color3: #fad07a
+*.color11: #ffefbf
+! blue
+*.color4: #8197bf
+*.color12: #accaff
+! magenta
+*.color5: #8787af
+*.color13: #c4c4ff
+! cyan
+*.color6: #8fbfdc
+*.color14: #80bfaf
+! white
+*.color7: #888888
+*.color15: #e8e8d3
+
+! URxvt settings
+URxvt.termName        :  rxvt-256color
+URxvt.font            :  xft:Inconsolata:size=16
+URxvt.letterSpace     :  1
+
+!-*- Perl extensions -*-
+URxvt.perl-ext-common        :  default,selection-to-clipboard,matcher,keyboard-select
+URxvt.keysym.M-u             :  perl:url-select:select_next
+URxvt.urlLauncher            :  firefox
+URxvt.underlineURLs          :  True
+URxvt.matcher.button         :  1
+URxvt.keysym.Shift-Control-V :  eval:paste_clipboard
+URxvt.keysym.Shift-Control-C :  eval:selection_to_clipboard
+! Comment this if you dont want copy when text is selected
+! URxvt.clipboard.autocopy :  true
+
+URxvt.scrollBar       :  false
+URxvt.iso14755        :  False
+
+!! Keycode fixes for Ctrl+direction in Vim
+URxvt.keysym.C-Up     :  \033[1;5A
+URxvt.keysym.C-Down   :  \033[1;5B
+URxvt.keysym.C-Right  :  \033[1;5C
+URxvt.keysym.C-Left   :  \033[1;5D
+URxvt.keysym.C-Prior  :  \033[5;5~
+URxvt.keysym.C-Next   :  \033[6;5~
+URxvt.keysym.C-Home   :  \033[7;5~
+URxvt.keysym.C-End    :  \033[8;5~

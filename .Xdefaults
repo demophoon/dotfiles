@@ -34,7 +34,7 @@ URxvt.letterSpace     :  1
 !-*- Perl extensions -*-
 URxvt.perl-ext-common        :  default,selection-to-clipboard,matcher,keyboard-select
 URxvt.keysym.M-u             :  perl:url-select:select_next
-URxvt.urlLauncher            :  firefox
+URxvt.url-launcher            :  /opt/bin/browser-select
 URxvt.underlineURLs          :  True
 URxvt.matcher.button         :  1
 URxvt.keysym.Shift-Control-V :  eval:paste_clipboard
@@ -43,6 +43,9 @@ URxvt.keysym.Shift-Control-C :  eval:selection_to_clipboard
 ! URxvt.clipboard.autocopy :  true
 
 URxvt.scrollBar       :  false
+URxvt.scrollstyle     :  plain
+URxvt.borderColor     :  #000030
+URxvt.internalBorder  :  1
 URxvt.iso14755        :  False
 
 !! Keycode fixes for Ctrl+direction in Vim

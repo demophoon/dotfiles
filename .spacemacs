@@ -56,6 +56,7 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     graphviz
      )
 
    ;; List of additional packages that will be installed without being

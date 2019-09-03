@@ -675,6 +675,12 @@ before packages are loaded."
   ;; also avoid any '<mouse-1> is undefined' when setting to 'undefined
   (define-key evil-motion-state-map [mouse-1] 'silence)
 
+;; C-hjkl
+(global-set-key (kbd "C-h") 'evil-window-left)
+(global-set-key (kbd "C-j") 'evil-window-down)
+(global-set-key (kbd "C-k") 'evil-window-up)
+(global-set-key (kbd "C-l") 'evil-window-right)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

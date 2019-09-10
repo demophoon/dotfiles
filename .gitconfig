@@ -47,6 +47,7 @@
 
 [core]
     editor = vim
+    excludesfile = /home/britt/.gitignore_global
 
 [merge]
     tool = vimdiff

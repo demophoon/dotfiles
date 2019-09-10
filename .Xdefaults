@@ -32,7 +32,7 @@ URxvt.font            :  xft:Inconsolata:size=16
 URxvt.letterSpace     :  1
 
 !-*- Perl extensions -*-
-URxvt.perl-ext-common        :  default,selection-to-clipboard,matcher,keyboard-select
+URxvt.perl-ext-common        :  default,selection-to-clipboard,matcher,resize-font
 URxvt.keysym.M-u             :  perl:url-select:select_next
 URxvt.url-launcher            :  /opt/bin/browser-select
 URxvt.underlineURLs          :  True

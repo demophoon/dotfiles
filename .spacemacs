@@ -3,6 +3,14 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+(defun my/current-session ()
+  (interactive)
+  (goto-char (point-max))
+  (search-backward "Session ")
+  (org-narrow-to-subtree)
+  (goto-char (point-max))
+  )
+
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -662,6 +670,67 @@ before packages are loaded."
 
 ** Reward
 ")
+
+    ;; Saltmarsh Campaign
+    ;; --------------------------------------------------------------------------------
+    ("ds"  "Saltmarsh")
+
+    ;; New Session
+    ("dss" "Session" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Sessions")
+     "* Session %^{Session number}
+%?
+")
+
+    ;; Note
+    ("dsn" "Quick Note" plain (file+function "~/Nextcloud/dnd/saltmarsh/dnd.org" my/current-session)
+     "
+%?")
+
+    ;; New Character
+    ("dsc" "Character" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Characters")
+     "* %^{Character name} %^g
+%^{Met_Location}p
+%?
+
+** Bonds
+** Appearance
+")
+
+    ;; New Group
+    ("dsg" "Group" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Groups")
+     "* %^{Group name}
+%^{Met_Location}p
+%?
+
+** Bonds
+")
+
+    ;; New Location
+    ("dsl" "Location" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Locations")
+     "* %^{Location name}
+%?
+")
+
+    ;; New Quest
+    ("dsq" "Quest" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Quests")
+     "* TODO %^{Quest name}
+%?
+
+** Reward
+")
+
+    ;; Items
+    ("dsi" "Item")
+
+    ;; Individual Item
+    ("dsii" "Your Item" table-line (file+olp "~/Nextcloud/dnd/saltmarsh/dnd.org" "Items" "Individual")
+     "| %^{Item Name} | %^{Quantity} | %^{Cost} | =(%\2 * %\3) |"
+     :immediate-finish t :table-line-pos "II-1")
+
+    ;; Group Item
+    ("dsig" "Group Item" table-line (file+olp "~/Nextcloud/dnd/saltmarsh/dnd.org" "Items" "Group")
+     "| %^{Item Name} | %^{Quantity} | %^{Cost} | =(%\2 * %\3) |"
+     :immediate-finish t :table-line-pos "II-1")
 
     ))
 

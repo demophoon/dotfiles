@@ -75,3 +75,5 @@ if command_exists hub; then
   alias git='hub'
 fi
 
+# Kubernetes aliases
+alias k=kubectl

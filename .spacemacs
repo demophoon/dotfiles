@@ -554,185 +554,132 @@ before packages are loaded."
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cr" 'org-refile)
 
-(setq org-capture-templates
-    '(
-    ;; Work Tasks
-    ;; ================================================================================
-    ("w" "Work")
-    ("wt" "Todo" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
-     "* TODO %?" :prepend t)
+(setq org-capture-templates (list))
 
-    ;; New Jira Ticket
-    ("wj" "Jira Ticket (CircleCI)" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
-     "* TODO [[https://circleci.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?
-     :PROPERTIES:
-     :CUSTOM_ID: %\\1
-     :END:" :prepend t)
-
-    ;; 1:1 meetings
-    ("w1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
-     "* TODO %u %^{Who are you meeting with?} / Britt   :1on1:
-     %T
+;; Work Tasks
+;; ================================================================================
+(add-to-list 'org-capture-templates '("w" "Work"))
+(add-to-list 'org-capture-templates '("wt" "Todo" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
+                                      "* TODO %?" :prepend t))
+(add-to-list 'org-capture-templates '("wj" "Jira Ticket (CircleCI)" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
+ "* TODO [[https://circleci.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?
+:PROPERTIES:
+:CUSTOM_ID: %\\1
+:END:" :prepend t))
+(add-to-list 'org-capture-templates '("w1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+ "* TODO %u %^{Who are you meeting with?} / Britt   :1on1:
+%T
 ** Pre-meeting notes
 ** Notes
-** Action Items" :prepend t)
+** Action Items" :prepend t))
 
-    ;; Generic Meeting
-    ("wm" "Generic" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
-     "* TODO %u %?
-     %T
+(add-to-list 'org-capture-templates '("wm" "Generic" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
+"* TODO %u %?
+%T
 ** Pre-meeting notes
 ** Notes
-** Action Items" :prepend t)
+** Action Items" :prepend t))
+(add-to-list 'org-capture-templates '("wn" "Note" entry (file+headline "~/Nextcloud/Org/Work.org" "Notes")
+"* %u %?
+%T" :prepend t))
 
-    ;; Generic Note
-    ("wn" "Note" entry (file+headline "~/Nextcloud/Org/Work.org" "Notes")
-     "* %u %?
-     %T" :prepend t)
-
-    ;; Personal
-    ;; ================================================================================
-    ("p" "Personal")
-    ("pt" "Todo" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
-     "* TODO %?" :prepend t)
-
-    ;; Project
-    ("pp" "Project" entry (file+headline "~/Nextcloud/Org/Personal.org" "Projects")
-     "* TODO %?" :prepend t)
-
-    ;; Journal
-    ("pj" "Journal" entry (file+olp+datetree "~/Nextcloud/Org/Journal.org")
-     "* Comments - %U
+;; Personal
+;; ================================================================================
+(add-to-list 'org-capture-templates '("p" "Personal"))
+(add-to-list 'org-capture-templates '("pt" "Todo" entry (file+headline "~/Nextcloud/Org/Personal.org" "Tasks")
+                                      "* TODO %?" :prepend t))
+(add-to-list 'org-capture-templates '("pp" "Project" entry (file+headline "~/Nextcloud/Org/Personal.org" "Projects")
+                                      "* TODO %?" :prepend t))
+(add-to-list 'org-capture-templates '("pj" "Journal" entry (file+olp+datetree "~/Nextcloud/Org/Journal.org")
+"* Comments - %U
 :PROPERTIES:
 :Mood: %^{Rate your mood from 1-10:}
 :Severity: %^{Rate severity of mood from 1-10:}
 :END:
-%?" :prepend t :tree-type week)
+%?" :prepend t :tree-type week))
 
-    ;; Generic Meeting
-    ("pm" "Meeting" entry (file+headline "~/Nextcloud/Org/Personal.org" "Meetings")
-     "* %u %?
-     %T
+(add-to-list 'org-capture-templates '("pm" "Meeting" entry (file+headline "~/Nextcloud/Org/Personal.org" "Meetings")
+"* %u %?
+%T
 ** Pre-meeting notes
 ** Notes
-** Action Items" :prepend t)
+** Action Items" :prepend t))
 
-    ;; Blog Post Template
-    ;; ================================================================================
-    ("b" "Blog" entry (file+headline "~/Nextcloud/Org/Blogs.org" "Blogs")
-     "* Draft %?
+;; Blog Post Template
+;; ================================================================================
+(add-to-list 'org-capture-templates '("b" "Blog" entry (file+headline "~/Nextcloud/Org/Blogs.org" "Blogs")
+ "* Draft %?
 ** Notes
-" :prepend t)
+" :prepend t))
 
-    ;; D&d templates
-    ;; ================================================================================
-    ("d" "D&D")
+;; D&d templates
+;; ================================================================================
+(add-to-list 'org-capture-templates '("d" "D&D"))
 
-    ;; Waterdeep Campaign
-    ;; --------------------------------------------------------------------------------
-    ("dw"  "Waterdeep")
-
-    ;; New Session
-    ("dws" "Session" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Sessions")
+(defun my/add-dnd-campaign (campaign-name)
+  (let ((short-hand (concat "d" (downcase (substring campaign-name 0 1))))
+        (dnd-filename (concat "~/Nextcloud/dnd/" (downcase campaign-name) "/dnd.org"))
+        )
+    (add-to-list 'org-capture-templates (list short-hand campaign-name))
+    (add-to-list 'org-capture-templates (list (concat short-hand "s") "Session" 'entry (list 'file+headline dnd-filename "Sessions")
      "* Session %^{Session number}
 %?
-")
+"))
 
-    ;; New Character
-    ("dwc" "Character" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Characters")
+    (add-to-list 'org-capture-templates (list (concat short-hand "n") "Quick Note" 'plain (list 'file+function dnd-filename 'my/current-session)
+"
+%?"))
+
+    (add-to-list 'org-capture-templates (list (concat short-hand "c") "Character" 'entry (list 'file+headline dnd-filename "Characters")
      "* %^{Character name} %^g
 %^{Met_Location}p
 %?
 
 ** Bonds
 ** Appearance
-")
+"))
 
-    ;; New Group
-    ("dwg" "Group" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Groups")
+    (add-to-list 'org-capture-templates (list (concat short-hand "g") "Group" 'entry (list 'file+headline dnd-filename "Groups")
      "* %^{Group name}
 %^{Met_Location}p
 %?
 
 ** Bonds
-")
+"))
 
-    ;; New Location
-    ("dwl" "Location" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Locations")
+    (add-to-list 'org-capture-templates (list (concat short-hand "l") "Location" 'entry (list 'file+headline dnd-filename "Locations")
      "* %^{Location name}
 %?
-")
+"))
 
-    ;; New Quest
-    ("dwq" "Quest" entry (file+headline "~/Nextcloud/dnd/waterdeep/dnd.org" "Quests")
+    (add-to-list 'org-capture-templates (list (concat short-hand "q") "Quest" 'entry (list 'file+headline dnd-filename "Quests")
      "* TODO %^{Quest name}
 %?
 
 ** Reward
-")
-
-    ;; Saltmarsh Campaign
-    ;; --------------------------------------------------------------------------------
-    ("ds"  "Saltmarsh")
-
-    ;; New Session
-    ("dss" "Session" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Sessions")
-     "* Session %^{Session number}
-%?
-")
-
-    ;; Note
-    ("dsn" "Quick Note" plain (file+function "~/Nextcloud/dnd/saltmarsh/dnd.org" my/current-session)
-     "
-%?")
-
-    ;; New Character
-    ("dsc" "Character" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Characters")
-     "* %^{Character name} %^g
-%^{Met_Location}p
-%?
-
-** Bonds
-** Appearance
-")
-
-    ;; New Group
-    ("dsg" "Group" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Groups")
-     "* %^{Group name}
-%^{Met_Location}p
-%?
-
-** Bonds
-")
-
-    ;; New Location
-    ("dsl" "Location" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Locations")
-     "* %^{Location name}
-%?
-")
-
-    ;; New Quest
-    ("dsq" "Quest" entry (file+headline "~/Nextcloud/dnd/saltmarsh/dnd.org" "Quests")
-     "* TODO %^{Quest name}
-%?
-
-** Reward
-")
+"))
 
     ;; Items
-    ("dsi" "Item")
+    (add-to-list 'org-capture-templates (list (concat short-hand "i") "Item"))
 
     ;; Individual Item
-    ("dsii" "Your Item" table-line (file+olp "~/Nextcloud/dnd/saltmarsh/dnd.org" "Items" "Individual")
+    (add-to-list 'org-capture-templates (list (concat short-hand "ii") "Your Item" 'table-line (list 'file+olp dnd-filename "Items" "Individual")
      "| %^{Item Name} | %^{Quantity} | %^{Cost} | =(%\2 * %\3) |"
-     :immediate-finish t :table-line-pos "II-1")
+     :immediate-finish t :table-line-pos "II-1"))
 
     ;; Group Item
-    ("dsig" "Group Item" table-line (file+olp "~/Nextcloud/dnd/saltmarsh/dnd.org" "Items" "Group")
+    (add-to-list 'org-capture-templates (list (concat short-hand "ig") "Group Item" 'table-line (list 'file+olp dnd-filename "Items" "Group")
      "| %^{Item Name} | %^{Quantity} | %^{Cost} | =(%\2 * %\3) |"
-     :immediate-finish t :table-line-pos "II-1")
+     :immediate-finish t :table-line-pos "II-1"))
 
-    ))
+    )
+  )
+
+(let ((campaigns (list "Saltmarsh" "Waterdeep")))
+    (mapc 'my/add-dnd-campaign campaigns)
+  )
+
+
 
     (setq org-log-done 'time)
 

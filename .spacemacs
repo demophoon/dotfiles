@@ -11,6 +11,11 @@
   (goto-char (point-max))
   )
 
+(defun my/jira-ticket-template ()
+  (interactive)
+  (shell-command-to-string (format "~/.local/bin/jira-ticket %s" (read-string "Jira Ticket: ")))
+  )
+
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -65,6 +70,7 @@ This function should only modify configuration layer settings."
      ;; syntax-checking
      ;; version-control
      graphviz
+     appt
      )
 
    ;; List of additional packages that will be installed without being
@@ -496,6 +502,26 @@ before packages are loaded."
 
 (setq neo-theme 'nerd)
 
+;; (setq appt-time-msg-list nil)
+(setq appt-display-interval '5)
+(setq
+  appt-message-warning-time '15
+  appt-display-mode-line nil
+  appt-display-interval 'window)
+(appt-activate 1)
+(display-time)
+
+(org-agenda-to-appt)
+(run-at-time "24:01" 900 'org-agenda-to-appt)
+(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt)
+
+(defun my/notify-user (min-to-app new-time msg)
+  (shell-command (concat "/usr/bin/notify-send"
+                         " 'Org-mode'"
+                         " '" msg "'")))
+
+(setq appt-disp-window-function (function my/notify-user))
+
 ;; Follow symlinks in to git repos
 (setq vc-follow-symlinks t)
 
@@ -562,10 +588,7 @@ before packages are loaded."
 (add-to-list 'org-capture-templates '("wt" "Todo" entry (file+headline "~/Nextcloud/Org/Work.org" "Tasks")
                                       "* TODO %?" :prepend t))
 (add-to-list 'org-capture-templates '("wj" "Jira Ticket (CircleCI)" entry (file+headline "~/Nextcloud/Org/Work.org" "Sprint Tickets")
- "* TODO [[https://circleci.atlassian.net/browse/%^{Jira Ticket}][%\\1]] %?
-:PROPERTIES:
-:CUSTOM_ID: %\\1
-:END:" :prepend t))
+(function my/jira-ticket-template) :prepend t))
 (add-to-list 'org-capture-templates '("w1" "1:1" entry (file+headline "~/Nextcloud/Org/Work.org" "Meetings")
  "* TODO %u %^{Who are you meeting with?} / Britt   :1on1:
 %T

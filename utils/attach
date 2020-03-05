@@ -36,8 +36,8 @@ default_customize_session() {
     num_colors=${#colors[@]}
 
     # Set color to determined random color
-    seed="$(hostname)${PROJECT_NAME}"
-    color_num=$(python -c "import random; random.seed(sum(map(ord,'${seed}'))); print(random.randint(0,${num_colors}-1))")
+    color_num=$(bash -c "RANDOM=$(hostname | tr '.[a-zA-Z]' '0-9'); echo \$RANDOM")
+    color_num=$((${color_num}%${num_colors}))
     _TMUX_COLOR=${colors[${color_num}]}
 
     # Set color to determined random color

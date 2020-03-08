@@ -219,7 +219,7 @@ bindsym $mod+Escape exec "~/.dotfiles/utils/lock"
 # finds out, if available)
 bar {
         height 25
-        position top
+        position bottom
         mode hide
         hidden_state hide
         modifier $mod

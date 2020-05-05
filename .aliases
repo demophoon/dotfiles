@@ -75,5 +75,32 @@ if command_exists hub; then
   alias git='hub'
 fi
 
-# Kubernetes aliases
-alias k=kubectl
+# Improved Kubernetes alias
+k() {
+    action=$1
+    shift
+    namespace=${namespace:-default}
+    flags=''
+    k_type=''
+
+    case $action in
+        d|del|delete)
+            flags='--wait=false'
+            action='delete'
+            ;;
+        pods|sts|st|deployments|ds|job|svc|secret|cm|pvc)
+            k_type=$action
+            action='get'
+            ;;
+        watch)
+            eval "_WATCH=true k $*"
+            return $?
+            ;;
+    esac
+    k_type=${k_type:-$@}
+    command="kubectl ${action} -n ${namespace} ${k_type} ${flags}"
+    if [ ! -z "$_WATCH" ]; then
+        command="watch ${command}"
+    fi
+    eval "$command"
+}

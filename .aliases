@@ -92,6 +92,13 @@ k() {
             k_type=$action
             action='get'
             ;;
+        describe)
+            if echo $1 | grep -q "/"; then
+                k_type="${@}"
+            else
+                k_type="pod/${@}"
+            fi
+            ;;
         watch)
             eval "_WATCH=true k $*"
             return $?

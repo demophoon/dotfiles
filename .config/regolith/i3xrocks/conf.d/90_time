@@ -1,0 +1,5 @@
+# Date Time
+[time]
+TZ=America/Los_Angeles
+command=date +%T
+interval=1

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+light="$(light | cut -d'.' -f1 | grep -E -o '[0-9][0-9]*')"
+
+full_text="$light"
+short_text="$light"
+color='#333333'
+
+case $light in
+    9?|10?)
+        color='#ffffff'
+    ;;
+    7?|8?)
+        color='#cccccc'
+    ;;
+    5?|6?)
+        color='#aaaaaa'
+    ;;
+    3?|4?)
+        color='#888888'
+    ;;
+    *)
+        color='#666666'
+    ;;
+esac
+
+echo "LIT: ${full_text}"
+echo "${short_text}"
+echo "${color}"

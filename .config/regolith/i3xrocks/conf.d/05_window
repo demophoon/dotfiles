@@ -1,0 +1,5 @@
+[window]
+command=~/.config/regolith/i3xrocks/commands/window
+interval=1
+min_width=1440
+align=center

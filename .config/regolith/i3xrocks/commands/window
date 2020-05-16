@@ -1,0 +1,6 @@
+#!/bin/bash
+
+title=$(xdotool getwindowname $(xdotool getactivewindow))
+color='#fff'
+
+echo "<span color=\"${color}\"><b>${title}</b></span>"

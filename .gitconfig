@@ -31,7 +31,7 @@
     fixup = commit -p --fixup
     commit-fixup = !git rebase -i --autosquash $(git merge-base HEAD $1) && git status
     serve = daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
-    search ="!f() { git grep -ie \"${*}\" $(git rev-list --max-count 5000 --all); }; f"
+    search ="!f() { git grep -iE \"${*}\" $(git rev-list --max-count 5000 --all); }; f"
     files = "!f() { git diff --name-status \"$1^\" \"$1\"; }; f"
 
 [rebase]

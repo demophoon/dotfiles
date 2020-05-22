@@ -85,6 +85,7 @@
     Bundle 'scrooloose/nerdtree'
     "Bundle 'kien/ctrlp.vim'
     Bundle 'junegunn/fzf'
+    "Bundle 'tpope/vim-vinegar'
 
     " Code readability/helpers
     Bundle 'kien/rainbow_parentheses.vim'
@@ -107,7 +108,6 @@
     " Bash
     "Bundle 'demophoon/bash-fold-expr'
     "autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
-    Bundle 'tpope/vim-vinegar'
 
     " Clojure
     Bundle 'guns/vim-clojure-static'

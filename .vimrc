@@ -455,14 +455,11 @@
             if !col || getline('.')[col - 1] !~ '\k'
                 return "\<tab>"
             else
-                if CanExpandSnippet() > 0
-                    return "\<C-r>=TriggerSnippet()\<cr>"
-                else
-                    return "\<c-p>"
-                endif
+                return "\<C-R>=UltiSnips#ExpandSnippet()\<CR>"
             endif
         endfunction
-        "inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+        inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+        inoremap <s-tab> <c-d>
         "inoremap <s-tab> <c-n>
         "inoremap <c-c> <C-r>=TriggerSnippet()<cr>
     " }}}

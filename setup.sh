@@ -9,7 +9,10 @@ merge_directories=(
     .config
 )
 ignoredfiles=(
+    .
+    ..
     .git
+    .git-completion.sh
     .gitmodules
     LICENSE.md
     README.md
@@ -28,10 +31,10 @@ ignoredfiles+=(${merge_directories[@]})
 createLinks() {
     for f in ${DIR:?}/{*,.*}; do
         filename=$(basename "$f")
-        if [[ ${ignoredfiles[*]} =~ $filename ]]; then
+        if [[ ${ignoredfiles[*]} =~ (^| )$filename($| ) ]]; then
             continue
         fi
-        rm -rf "${HOMEDIR:?}/${filename:?}" > /dev/null
+        rm -rf "${HOMEDIR:?}/${filename:?}"
         ln -s "${DIR:?}/${filename:?}" "${HOMEDIR:?}/${filename:?}"
     done
 }

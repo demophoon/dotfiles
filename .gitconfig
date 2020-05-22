@@ -53,3 +53,6 @@
     tool = vimdiff
 [push]
     default = matching
+
+[commit]
+  template = ~/.commitmsg

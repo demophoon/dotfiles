@@ -208,6 +208,9 @@
         " Diff ignore whitespace
         set diffopt+=iwhite
 
+        " Show partial commands in status bar
+        set showcmd
+
     " }}}
     " Tabbing and Spaces {{{2
     " ------------------

@@ -85,7 +85,7 @@ k() {
 
     case $action in
         d|del|delete)
-            flags='--wait=false'
+            flags+='--wait=false'
             action='delete'
             ;;
         pods|sts|st|deployments|ds|job|svc|secret|cm|pvc)

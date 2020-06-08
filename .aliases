@@ -103,11 +103,23 @@ k() {
             eval "_WATCH=true k $*"
             return $?
             ;;
+        redeploy)
+            action='delete'
+            k_type='pod'
+            flags+='-lkustomize.version=v0.1'
+            ;;
+        get)
+            if [ "$1" = 'fucked' ]; then
+                shift
+                eval "k redeploy"
+                return $?
+            fi
     esac
     k_type=${k_type:-$@}
     command="kubectl ${action} -n ${namespace} ${k_type} ${flags}"
     if [ ! -z "$_WATCH" ]; then
         command="watch ${command}"
     fi
+    echo $command
     eval "$command"
 }

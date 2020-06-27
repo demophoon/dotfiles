@@ -4,3 +4,8 @@ title=$(xdotool getwindowname $(xdotool getactivewindow))
 color='#fff'
 
 echo "<span color=\"${color}\"><b>${title}</b></span>"
+
+case $BLOCK_BUTTON in
+    1|2|3) ~/Nextcloud/backgrounds/set_background.sh -f ;;
+esac
+

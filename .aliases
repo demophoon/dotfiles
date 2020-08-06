@@ -80,6 +80,7 @@ k() {
     action=$1
     shift
     namespace=${namespace:-default}
+    executable="kubectl"
     flags=''
     k_type=''
 
@@ -88,7 +89,7 @@ k() {
             flags+='--wait=false'
             action='delete'
             ;;
-        pods|sts|st|deployments|ds|job|svc|secret|cm|pvc)
+        pod*|st*|deployment*|d|job*|svc*|secret*|cm*|pvc*)
             k_type=$action
             action='get'
             ;;
@@ -103,7 +104,7 @@ k() {
             eval "_WATCH=true k $*"
             return $?
             ;;
-        redeploy)
+        redeploy|fuckit)
             action='delete'
             k_type='pod'
             flags+='-lkustomize.version=v0.1'
@@ -114,11 +115,21 @@ k() {
                 eval "k redeploy"
                 return $?
             fi
+            ;;
+        log|logs)
+            executable="stern"
+            action=''
+            ;;
+        install)
+            action='kots'
+            k_type="install ${namespace}/unstable"
+            flags="--shared-password ${CONSOLE_PASSWORD} --license-file ~/_configs/britt-dev-gke-kots-sturgeon.yaml --config-values ~/_configs/deploy-ghe.yaml"
+            ;;
     esac
     k_type=${k_type:-$@}
-    command="kubectl ${action} -n ${namespace} ${k_type} ${flags}"
+    command="${executable} ${action} -n ${namespace} ${k_type} ${flags}"
     if [ ! -z "$_WATCH" ]; then
-        command="watch ${command}"
+        command="watch -n .5 --no-title '${command}'"
     fi
     echo $command
     eval "$command"

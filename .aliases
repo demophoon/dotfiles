@@ -89,7 +89,7 @@ k() {
             flags+='--wait=false'
             action='delete'
             ;;
-        pod*|st*|deployment*|d|job*|svc*|secret*|cm*|pvc*)
+        pod*|st*|deployment*|d|job*|svc*|secret*|cm*|pvc*|namespace*)
             k_type=$action
             action='get'
             ;;

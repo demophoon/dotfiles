@@ -74,15 +74,4 @@ linkDotfiles() {
     mergeDirs
 }
 
-if [ "$1" = '-f' -o "$1" = '--force' ]; then
-    linkDotfiles
-else
-    read -n 1 -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " reply
-    echo
-
-    reply=$(echo "$reply" | tr '[:upper:]' '[:lower:]')
-
-    if [ "${reply}" = 'y' ]; then
-        linkDotfiles
-    fi
-fi
+linkDotfiles

@@ -16,7 +16,7 @@ ignoredfiles=(
     .gitmodules
     LICENSE.md
     README.md
-    setup.sh
+    install.sh
     update.sh
     utils
     .DS_Store

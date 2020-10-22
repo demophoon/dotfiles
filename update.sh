@@ -11,7 +11,7 @@ local_branch_name=$(git name-rev --name-only HEAD)
 tracking_branch_name=$(git for-each-ref --format='%(upstream)' "$(git symbolic-ref -q HEAD)")
 tracking_branch_remote=$(git config branch."${local_branch_name}".remote)
 
-if [ -n "$(git diff --name-only)" -o -n "$(git diff --name-only --cached)" ]; then
+if [ -n "$(git diff --name-only)" ] || [ -n "$(git diff --name-only --cached)" ]; then
     echo "You will need to stage and commit the following files to your repository in $dotfiles_repo"
     if [ -n "$(git diff --name-only)" ]; then
         echo "Stage:"
@@ -27,7 +27,7 @@ else
     if [ -n "$(git log HEAD.."${tracking_branch_remote:?}" --oneline)" ]; then
         git merge "${tracking_branch_name:?}" -q
         git submodule update
-        . ./setup.sh -f
+        ./install.sh
     else
         echo "Up to date!"
     fi

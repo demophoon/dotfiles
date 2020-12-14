@@ -1,0 +1,25 @@
+{
+    "vim.enableNeovim": true,
+    "vim.hlsearch": true,
+    "vim.leader": ",",
+    "vim.useSystemClipboard": true,
+    "vim.vimrc.enable": true,
+    "vim.visualstar": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [ "<leader>", "n" ],
+            "commands": [
+                "workbench.view.explorer",
+                "workbench.action.focusSideBar"
+            ]
+        }
+    ],
+    "workbench.settings.openDefaultKeybindings": true,
+    "macros": { }
+}

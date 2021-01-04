@@ -67,7 +67,7 @@
     Bundle 'tpope/vim-repeat'
     Bundle 'tpope/vim-speeddating'
     Bundle 'tpope/vim-surround'
-    Bundle 'Townk/vim-autoclose'
+    Bundle 'Raimondi/delimitMate'
 
     " Vim looks
     Bundle 'bling/vim-airline'
@@ -77,6 +77,8 @@
     Bundle 'rstacruz/sparkup'
     Bundle 'SirVer/ultisnips'
     Bundle 'honza/vim-snippets'
+    Bundle 'Valloric/YouCompleteMe'
+    " Install with `cd ~/.vim/bundle/YouCompleteMe && python3 install.py -all`
 
     " Color schemes
     Bundle 'nanotech/jellybeans.vim'
@@ -108,6 +110,9 @@
     " Bash
     "Bundle 'demophoon/bash-fold-expr'
     "autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
+
+    " Go
+    Bundle 'fatih/vim-go'
 
     " Clojure
     Bundle 'guns/vim-clojure-static'

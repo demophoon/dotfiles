@@ -77,7 +77,8 @@
     Bundle 'rstacruz/sparkup'
     Bundle 'SirVer/ultisnips'
     Bundle 'honza/vim-snippets'
-    Bundle 'Valloric/YouCompleteMe'
+    Bundle 'neoclide/coc.nvim'
+    "Bundle 'Valloric/YouCompleteMe'
     " Install with `cd ~/.vim/bundle/YouCompleteMe && python3 install.py -all`
 
     " Color schemes
@@ -112,7 +113,7 @@
     "autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
 
     " Go
-    Bundle 'fatih/vim-go'
+    "Plugin 'fatih/vim-go'
 
     " Clojure
     Bundle 'guns/vim-clojure-static'

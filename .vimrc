@@ -24,18 +24,22 @@
     " If vimrc has been modified, re-source it for fast modifications
     autocmd! BufWritePost *vimrc source %
 
-    " Setting up Vundle - the vim plugin bundler
-        let iCanHazVundle=1
-        let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-        if !filereadable(vundle_readme)
-            echo "Installing Vundle.."
-            echo ""
-            silent !mkdir -p ~/.vim/bundle
-            silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-            let iCanHazVundle=0
+    " Setting up vim-plug
+    if has("nvim")
+        if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+          silent !curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs
+              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+            autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
         endif
-        set rtp+=~/.vim/bundle/vundle/
-        call vundle#rc()
+    else
+        if empty(glob('~/.vim/autoload/plug.vim'))
+          silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+            autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+        endif
+    endif
+
+    call plug#begin('~/.vim/plugged')
 
     " Set Leader
     let mapleader = ","
@@ -55,81 +59,70 @@
     " }}}
 
 "========================================================================= }}}
-" Vundle Bundles {{{1
+" Vim-plug packages {{{1
 "============================================================================
 
     " Required Plugins
-    Bundle 'gmarik/vundle'
-    Bundle 'tomtom/tlib_vim'
+    Plug 'tomtom/tlib_vim'
 
     " Vim feels
-    Bundle 'nelstrom/vim-visual-star-search'
-    Bundle 'tpope/vim-repeat'
-    Bundle 'tpope/vim-speeddating'
-    Bundle 'tpope/vim-surround'
-    Bundle 'Raimondi/delimitMate'
+    Plug 'nelstrom/vim-visual-star-search'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-surround'
+    Plug 'cohama/lexima.vim'
 
     " Vim looks
-    Bundle 'bling/vim-airline'
-    Bundle 'bling/vim-bufferline'
+    Plug 'vim-airline/vim-airline'
 
     " Snippets and Code Completion
-    Bundle 'rstacruz/sparkup'
-    Bundle 'SirVer/ultisnips'
-    Bundle 'honza/vim-snippets'
-    Bundle 'neoclide/coc.nvim'
-    "Bundle 'Valloric/YouCompleteMe'
-    " Install with `cd ~/.vim/bundle/YouCompleteMe && python3 install.py -all`
+    Plug 'rstacruz/sparkup'
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
 
     " Color schemes
-    Bundle 'nanotech/jellybeans.vim'
+    Plug 'nanotech/jellybeans.vim'
 
     " File traversal
-    Bundle 'scrooloose/nerdtree'
-    "Bundle 'kien/ctrlp.vim'
-    Bundle 'junegunn/fzf'
-    "Bundle 'tpope/vim-vinegar'
+    Plug 'preservim/nerdtree'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
 
     " Code readability/helpers
-    Bundle 'kien/rainbow_parentheses.vim'
-    Bundle 'nathanaelkane/vim-indent-guides'
-    Bundle 'sheerun/vim-polyglot'
-    Bundle 'scrooloose/syntastic'
-    Bundle 'godlygeek/tabular'
+    Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'godlygeek/tabular'
 
     " Git
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'tpope/vim-git'
+    Plug 'tpope/vim-fugitive'
 
     " Python
-    Bundle 'klen/python-mode'
+    "Plug 'klen/python-mode'
 
     " Ruby
-    "Bundle 'vim-ruby/vim-ruby'
-    "Bundle 'tpope/vim-endwise'
-
-    " Bash
-    "Bundle 'demophoon/bash-fold-expr'
-    "autocmd! BufRead,BufEnter *.clj Bundle 'kovisoft/slimv'
+    "Plug 'vim-ruby/vim-ruby'
+    "Plug 'tpope/vim-endwise'
 
     " Go
-    "Plugin 'fatih/vim-go'
+    "Plug 'fatih/vim-go'
 
     " Clojure
-    Bundle 'guns/vim-clojure-static'
-    Bundle 'tpope/vim-fireplace'
-    Bundle 'tpope/vim-classpath'
-    "Bundle 'kovisoft/slimv'
+    "Plug 'guns/vim-clojure-static'
+    "Plug 'tpope/vim-fireplace'
+    "Plug 'tpope/vim-classpath'
+    "Plug 'kovisoft/slimv'
 
-    Bundle 'jceb/vim-orgmode'
+    "Plug 'jceb/vim-orgmode'
 
-    filetype plugin indent on
-
-    if iCanHazVundle == 0
-        echo "Installing Bundles, please ignore key map error messages"
-        echo ""
-        :BundleInstall
+    " Neovim LSP support
+    if has("nvim")
+        " For more extensions see the link below
+        " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions
+        let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-go', 'coc-sh', 'coc-snippets', ]
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
+
+    call plug#end()
+    "filetype plugin indent on
 
 " ========================================================================= }}}
 "  Filetype Association {{{1
@@ -453,7 +446,7 @@
     " }}}
     " Format JSON with python {{{2
     " -----------------------
-        map <Leader>j !python -m json.tool<CR>
+        map <Leader>j !python3 -m json.tool<CR>
     " }}}
     " Multipurpose Tab-key {{{2
     " --------------------

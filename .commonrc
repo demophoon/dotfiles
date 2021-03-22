@@ -31,12 +31,17 @@ if [ -d "${HOME}/.yay/" ]; then
     yay check
 fi
 
+# Neovim default if installed
+if command -v nvim &> /dev/null; then
+    EDITOR='nvim'
+    alias vim='nvim'
+fi
+
 # Locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # Misc settings
-export EDITOR=vim
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
 # vim: ft=sh

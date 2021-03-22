@@ -89,6 +89,26 @@ k() {
             flags+='--wait=false'
             action='delete'
             ;;
+        p)
+            k_type='pods'
+            action='get'
+            ;;
+        d)
+            k_type='deployments'
+            action='get'
+            ;;
+        n)
+            k_type='namespaces'
+            action='get'
+            ;;
+        se|ss)
+            k_type='secrets'
+            action='get'
+            ;;
+        sv)
+            k_type='services'
+            action='get'
+            ;;
         pod*|st*|deployment*|d|job*|svc*|secret*|cm*|pvc*|namespace*)
             k_type=$action
             action='get'
@@ -109,12 +129,16 @@ k() {
             k_type='pod'
             flags+='-lkustomize.version=v0.1'
             ;;
-        get)
+        g|get)
             if [ "$1" = 'fucked' ]; then
                 shift
                 eval "k redeploy"
                 return $?
             fi
+            ;;
+        context|contexts|get-context|get-contexts)
+            action='config'
+            k_type='get-contexts'
             ;;
         log|logs)
             executable="stern"
@@ -123,7 +147,7 @@ k() {
         install)
             action='kots'
             k_type="install ${namespace}/unstable"
-            flags="--shared-password ${CONSOLE_PASSWORD} --license-file ~/_configs/britt-dev-gke-kots-sturgeon.yaml --config-values ~/_configs/deploy-ghe.yaml"
+            flags="--shared-password ${CONSOLE_PASSWORD} --license-file ~/_configs/britt-dev-gke-kots-sturgeon.yaml --config-values ~/_configs/deploy-github.yaml"
             ;;
     esac
     k_type=${k_type:-$@}

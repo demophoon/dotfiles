@@ -30,6 +30,6 @@
     {
         "key": "o",
         "command": "explorer.openAndPassFocus",
-        "when": "sideBarFocus",
+        "when": "sideBarFocus && !explorerResourceIsFolder",
     }
 ]

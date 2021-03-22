@@ -21,5 +21,9 @@
         }
     ],
     "workbench.settings.openDefaultKeybindings": true,
-    "macros": { }
+    "macros": {},
+    "go.useLanguageServer": true,
+    "vs-kubernetes": {
+        "vs-kubernetes.minikube-path.linux": "/home/britt/.vs-kubernetes/tools/minikube/linux-amd64/minikube"
+    }
 }

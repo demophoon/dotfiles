@@ -1,5 +1,7 @@
 # Ignore .vim files
 .vim/bundle/*
+.vim/plugged/*
+.vim/autoload/*
 
 # Compiled Python files
 *.pyc

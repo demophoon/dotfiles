@@ -26,6 +26,12 @@ if [[ -d ${cargo_path} ]]; then
     export PATH="${PATH}:${cargo_path}"
 fi
 
+# Include npm binaries
+npm_path=~/.node_modules_global/bin
+if [[ -d ${npm_path} ]]; then
+    export PATH="${PATH}:${npm_path}"
+fi
+
 if [ -d "${HOME}/.yay/" ]; then
     yay remind
     yay check

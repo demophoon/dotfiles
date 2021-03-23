@@ -117,7 +117,11 @@
     if has("nvim")
         " For more extensions see the link below
         " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions
-        let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-go', 'coc-sh', 'coc-snippets', ]
+        " Some extensions require LSPs to be installed and do not themselves
+        " handle LSP installation:
+        "  - coc-sh: `npm install -g bash-language-server`
+
+        let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-go', 'coc-sh', 'coc-snippets',]
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
 

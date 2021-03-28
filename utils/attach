@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PROJECT_NAME=${PROJECT_NAME:-${1}}
+PROJECT_NAME=${PROJECT_NAME:-$(basename $(pwd))}
 tmux='tmux'
 shift
 
@@ -43,11 +44,6 @@ default_customize_session() {
     # Set color to determined random color
     ${tmux:?} set-option status-fg "colour253" > /dev/null
     ${tmux:?} set-option status-bg "colour${_TMUX_COLOR}" > /dev/null
-    ${tmux:?} set-option status-attr "dim" > /dev/null
-    ${tmux:?} set-option window-status-attr "dim" > /dev/null
-    ${tmux:?} set-option window-status-current-attr "bold" > /dev/null
-    ${tmux:?} set-option window-status-current-fg "colour255" > /dev/null
-    ${tmux:?} set-option window-status-current-bg "colour235" > /dev/null
 }
 
 if ! session_exists; then

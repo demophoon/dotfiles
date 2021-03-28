@@ -20,6 +20,9 @@ fi
 # Adjust $PATH
 export PATH=$PATH:$dotfiles/utils
 
+# Add snap binaries
+export PATH=$PATH:/snap/bin
+
 # Include rust binaries
 cargo_path="$HOME/.cargo/bin"
 if [[ -d ${cargo_path} ]]; then

@@ -25,21 +25,39 @@
     autocmd! BufWritePost *vimrc source %
 
     " Setting up vim-plug
-    if has("nvim")
-        if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-          silent !curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs
-              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-            autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    if has('win32') || has('win64')
+        set shell=powershell.exe
+        set shellcmdflag=-NoProfile\ -NoLogo\ -NonInteractive\ -Command
+        set shellpipe=|
+        set shellredir=>
+        set shellxquote=(
+
+        let g:app_data = $HOME . '\AppData\Local'
+
+        if has('nvim')
+            let g:plug_check = g:app_data . '\nvim\autoload\plug.vim'
+            let g:plug_install = 'Invoke-WebRequest -Uri "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" -OutFile ' . g:app_data . '\nvim\autoload\plug.vim'
+        else
+            let g:plug_check = $HOME . '\.vim\autoload\plug.vim'
+            let g:plug_install = 'md ' . g:app_data . '\nvim\autoload; '
+            let g:plug_install += '(New-Object Net.WebClient).DownloadFile("https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("' . g:app_data . '\nvim\autoload\plug.vim"))'
         endif
     else
-        if empty(glob('~/.vim/autoload/plug.vim'))
-          silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-            autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+        if has("nvim")
+            let g:plug_check = $HOME . "/.local/share/nvim/site/autoload/plug.vim"
+        else
+            let g:plug_check = $HOME . "/.vim/autoload/plug.vim"
         endif
+        let g:plug_install = "curl -fLo " . g:plug_check . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     endif
 
-    call plug#begin('~/.vim/plugged')
+    if empty(glob(g:plug_check))
+        if has('win32') || has('win64')
+            exec '!New-Item -ItemType directory -Path ' . g:app_data . '/nvim/autoload'
+        endif
+        silent exec '!' . g:plug_install
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
 
     " Set Leader
     let mapleader = ","
@@ -61,6 +79,8 @@
 "========================================================================= }}}
 " Vim-plug packages {{{1
 "============================================================================
+
+    call plug#begin($HOME . '/.vim/plugged')
 
     " Required Plugins
     Plug 'tomtom/tlib_vim'
@@ -276,7 +296,7 @@
     " ---------------
         if v:version >= 703
             set undofile
-            set undodir=~/.vim/tmp,~/.tmp,~/tmp,~/var/tmp,/tmp
+            set undodir=$HOME/.vim/tmp,$HOME/.tmp,$HOME/tmp,$HOME/var/tmp,/tmp
         endif
     " }}}
     " Spelling / Typos {{{2
@@ -362,7 +382,7 @@
                 \ ['TODO', 'IN_PROGRESS', 'BLOCKED', 'SCHEDULED', '|', 'DONE'],
                 \ ['DELEGATED', '|', 'COMPLETE'],
                 \ ['CANCELLED']]
-    let g:org_agenda_files = ['~/org/*.org', '~/Nextcloud/Org/*.org']
+    let g:org_agenda_files = [$HOME . '/org/*.org', $HOME . '/Nextcloud/Org/*.org']
 
     " }}}
     " Syntastic Validator Settings {{{2
@@ -724,10 +744,10 @@
 "  Post Configurations {{{1
 " ============================================================================
     " Find local Vim files"
-    silent! source ~/.vimrc.local
+    silent! source $HOME/.vimrc.local
     silent! source ./.vimrc.local
     " Remap mappings that get overwritten by plugins
-    set rtp+=~/.vim/after/
+    set rtp+=$HOME/.vim/after/
 "" }}}
 " ============================================================================
 

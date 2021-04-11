@@ -1,4 +1,4 @@
-source ~/.vimrc
+source $HOME/.vimrc
 
 nnoremap <leader><leader> :CocAction<cr>
 

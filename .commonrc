@@ -46,6 +46,11 @@ if command -v nvim &> /dev/null; then
     alias vim='nvim'
 fi
 
+# Add dockerized mc if it doesn't exist
+if ! command -v mc &> /dev/null; then
+    alias mc="docker run -it -w /workdir -v $(pwd):/workdir -v ~/.mc:/root/.mc minio/mc"
+fi
+
 # Locale
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8

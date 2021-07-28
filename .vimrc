@@ -96,7 +96,6 @@
 
     " Snippets and Code Completion
     Plug 'rstacruz/sparkup'
-    Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
 
     " Color schemes
@@ -128,8 +127,12 @@
     " Clojure
     "Plug 'guns/vim-clojure-static'
     "Plug 'tpope/vim-fireplace'
+    "Plug 'tpope/vim-iced'
     "Plug 'tpope/vim-classpath'
     "Plug 'kovisoft/slimv'
+    "Plug 'liquidz/vim-iced', {'for': 'clojure'}
+    "Plug 'guns/vim-sexp',    {'for': 'clojure'}
+    "Plug 'tpope/vim-sexp-mappings-for-regular-people'
 
     "Plug 'jceb/vim-orgmode'
 
@@ -476,16 +479,16 @@
     " --------------------
     " Taken from https://github.com/gregstallings/vimfiles/blob/master/vimrc
         " Indent if at the beginning of a line, else do completion
-        function! InsertTabWrapper()
-            let col = col('.') - 1
-            if !col || getline('.')[col - 1] !~ '\k'
-                return "\<tab>"
-            else
-                return "\<C-R>=UltiSnips#ExpandSnippet()\<CR>"
-            endif
-        endfunction
-        inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-        inoremap <s-tab> <c-d>
+        "function! InsertTabWrapper()
+        "    let col = col('.') - 1
+        "    if !col || getline('.')[col - 1] !~ '\k'
+        "        return "\<tab>"
+        "    else
+        "        return "\<C-R>=UltiSnips#ExpandSnippet()\<CR>"
+        "    endif
+        "endfunction
+        "inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+        "inoremap <s-tab> <c-d>
         "inoremap <s-tab> <c-n>
         "inoremap <c-c> <C-r>=TriggerSnippet()<cr>
     " }}}

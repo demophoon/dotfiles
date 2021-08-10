@@ -155,6 +155,6 @@ k() {
     if [ ! -z "$_WATCH" ]; then
         command="watch -n .5 --no-title '${command}'"
     fi
-    echo $command
+    >&2 echo $command
     eval "$command"
 }

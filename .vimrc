@@ -91,61 +91,64 @@
     Plug 'tpope/vim-surround'
     Plug 'cohama/lexima.vim'
 
-    " Vim looks
-    Plug 'vim-airline/vim-airline'
+    if !exists('g:vscode')
+        " Vim looks
+        Plug 'vim-airline/vim-airline'
 
-    " Snippets and Code Completion
-    Plug 'rstacruz/sparkup'
-    Plug 'honza/vim-snippets'
+        " Snippets and Code Completion
+        Plug 'rstacruz/sparkup'
+        Plug 'honza/vim-snippets'
 
-    " Color schemes
-    Plug 'nanotech/jellybeans.vim'
+        " Color schemes
+        Plug 'nanotech/jellybeans.vim'
 
-    " File traversal
-    Plug 'preservim/nerdtree'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
+        " File traversal
+        Plug 'preservim/nerdtree'
+        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+        Plug 'junegunn/fzf.vim'
+        Plug 'yssl/QFEnter'
 
-    " Code readability/helpers
-    Plug 'nathanaelkane/vim-indent-guides'
-    Plug 'sheerun/vim-polyglot'
-    Plug 'godlygeek/tabular'
+        " Code readability/helpers
+        Plug 'nathanaelkane/vim-indent-guides'
+        Plug 'sheerun/vim-polyglot'
+        Plug 'godlygeek/tabular'
 
-    " Git
-    Plug 'tpope/vim-fugitive'
+        " Git
+        Plug 'tpope/vim-fugitive'
 
-    " Python
-    "Plug 'klen/python-mode'
+        " Python
+        "Plug 'klen/python-mode'
 
-    " Ruby
-    "Plug 'vim-ruby/vim-ruby'
-    "Plug 'tpope/vim-endwise'
+        " Ruby
+        "Plug 'vim-ruby/vim-ruby'
+        "Plug 'tpope/vim-endwise'
 
-    " Go
-    "Plug 'fatih/vim-go'
+        " Go
+        "Plug 'fatih/vim-go'
 
-    " Clojure
-    "Plug 'guns/vim-clojure-static'
-    "Plug 'tpope/vim-fireplace'
-    "Plug 'tpope/vim-iced'
-    "Plug 'tpope/vim-classpath'
-    "Plug 'kovisoft/slimv'
-    "Plug 'liquidz/vim-iced', {'for': 'clojure'}
-    "Plug 'guns/vim-sexp',    {'for': 'clojure'}
-    "Plug 'tpope/vim-sexp-mappings-for-regular-people'
+        " Clojure
+        "Plug 'guns/vim-clojure-static'
+        "Plug 'tpope/vim-fireplace'
+        "Plug 'tpope/vim-iced'
+        "Plug 'tpope/vim-classpath'
+        "Plug 'kovisoft/slimv'
+        "Plug 'liquidz/vim-iced', {'for': 'clojure'}
+        "Plug 'guns/vim-sexp',    {'for': 'clojure'}
+        "Plug 'tpope/vim-sexp-mappings-for-regular-people'
 
-    "Plug 'jceb/vim-orgmode'
+        "Plug 'jceb/vim-orgmode'
 
-    " Neovim LSP support
-    if has("nvim")
-        " For more extensions see the link below
-        " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions
-        " Some extensions require LSPs to be installed and do not themselves
-        " handle LSP installation:
-        "  - coc-sh: `npm install -g bash-language-server`
+        " Neovim LSP support
+        if has("nvim")
+            " For more extensions see the link below
+            " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions
+            " Some extensions require LSPs to be installed and do not themselves
+            " handle LSP installation:
+            "  - coc-sh: `npm install -g bash-language-server`
 
-        let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-go', 'coc-sh', 'coc-snippets',]
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+            let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-go', 'coc-sh', 'coc-snippets',]
+            Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        endif
     endif
 
     call plug#end()

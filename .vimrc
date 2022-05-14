@@ -124,7 +124,8 @@
         "Plug 'tpope/vim-endwise'
 
         " Go
-        "Plug 'fatih/vim-go'
+        Plug 'fatih/vim-go'
+        Plug 'dense-analysis/ale'
 
         " Clojure
         "Plug 'guns/vim-clojure-static'
@@ -146,8 +147,12 @@
             " handle LSP installation:
             "  - coc-sh: `npm install -g bash-language-server`
 
-            let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-go', 'coc-sh', 'coc-snippets',]
-            Plug 'neoclide/coc.nvim', {'branch': 'release'}
+            "let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-go', 'coc-sh', 'coc-snippets',]
+            "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+            let g:deoplete#enable_at_startup = 1
         endif
     endif
 
@@ -396,6 +401,10 @@
     let g:syntastic_html_checkers=["validator"]
     let g:syntastic_html_validator_api="http://localhost:8888"
     let g:syntastic_html_validator_parser="html5"
+    " }}}
+    " Ale Highlight Settings {{{2
+    " --------------------
+    highlight goSameId ctermbg=DarkMagenta
     " }}}
 "" ======== }}}
 "  Mappings {{{1

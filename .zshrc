@@ -112,3 +112,4 @@ bindkey '^P' vi-forward-word
 
 # Common things
 [[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"
+eval "$(direnv hook zsh)"

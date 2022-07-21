@@ -37,3 +37,4 @@ fi
 
 # Common things
 [[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"
+eval "$(direnv hook bash)"

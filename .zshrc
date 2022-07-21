@@ -110,6 +110,10 @@ bindkey "^R" history-incremental-search-backward
 bindkey '^F' vi-forward-word
 bindkey '^P' vi-forward-word
 
+# direnv
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
 # Common things
 [[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"
-eval "$(direnv hook zsh)"

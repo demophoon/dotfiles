@@ -35,6 +35,10 @@ fi
 # rvm
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
+# direnv
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook bash)"
+fi
+
 # Common things
 [[ -s "$HOME/.commonrc" ]] && source "$HOME/.commonrc"
-eval "$(direnv hook bash)"

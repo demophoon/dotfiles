@@ -13,7 +13,7 @@
         ui = true;
       };
       core = {
-        editor = "vim";
+        editor = "nvim";
       };
       checkout = {
         defaultRemote = "upstream";

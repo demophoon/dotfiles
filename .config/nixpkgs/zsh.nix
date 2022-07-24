@@ -8,7 +8,6 @@ in {
     enable = true;
     shellAliases = {
       # Common Aliases
-      tmux = "TERM = screen-256color-bce tmux";
       ls = "ls";
       l = "ls -lhG";
       ll = "ls -AlhG";
@@ -17,8 +16,6 @@ in {
       vim = "nvim";
       cdc = "cd ~/projects/";
       tp = "attach";
-      update_dotfiles = ". $(dirname `readlink ~/.bashrc`)/update.sh";
-      pupper = "puppet";
       irc = "attach irc -d";
       notepad = "vim ~/.notes.md";
       run_puppet = "sudo /etc/puppetlabs/code/environments/production/install.sh run";
@@ -43,10 +40,8 @@ in {
       plugins = [
         "git"
         "github"
-        "zsh-syntax-highlighting"
         "python"
         "golang"
-        "zsh-autosuggestions"
         "vagrant"
       ];
     };

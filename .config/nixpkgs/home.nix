@@ -38,5 +38,7 @@ in {
     gnupg
     python310
     go
+    tmux
+    git
   ];
 }

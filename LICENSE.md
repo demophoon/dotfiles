@@ -1,7 +1,7 @@
 MIT License (MIT)
 =================
 
-Copyright (c) 2018 Britt Gresham (licenses@brittg.com)
+Copyright (c) 2022 Britt Gresham (licenses@brittg.com)
 ------------------------------------------------------
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

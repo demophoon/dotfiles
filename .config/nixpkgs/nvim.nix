@@ -1,11 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  dotfiles_repo = builtins.fetchGit {
-    url = "https://github.com/demophoon/dotfiles.git";
-  };
-  vimrc = dotfiles_repo.outPath + "/.vimrc";
-
   customPlugins = {
     jellybeans = pkgs.vimUtils.buildVimPlugin {
       name = "jellybeans.vim";

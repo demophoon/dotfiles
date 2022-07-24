@@ -4,6 +4,7 @@
   imports = [
     ./nvim.nix
     ./zsh.nix
+    ./git.nix
   ];
 
   home.username = "britt";

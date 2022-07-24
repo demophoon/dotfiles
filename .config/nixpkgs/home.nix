@@ -8,6 +8,7 @@ in {
     ./nvim.nix
     ./zsh.nix
     ./git.nix
+    ./configuration.nix
   ];
 
   home.username = "britt";

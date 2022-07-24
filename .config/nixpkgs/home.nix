@@ -14,10 +14,16 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  home.packages = [
-    pkgs.htop
-    pkgs.tree
-    pkgs.fzf
-    pkgs.zsh
+  home.packages = with pkgs; [
+    htop
+    tree
+    fzf
+    silver-searcher
+    jq
+    yq
+    dig
+    gnupg
+    python310
+    go
   ];
 }

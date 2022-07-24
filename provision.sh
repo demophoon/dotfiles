@@ -1,0 +1,274 @@
+#!/bin/bash
+# Provisioner script using nix and ansible
+#
+# Requirements:
+#
+#
+# Usage: provision.sh [options ...]
+# Installs Nix and setups dotfiles and optionally starts managing the system
+# with Ansible.
+# Options:
+#   -i: Interactive mode
+#   -u: Uninstall
+
+set -e
+
+{ # Prevent script from running if partially downloaded
+_NIX_VER=22.05
+reminders=()
+export _updated=
+export _indent=0
+
+# We will need to reset the path during the script
+export PATH=$PATH
+
+# Colors
+_B='\e[1m'
+_e='\e[0m'
+_r='\e[38;5;196m'  # Red
+_g='\e[38;5;119m'  # Green
+_b='\e[38;5;33m'   # Blue
+_y='\e[38;5;226m'  # Yellow
+_o='\e[38;5;208m'  # Orange
+_w='\e[38;5;254m'  # White
+
+_sg='\e[38;5;122m' # Sea Green
+_gr='\e[38;5;246m' # Gray
+
+# Printing utilities
+with() { _indent=$(($_indent + 1)); }
+endwith() { _indent=$(($_indent - 1)); }
+_print() {
+    for i in $(seq 1 ${_indent} ); do
+        echo -n "  "
+    done
+    echo -e "$*"
+}
+header()  { _indent=0; _print "${_b} ======= ${_e} ${_sg}$*${_e}${_b} =======${_e}"; }
+success() { _print "${_g} ✓${_e} ${_w}$*${_e}"; }
+failure() { _print "${_r} 𐄂${_e} ${_w}$*${_e}"; }
+info()    { _print "${_b} *${_e} ${_w}$*${_e}"; }
+warn()    { _print "${_y} ⚠ $*${_e}"; }
+error()   { _print "${_r}!! $*${_e}"; exit 0; }
+
+run() {
+    info "Running '${_gr}$*${_sg}'"
+    "$@"
+}
+
+command_exists() { type "$1" &> /dev/null; }
+nix_command_exists() { PATH=~/.nix-profile/bin type "$1" &> /dev/null; }
+is_function() {
+    case $(type -t "$1") in
+        function) return 0
+    esac
+    return 1
+}
+
+show_reminders() {
+    for r in "${reminders[@]}"; do
+        warn "$r"
+    done
+}
+add_reminder() {
+  reminders+=("$*")
+}
+require() {
+    if ! command_exists "$1"; then
+        error "$1 is required but not installed."
+    fi
+}
+find_first_command() {
+    for cmd in "${@}"; do
+        if command_exists $cmd; then
+            echo $cmd
+            return 0
+        fi
+    done
+    return 1
+}
+native_install_if_missing() {
+    cmd=$1
+    shift
+    pkg=${1:-${cmd}}
+    if ! command_exists "${cmd:?}" ; then
+        install_pkg "$pkg"
+        success "${_w}'${_gr}${cmd}${_w}' installed"
+    else
+        success "${_w}'${_gr}${cmd}${_w}' installed"
+    fi
+}
+
+install_if_missing() {
+    cmd=$1
+    shift
+    pkg=${1:-$cmd}
+    if ! command_exists "${cmd:?}" || ! nix_command_exists "${cmd:?}" ; then
+        install_command="${1:-install_$cmd}"
+        if is_function "${install_command:?}"; then
+          "${install_command:?}"
+        else
+          install_with_nix "${pkg}"
+          success "${_w}'${_gr}${cmd}${_w}' installed"
+        fi
+    else
+        success "${_w}'${_gr}${cmd}${_w}' installed"
+    fi
+}
+
+install_pkg() {
+  pkg=$1
+  installer=$(find_first_command apt yum)
+  case $installer in
+    apt)
+      if [ -n _updated ]; then
+          run sudo apt update
+          _updated=1
+      fi
+      with
+      run sudo apt install "$pkg" -y
+      endwith
+      return 0
+      ;;
+    yum)
+      if [ -n _updated ]; then
+          run sudo yum update
+          _updated=1
+      fi
+      with
+      run sudo yum install "$pkg" -y
+      endwith
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+install_with_nix() {
+    require nix
+    info "Installing $1..."
+  with
+    run nix-env -i "$1"
+  endwith
+}
+
+install_nix() {
+  if command_exists nix; then
+    return 0
+  fi
+  if [ -d /nix ]; then
+    error "It looks like Nix is installed but you need to activate it before we can continue. Open a new terminal and rerun this script."
+  fi
+  install_file="./$(mktemp nix-install.XXXXX.sh)"
+  run curl -L https://nixos.org/nix/install -o "${install_file:?}"
+  run chmod +x "${install_file:?}"
+  run "${install_file:?}" --daemon
+  run rm -f "${install_file:?}"
+  add_reminder "Restart your shell to use Nix"
+}
+
+update_nix() {
+  source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+  require nix
+  info "Updating Nix channels..."
+  with;
+    run nix-channel --add "https://channels.nixos.org/nixos-${_NIX_VER:?}"
+    run nix-channel --update
+  endwith
+}
+
+install_home-manager() {
+  run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_NIX_VER:?}.tar.gz" home-manager
+  run nix-channel --update
+  run nix-shell '<home-manager>' -A install
+}
+
+uninstall_nix() {
+  header "Uninstalling Nix"; with
+    run sudo systemctl stop nix-daemon.socket
+    run sudo systemctl stop nix-daemon.service
+    run sudo systemctl disable nix-daemon.service
+    run sudo systemctl disable nix-daemon.socket
+    run sudo systemctl daemon-reload
+    run sudo mv /etc/bashrc.backup-before-nix /etc/bashrc
+    run sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
+    run sudo rm -rf /etc/nix /nix /root/.nix-profile /root/.nix-defexpr /root/.nix-channels /home/britt/.nix-profile /home/britt/.nix-defexpr /home/britt/.nix-channels
+  endwith
+}
+
+# Dotfile utils
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+HOMEDIR=${HOME:?}
+merge_directories=(
+    .config/nixpkgs
+)
+realize_directories() {
+    filepath=${1:?}
+    realize_path="${HOMEDIR:?}/${filepath%/*}"
+    if [ ! -d "${realize_path:?}" ]; then
+        run mkdir -p "${realize_path:?}"
+    fi
+}
+
+deep_merge_dirs() {
+    mergePath=${1:?}
+    if [ ! -d ${mergePath:?} ]; then
+        if [ -e ${mergePath:?} ]; then
+            dotfiles_file=${mergePath#$DIR/}
+            realize_directories ${dotfiles_file}
+            run rm -f "${HOMEDIR:?}/${dotfiles_file:?}"
+            run ln -s "${DIR:?}/${dotfiles_file:?}" "${HOMEDIR:?}/${dotfiles_file:?}"
+        fi
+    else
+        for dir in $(find ${mergePath:?}/* -maxdepth 0); do
+            deep_merge_dirs "${dir:?}"
+        done
+    fi
+}
+
+merge_dirs() {
+  info "Linking Nixpkgs..."
+  with
+    for dir in ${merge_directories:?}; do
+        deep_merge_dirs "${DIR:?}/${dir:?}"
+    done
+  endwith
+  success "Nixpkgs linked"
+}
+
+initialize_home_manager () {
+  require home-manager
+  run home-manager switch
+  success "Dotfiles installed"
+  add_reminder "Dotfiles have been installed but old paths may still remain in this shell. Restart your shell to activate dotfiles."
+}
+
+main() {
+  header "Installing Nix"; with
+    native_install_if_missing curl
+    native_install_if_missing xz xz-utils
+    install_nix
+    update_nix
+  endwith;
+
+  require nix
+  header "Installing home-manager"; with
+    install_if_missing home-manager
+  endwith
+
+  header "Injecting dotfile configurations"; with
+    merge_dirs
+  endwith
+
+  header "Initializing home directory"; with
+    initialize_home_manager
+  endwith
+
+  header "Finished!"
+  show_reminders
+}
+
+main
+#set +e
+#uninstall_nix
+}

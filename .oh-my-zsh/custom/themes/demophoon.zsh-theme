@@ -95,6 +95,10 @@ function steeef_chpwd {
 }
 add-zsh-hook chpwd steeef_chpwd
 
+function _runtime {
+  date +"%T"
+}
+
 function steeef_precmd {
     if [[ -n "$PR_GIT_UPDATE" ]] ; then
         # check for untracked files or updated submodules, since vcs_info doesn't
@@ -112,6 +116,6 @@ function steeef_precmd {
 }
 add-zsh-hook precmd steeef_precmd
 
-RPROMPT='hello world'
+RPROMPT=$'%{$GREY%}[ $(_runtime) ]%{$reset_color%}'
 PROMPT=$'%{$MAGENTA%}%n%{$GREY%} at %{$ORANGE%}%m%{$GREY%} in %{$GREEN%}%~%{$GREY%} $vcs_info_msg_0_$(virtualenv_info)
 %{$GREY%}$ %{$reset_color%}'

@@ -3,13 +3,12 @@
 let
   dotfiles_repo = builtins.fetchGit {
     url = "https://github.com/demophoon/dotfiles.git";
+    ref = "nix";
   };
+  zsh-custom = "${dotfiles_repo.outPath}/.oh-my-zsh/custom";
 in {
   programs.zsh = {
     enable = true;
-    dirHashes = {
-      cdc = "$HOME/projects";
-    };
     shellAliases = {
       # Common Aliases
       tmux = "TERM = screen-256color-bce tmux";
@@ -42,6 +41,8 @@ in {
 
     oh-my-zsh = {
       enable = true;
+      custom = zsh-custom;
+      theme = "demophoon";
       plugins = [
         "git"
         "github"

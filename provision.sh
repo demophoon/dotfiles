@@ -16,6 +16,7 @@ set -e
 { # Prevent script from running if partially downloaded
 _NIX_VER=22.05
 reminders=()
+cleanup_steps=()
 export _updated=
 export _indent=0
 
@@ -54,6 +55,17 @@ error()   { _print "${_r}!! $*${_e}"; exit 0; }
 run() {
     info "Running '${_gr}$*${_sg}'"
     "$@"
+}
+
+add_cleanup() {
+  cleanup_steps+=("$*")
+}
+cleanup() {
+  header "Cleaning up..."; with
+    for step in "${cleanup_steps[@]}"; do
+        run ${step}
+    done
+  endwith
 }
 
 command_exists() { type "$1" &> /dev/null; }
@@ -160,10 +172,10 @@ install_nix() {
     error "It looks like Nix is installed but you need to activate it before we can continue. Open a new terminal and rerun this script."
   fi
   install_file="./$(mktemp nix-install.XXXXX.sh)"
+  add_cleanup rm -f "${install_file:?}"
   run curl -L https://nixos.org/nix/install -o "${install_file:?}"
   run chmod +x "${install_file:?}"
   run "${install_file:?}" --daemon
-  run rm -f "${install_file:?}"
   add_reminder "Restart your shell to use Nix"
 }
 
@@ -192,6 +204,8 @@ uninstall_nix() {
     run sudo systemctl daemon-reload
     run sudo mv /etc/bashrc.backup-before-nix /etc/bashrc
     run sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
+    run sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
+    run sudo mv /etc/zsh/zshrc.backup-before-nix /etc/zsh/zshrc
     run sudo rm -rf /etc/nix /nix /root/.nix-profile /root/.nix-defexpr /root/.nix-channels /home/britt/.nix-profile /home/britt/.nix-defexpr /home/britt/.nix-channels
   endwith
 }
@@ -268,7 +282,15 @@ main() {
   show_reminders
 }
 
-main
-#set +e
-#uninstall_nix
+trap "cleanup; exit" EXIT
+
+case $1 in
+  uninstall)
+    set +e
+    uninstall_nix
+    ;;
+  *)
+    main
+    ;;
+esac
 }

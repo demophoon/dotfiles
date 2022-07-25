@@ -22,6 +22,7 @@ export _indent=0
 
 # We will need to reset the path during the script
 export PATH=$PATH
+export NIX_PATH=$NIX_PATH
 
 # Colors
 _B='\e[1m'
@@ -61,6 +62,7 @@ add_cleanup() {
   cleanup_steps+=("$*")
 }
 cleanup() {
+  if [ ${#cleanup_steps[@]} -eq 0 ]; then; return; fi
   header "Cleaning up..."; with
     for step in "${cleanup_steps[@]}"; do
         run ${step}
@@ -78,9 +80,12 @@ is_function() {
 }
 
 show_reminders() {
+  if [ ${#reminder[@]} -eq 0 ]; then; return; fi
+  header "Before you can start"; with
     for r in "${reminders[@]}"; do
-        warn "$r"
+      warn "$r"
     done
+  endwith
 }
 add_reminder() {
   reminders+=("$*")
@@ -168,31 +173,32 @@ install_nix() {
   if command_exists nix; then
     return 0
   fi
-  if [ -d /nix ]; then
-    error "It looks like Nix is installed but you need to activate it before we can continue. Open a new terminal and rerun this script."
-  fi
-  install_file="./$(mktemp nix-install.XXXXX.sh)"
-  add_cleanup rm -f "${install_file:?}"
-  run curl -L https://nixos.org/nix/install -o "${install_file:?}"
-  run chmod +x "${install_file:?}"
-  run "${install_file:?}" --daemon
-  add_reminder "Restart your shell to use Nix"
+  info "Installing Nix"; with
+    sudo install -d -m755 -o $(id -u) -g $(id -g) /nix
+    install_file="./$(mktemp nix-install.XXXXX.sh)"
+    add_cleanup rm -f "${install_file:?}"
+    run curl -L https://nixos.org/nix/install -o "${install_file:?}"
+    run chmod +x "${install_file:?}"
+    run "${install_file:?}"
+    source $HOME/.nix-profile/etc/profile.d/nix.sh
+    add_reminder "Restart your shell to use Nix"
+  endwith;
 }
 
 update_nix() {
-  source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-  require nix
-  info "Updating Nix channels..."
-  with;
+  require nix-channel
+  info "Updating Nix channels..."; with
     run nix-channel --add "https://channels.nixos.org/nixos-${_NIX_VER:?}"
     run nix-channel --update
   endwith
 }
 
 install_home-manager() {
+  export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
   run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_NIX_VER:?}.tar.gz" home-manager
   run nix-channel --update
   run nix-shell '<home-manager>' -A install
+  run nix-env --set-flag priority 6 "$(nix-env -q | grep nix)"
 }
 
 uninstall_nix() {
@@ -252,7 +258,7 @@ merge_dirs() {
 
 initialize_home_manager () {
   require home-manager
-  run home-manager switch
+  run home-manager switch -b backup
   success "Dotfiles installed"
   add_reminder "Dotfiles have been installed but old paths may still remain in this shell. Restart your shell to activate dotfiles."
 }
@@ -270,9 +276,7 @@ main() {
     install_if_missing home-manager
   endwith
 
-  header "Injecting dotfile configurations"; with
-    merge_dirs
-  endwith
+  add_links
 
   header "Initializing home directory"; with
     initialize_home_manager
@@ -282,12 +286,22 @@ main() {
   show_reminders
 }
 
+add_links() {
+  header "Injecting dotfile configurations"; with
+    merge_dirs
+  endwith
+
+}
+
 trap "cleanup; exit" EXIT
 
 case $1 in
   uninstall)
     set +e
     uninstall_nix
+    ;;
+  links)
+    add_links
     ;;
   *)
     main

@@ -6,6 +6,11 @@ let
 in {
   programs.zsh = {
     enable = true;
+    enableSyntaxHighlighting = true;
+    enableAutosuggestions = true;
+    history = {
+      extended = true;
+    };
     shellAliases = {
       # Common Aliases
       ls = "ls";
@@ -44,6 +49,9 @@ in {
         "golang"
         "vagrant"
       ];
+      extraConfig = ''
+      source $HOME/.nix-profile/etc/profile.d/nix.sh
+      '';
     };
   };
 }

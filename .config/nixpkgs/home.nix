@@ -40,5 +40,7 @@ in {
     go
     tmux
     git
+    nix
+    direnv
   ];
 }

@@ -22,7 +22,7 @@ export _indent=0
 
 # We will need to reset the path during the script
 export PATH=$PATH
-export NIX_PATH=$NIX_PATH
+export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 
 # Colors
 _B='\e[1m'
@@ -62,7 +62,9 @@ add_cleanup() {
   cleanup_steps+=("$*")
 }
 cleanup() {
-  if [ ${#cleanup_steps[@]} -eq 0 ]; then; return; fi
+  if [ ${#cleanup_steps[@]} -eq 0 ]; then
+    return
+  fi
   header "Cleaning up..."; with
     for step in "${cleanup_steps[@]}"; do
         run ${step}
@@ -80,7 +82,9 @@ is_function() {
 }
 
 show_reminders() {
-  if [ ${#reminder[@]} -eq 0 ]; then; return; fi
+  if [ ${#reminder[@]} -eq 0 ]; then
+    return
+  fi
   header "Before you can start"; with
     for r in "${reminders[@]}"; do
       warn "$r"
@@ -194,7 +198,6 @@ update_nix() {
 }
 
 install_home-manager() {
-  export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
   run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_NIX_VER:?}.tar.gz" home-manager
   run nix-channel --update
   run nix-shell '<home-manager>' -A install
@@ -256,11 +259,21 @@ merge_dirs() {
   success "Nixpkgs linked"
 }
 
-initialize_home_manager () {
+initialize_home_manager() {
   require home-manager
   run home-manager switch -b backup
   success "Dotfiles installed"
   add_reminder "Dotfiles have been installed but old paths may still remain in this shell. Restart your shell to activate dotfiles."
+}
+
+update_home_manager() {
+  add_links
+
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+  require home-manager
+  header "Initializing home directory"; with
+    initialize_home_manager
+  endwith
 }
 
 main() {
@@ -276,11 +289,7 @@ main() {
     install_if_missing home-manager
   endwith
 
-  add_links
-
-  header "Initializing home directory"; with
-    initialize_home_manager
-  endwith
+  update_home_manager
 
   header "Finished!"
   show_reminders
@@ -302,6 +311,9 @@ case $1 in
     ;;
   links)
     add_links
+    ;;
+  update)
+    update_home_manager
     ;;
   *)
     main

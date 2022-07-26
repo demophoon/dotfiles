@@ -37,7 +37,7 @@ in {
     dig
     gnupg
     python310
-    go
+    go_1_18
     tmux
     git
     nix

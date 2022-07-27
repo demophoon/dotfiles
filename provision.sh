@@ -184,8 +184,8 @@ install_nix() {
     run curl -L https://nixos.org/nix/install -o "${install_file:?}"
     run chmod +x "${install_file:?}"
     run "${install_file:?}"
-    source $HOME/.nix-profile/etc/profile.d/nix.sh
-    add_reminder "Restart your shell to use Nix"
+    _setup_nix
+    add_reminder "You will need to either restart your terminal or run \nsource $HOME/.nix-profile/etc/profile.d/nix.sh\n to start using Nix"
   endwith;
 }
 
@@ -266,10 +266,14 @@ initialize_home_manager() {
   add_reminder "Dotfiles have been installed but old paths may still remain in this shell. Restart your shell to activate dotfiles."
 }
 
+_setup_nix() {
+  [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && source "$HOME/.nix-profile/etc/profile.d/nix.sh"
+}
+
 update_home_manager() {
+  _setup_nix
   add_links
 
-  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
   require home-manager
   header "Initializing home directory"; with
     initialize_home_manager
@@ -278,6 +282,7 @@ update_home_manager() {
 
 main() {
   header "Installing Nix"; with
+    _setup_nix
     native_install_if_missing curl
     native_install_if_missing xz xz-utils
     install_nix

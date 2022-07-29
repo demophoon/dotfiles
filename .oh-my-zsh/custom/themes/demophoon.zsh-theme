@@ -168,6 +168,23 @@ function fill-line() {
   fi
 }
 
+_fmt_duration() {
+  in=$1
+  msg=""
+  if [ $1 -gt 3600 ]; then
+    hr=$(( in / 60 / 60 ))
+    remain=$(( in - (hr * 60 * 60) ))
+    msg+="${hr}h$(_fmt_duration $remain)"
+  elif [ $1 -gt 60 ]; then
+    min=$(( in / 60 ))
+    remain=$(( in - (min * 60) ))
+    msg+="${min}m$(_fmt_duration $remain)"
+  elif [ $1 -gt 0 ]; then
+    msg+="${1}s"
+  fi
+  echo $msg
+}
+
 # Sets PROMPT and RPROMPT.
 #
 # Requires: prompt_percent and no_prompt_subst.
@@ -188,7 +205,7 @@ function set-prompt() {
 
   timer_msg=""
   if (( _last_cmd_time > 0 )); then
-    timer_msg="${_last_cmd_time}s | "
+    timer_msg="$(_fmt_duration ${_last_cmd_time}) | "
   fi
 
   local top_left="${MAGENTA}%n${GREY} at ${ORANGE}%m${GREY} in ${GREEN}%~${GREY} ${vcs_info_msg_0_}$(virtualenv_info)"

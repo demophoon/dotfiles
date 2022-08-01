@@ -158,3 +158,128 @@ k() {
     >&2 echo $command
     eval "$command"
 }
+
+WAYPOINT_SRC=
+waypoint() {
+    if [[ $ZSH_SUBSHELL -eq 0 ]]; then
+        use_echo=1
+    else
+        use_echo=0
+    fi
+    fn=($(cmd_mocker waypoint "$@"))
+    if [ -n "$fn" ]; then
+      _invoke "${fn[@]}"
+      return $?
+    fi
+    case "$1" in
+        bin)
+            _info "Using waypoint from $(_color purple)bin$(_color reset)"
+            WAYPOINT_SRC=0
+            return 0
+        ;;
+        src)
+            _info "Using waypoint from $(_color purple)source$(_color reset)"
+            WAYPOINT_SRC=1
+            return 0
+        ;;
+        sys|pkg|system|package|packaging)
+            _info "Using waypoint from $(_color purple)packaging$(_color reset)"
+            WAYPOINT_SRC=2
+            return 0
+        ;;
+        hcp)
+            context=$(waypoint context list | grep "api.hcp.dev:443" | awk '{ gsub(/ /,""); print $2}' FS='|')
+            if [ -z ${context} ]; then
+                echo "HCP Context not found"
+                return 1
+            fi
+            waypoint context use "${context}"
+            return 0
+        ;;
+        use)
+            shift
+            if [ -f $1 -a -x $1 ]; then
+                WAYPOINT_SRC=$(realpath $1)
+                _info "Using waypoint from $(_color purple)${WAYPOINT_SRC}$(_color reset)"
+            else
+                waypoint "$@"
+            fi
+            return 0
+        ;;
+        docker|kubernetes|ecs|nomad)
+            platform=$1
+            install_flags=()
+            shift
+            case $platform in
+                kubernetes)
+                    short_platform=k8s
+                ;;
+                ecs)
+                    install_flags+=("-ecs-region" "us-east-2")
+                    install_flags+=("-ecs-cluster" "britt-waypoint-server")
+                ;;
+                *)
+                    short_platform=$platform
+                ;;
+            esac
+
+            action=$1
+            shift
+
+            case $action in
+                install)
+                    install_flags+=('-accept-tos')
+                    install_flags+=("${@}")
+                    _run waypoint install -platform $platform "${install_flags[@]}"
+                    return 0
+                ;;
+                server-install)
+                    install_flags+=('-accept-tos')
+                    install_flags+=("${@}")
+                    pushd /home/britt/projects/waypoint
+                    make bin
+                    make docker/server
+                    svr_img="waypoint:dev"
+                    odr_img="waypoint-odr:dev"
+                    if [ $platform != "docker" ]; then
+                        registry="registry.services.demophoon.com"
+                        svr_img="${registry}/${svr_img}"
+                        odr_img="${registry}/${odr_img}"
+                        docker tag waypoint:dev "${svr_img}"
+                        docker tag waypoint-odr:dev "${odr_img}"
+                        docker push "${svr_img}"
+                        docker push "${odr_img}"
+                    fi
+                    popd
+                    _run waypoint install -platform $platform "-${short_platform}-server-image=${svr_img}" "-${short_platform}-odr-image=${odr_img}" "${install_flags[@]}"
+                    return 0
+                ;;
+                uninstall)
+                    install_flags+=("${@}")
+                    _run waypoint server uninstall -auto-approve "${install_flags[@]}"
+                    return 0
+                ;;
+                *)
+                    echo "No command found"
+                    return 1
+                ;;
+            esac
+        ;;
+    esac
+
+    if [ "$WAYPOINT_SRC" -eq 0 ]; then
+        _waypoint="/home/britt/projects/waypoint/waypoint"
+        [[ $use_echo = 1 ]] && _info "$(_color grey)Using ${_waypoint} ($(_color purple)$(waypoint version -plain | head -n1)$(_color gray))$(_color reset)"
+    elif [ "$WAYPOINT_SRC" -eq 1 ]; then
+        _waypoint=("go" "run" "/home/britt/projects/waypoint/cmd/waypoint")
+        [[ $use_echo = 1 ]] && _info "$(_color grey)Using ${_waypoint} ($(_color purple)CLI: Source$(_color gray))$(_color reset)"
+    elif [ "$WAYPOINT_SRC" -eq 2 ]; then
+        _waypoint=$(echo =waypoint)
+        [[ $use_echo = 1 ]] && _info "$(_color grey)Using ${_waypoint} ($(_color purple)$(waypoint version -plain | head -n1)$(_color gray))$(_color reset)"
+    else
+        _waypoint=${WAYPOINT_SRC}
+        [[ $use_echo = 1 ]] && _info "$(_color grey)Using ${_waypoint} ($(_color purple)$(waypoint version -plain | head -n1)$(_color gray))$(_color reset)"
+    fi
+
+    $_waypoint "$@"
+}

@@ -36,11 +36,14 @@ in {
     yq
     dig
     gnupg
-    python310
     go_1_18
+    gopls
     tmux
     git
     nix
     direnv
+    (python39.withPackages (pp: with pp; [
+      pynvim
+    ]))
   ];
 }

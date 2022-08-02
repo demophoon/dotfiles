@@ -41,6 +41,9 @@ in {
         # Go
         vim-go
 
+        # HCL
+        vim-hcl
+
         # LSP
         deoplete-nvim
         deoplete-go

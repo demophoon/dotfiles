@@ -268,7 +268,7 @@ initialize_home_manager() {
 }
 
 _setup_nix() {
-  [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && source "$HOME/.nix-profile/etc/profile.d/nix.sh"
+  [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && source "$HOME/.nix-profile/etc/profile.d/nix.sh" || :
 }
 
 update_home_manager() {

@@ -1,3 +1,8 @@
+# Helpers
+command_exists() {
+    type "${1}" &> /dev/null ;
+}
+
 # Common Aliases
 alias tmux="TERM=screen-256color-bce tmux"
 alias ls="ls"

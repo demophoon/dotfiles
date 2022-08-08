@@ -82,7 +82,7 @@ is_function() {
 }
 
 show_reminders() {
-  if [ ${#reminder[@]} -eq 0 ]; then
+  if [ ${#reminders[@]} -eq 0 ]; then
     return
   fi
   header "Before you can start"; with
@@ -186,6 +186,7 @@ install_nix() {
     run "${install_file:?}"
     _setup_nix
     add_reminder "You will need to either restart your terminal or run \nsource $HOME/.nix-profile/etc/profile.d/nix.sh\n to start using Nix"
+    add_reminder "Run `chsh -s /bin/zsh` to use zsh"
   endwith;
 }
 
@@ -285,6 +286,7 @@ main() {
     _setup_nix
     native_install_if_missing curl
     native_install_if_missing xz xz-utils
+    native_install_if_missing zsh
     install_nix
     update_nix
   endwith;

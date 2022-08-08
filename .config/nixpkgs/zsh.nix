@@ -3,6 +3,7 @@
 let
   dotfiles_repo = import ./dotfiles.nix;
   zsh-custom = "${dotfiles_repo.outPath}/.oh-my-zsh/custom";
+  aliases = "${dotfiles_repo.outPath}/.aliases";
 in {
   programs.zsh = {
     enable = true;
@@ -51,6 +52,10 @@ in {
       ];
       extraConfig = ''
       source $HOME/.nix-profile/etc/profile.d/nix.sh
+      source ${aliases}
+
+      # Local configs
+      [ -f ~/.localrc ] && source ~/.localrc
       '';
     };
   };

@@ -26,7 +26,7 @@ export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/
 
 # Colors
 _B='\e[1m'
-_e='\e[0m'
+_e='\e[0m' # Reset
 _r='\e[38;5;196m'  # Red
 _g='\e[38;5;119m'  # Green
 _b='\e[38;5;33m'   # Blue
@@ -40,11 +40,14 @@ _gr='\e[38;5;246m' # Gray
 # Printing utilities
 with() { _indent=$(($_indent + 1)); }
 endwith() { _indent=$(($_indent - 1)); }
+_indent() {
+  for i in $(seq 1 ${_indent} ); do
+    echo -n "  "
+  done
+}
 _print() {
-    for i in $(seq 1 ${_indent} ); do
-        echo -n "  "
-    done
-    echo -e "$*"
+  _indent
+  echo -e "$*"
 }
 header()  { _indent=0; _print "${_b} ======= ${_e} ${_sg}$*${_e}${_b} =======${_e}"; }
 success() { _print "${_g} ✓${_e} ${_w}$*${_e}"; }
@@ -53,9 +56,34 @@ info()    { _print "${_b} *${_e} ${_w}$*${_e}"; }
 warn()    { _print "${_y} ⚠ $*${_e}"; }
 error()   { _print "${_r}!! $*${_e}"; exit 0; }
 
+_run_with_line_cap() {
+  lines=7
+  output_file="$(mktemp .provisioner-install.XXXXX)"
+  "$@" &> ${output_file:?} &
+  pid=$!
+  output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent) > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+  llc=$(printf "${output}" | wc -l)
+  while kill -0 $pid >/dev/null 2>&1; do
+    lc=$(printf "${output}" | wc -l)
+    if [ ${lc} -gt 0 ]; then
+      for i in $(seq 0 $(( lc - llc )) ); do
+          echo ""
+      done
+      llc=${lc}
+      printf "\r\033[$(( lc + 1 ))A${_gr}${output}${_e}\r"
+    fi
+    output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)   > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+    sleep .1
+  done
+  if [ -n "$output" ]; then
+    echo ""
+  fi
+  rm -f ${output_file:?}
+}
+
 run() {
     info "Running '${_gr}$*${_sg}'"
-    "$@"
+    _run_with_line_cap "$@"
 }
 
 add_cleanup() {
@@ -83,6 +111,7 @@ is_function() {
 
 show_reminders() {
   if [ ${#reminders[@]} -eq 0 ]; then
+    header "Finished!"
     return
   fi
   header "Before you can start"; with
@@ -298,7 +327,6 @@ main() {
 
   update_home_manager
 
-  header "Finished!"
   show_reminders
 }
 

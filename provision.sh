@@ -63,6 +63,8 @@ _run_with_line_cap() {
   pid=$!
   output=""
   llc=$(printf "${output}" | wc -l)
+
+  set +e
   while kill -0 $pid >/dev/null 2>&1; do
     lc=$(printf -- "${output}" | wc -l)
     if [ ${lc} -gt 0 ]; then
@@ -79,10 +81,18 @@ _run_with_line_cap() {
     output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    │ /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" | sed 's/^\(.\{'"${cols}"'\}\).*/\1/g')
     sleep .1
   done
+  wait $pid
+  ec=$?
+  set -e
   if [ -n "$output" ]; then
     echo ""
   fi
+  if [ $ec -ne 0 ]; then
+    cat ${output_file:?}
+    error "'$@' exited with non-zero exit code"
+  fi
   rm -f ${output_file:?}
+  return $ec
 }
 
 run() {

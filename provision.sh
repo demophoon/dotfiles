@@ -57,22 +57,25 @@ warn()    { _print "${_y} ⚠ $*${_e}"; }
 error()   { _print "${_r}!! $*${_e}"; exit 0; }
 
 _run_with_line_cap() {
-  lines=7
+  lines=5
   output_file="$(mktemp .provisioner-install.XXXXX)"
   "$@" &> ${output_file:?} &
   pid=$!
-  output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent) > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+  output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
   llc=$(printf "${output}" | wc -l)
   while kill -0 $pid >/dev/null 2>&1; do
     lc=$(printf "${output}" | wc -l)
     if [ ${lc} -gt 0 ]; then
       for i in $(seq 0 $(( lc - llc )) ); do
-          echo ""
+        printf "\33[2K\r\n"
       done
       llc=${lc}
-      printf "\r\033[$(( lc + 1 ))A${_gr}${output}${_e}\r"
+      for i in $(seq 0 $lc); do
+        printf "\r\033[1A\033[2K\r"
+      done
+      printf "${_gr}${output}${_e}\r"
     fi
-    output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)   > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+    output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
     sleep .1
   done
   if [ -n "$output" ]; then
@@ -82,7 +85,7 @@ _run_with_line_cap() {
 }
 
 run() {
-    info "Running '${_gr}$*${_sg}'"
+    info "Running '${_gr}$*${_w}'"
     _run_with_line_cap "$@"
 }
 

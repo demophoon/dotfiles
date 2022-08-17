@@ -38,6 +38,7 @@ in {
     gnupg
     go_1_18
     gopls
+    gocode
     tmux
     git
     nix

@@ -48,6 +48,10 @@ in {
         # LSP
         deoplete-nvim
         deoplete-go
+
+        # Treesitter
+        nvim-treesitter
+        nvim-treesitter-context
     ];
     extraConfig = ''
       set nocompatible

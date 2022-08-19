@@ -61,7 +61,7 @@ _run_with_line_cap() {
   output_file="$(mktemp .provisioner-install.XXXXX)"
   "$@" &> ${output_file:?} &
   pid=$!
-  output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+  output=""
   llc=$(printf "${output}" | wc -l)
   while kill -0 $pid >/dev/null 2>&1; do
     lc=$(printf "${output}" | wc -l)
@@ -75,7 +75,8 @@ _run_with_line_cap() {
       done
       printf "${_gr}${output}${_e}\r"
     fi
-    output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
+    cols=$(tput cols)
+    output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    > /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" | sed 's/^\(.\{'"${cols}"'\}\).*/\1/g')
     sleep .1
   done
   if [ -n "$output" ]; then

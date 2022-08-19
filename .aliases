@@ -187,6 +187,27 @@ _run() {
     "$@"
 }
 
+cmd_mocker() {
+    base=$1
+    found=""
+    fargs=""
+    shift
+    for face in "$@"; do
+        shift
+        fn="${base}_${face}"
+        if type $fn | grep -q "function" ; then
+          found="${fn}"
+          fargs="${@}"
+        fi
+        base="$fn"
+    done
+    if [ -n "${found}" ]; then
+        echo "${found}" "${fargs}"
+        return 0
+    fi
+    return 1
+}
+
 WAYPOINT_SRC=
 waypoint() {
     if [[ $ZSH_SUBSHELL -eq 0 ]]; then

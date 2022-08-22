@@ -146,6 +146,8 @@ in {
       nnoremap n nzzzv
       nnoremap N Nzzzv
 
+      tnoremap <Esc> <C-\><C-n>
+
       function! DiffToggle()
           if &diff
               diffoff

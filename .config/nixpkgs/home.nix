@@ -4,6 +4,7 @@ let
   dotfiles_repo = import ./dotfiles.nix;
   utils = "${dotfiles_repo.outPath}/utils";
 in {
+  nixpkgs.config.allowUnfree = true;
   imports = [
     ./nvim.nix
     ./zsh.nix
@@ -22,6 +23,9 @@ in {
     EDITOR = "nvim";
   };
 
+  # Pending https://gitlab.com/rycee/nmd/-/merge_requests/6
+  manual.manpages.enable = false;
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -39,10 +43,12 @@ in {
     go_1_18
     gopls
     gocode
+    delve
     tmux
     git
     nix
     direnv
+    stern
     (python39.withPackages (pp: with pp; [
       pynvim
     ]))

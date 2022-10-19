@@ -80,6 +80,7 @@ in {
       set shiftwidth=2
       set expandtab
       set autoindent
+      set smartindent
 
       exec "set listchars=tab:>-,trail:$,nbsp:~"
       set list
@@ -191,7 +192,11 @@ in {
       let g:deoplete#sources#go#gocode_binary = '${gocode}'
 
       lua <<EOF
+      local pid = vim.fn.stdpath("cache") .. "/treesitters"
+      vim.fn.mkdir(pid, "p")
+
       require('nvim-treesitter.configs').setup {
+        parser_install_dir = pid,
         ensure_installed = { "go" },
         sync_install = false,
         auto_install = true,

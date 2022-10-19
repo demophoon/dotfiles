@@ -59,12 +59,12 @@ error()   { _print "${_r}!! $*${_e}"; exit 0; }
 _run_with_line_cap() {
   lines=5
   output_file="$(mktemp .provisioner-install.XXXXX)"
-  "$@" &> ${output_file:?} &
+  "$@" > ${output_file:?} 2>&1 &
   pid=$!
   output=""
   llc=$(printf "${output}" | wc -l)
   while kill -0 $pid >/dev/null 2>&1; do
-    lc=$(printf "${output}" | wc -l)
+    lc=$(printf -- "${output}" | wc -l)
     if [ ${lc} -gt 0 ]; then
       for i in $(seq 0 $(( lc - llc )) ); do
         printf "\33[2K\r\n"
@@ -73,7 +73,7 @@ _run_with_line_cap() {
       for i in $(seq 0 $lc); do
         printf "\r\033[1A\033[2K\r"
       done
-      printf "${_gr}${output}${_e}\r"
+      printf -- "${_gr}${output}${_e}\r"
     fi
     cols=$(tput cols)
     output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    │ /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" | sed 's/^\(.\{'"${cols}"'\}\).*/\1/g')
@@ -234,7 +234,7 @@ update_nix() {
 install_home-manager() {
   run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_NIX_VER:?}.tar.gz" home-manager
   run nix-channel --update
-  run nix-shell '<home-manager>' -A install
+  run nix-shell '<home-manager>' -A install -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/master.tar.gz
   run nix-env --set-flag priority 6 "$(nix-env -q | grep nix)"
 }
 

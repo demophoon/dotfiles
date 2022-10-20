@@ -11,6 +11,15 @@ let
         sha256 = "X+37Mlyt6+ZwfYlt4ZtdHPXDgcKtiXlUoUPZVb58w/8=";
       };
     };
+    vim-go = pkgs.vimUtils.buildVimPlugin {
+      name = "vim-go";
+      src = pkgs.fetchFromGitHub {
+        owner = "fatih";
+        repo = "vim-go";
+        rev = "4d6962d8e0792617f87b37b938996f44e2a54645";
+        sha256 = "09jn9hvklhj8q83sxdrkbj5vdfyshh6268vxhm2kbdg5885jkjqw";
+      };
+    };
   };
   gocode = "${pkgs.gocode.outPath}/bin/gocode";
 in {
@@ -29,8 +38,8 @@ in {
         lexima-vim
 
         # Code Completion / Snippets
-        sparkup
         vim-snippets
+        emmet-vim
 
         # File traversal
         nerdtree
@@ -48,6 +57,7 @@ in {
         # LSP
         deoplete-nvim
         deoplete-go
+        deoplete-ternjs
 
         # Treesitter
         nvim-treesitter
@@ -188,8 +198,9 @@ in {
       let g:ale_sign_warning = '⚠'
       let g:airline#extensions#ale#enabled = 1
 
-      let g:deoplete#enable_at_startup = 1
       let g:deoplete#sources#go#gocode_binary = '${gocode}'
+
+      let g:user_emmet_leader_key='<C-e>'
 
       lua <<EOF
       local pid = vim.fn.stdpath("cache") .. "/treesitters"

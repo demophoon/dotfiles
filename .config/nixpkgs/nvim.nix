@@ -23,6 +23,10 @@ let
   };
   gocode = "${pkgs.gocode.outPath}/bin/gocode";
 in {
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib/:$LD_LIBRARY_PATH";
+  };
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -171,6 +175,8 @@ in {
 
       nnoremap <c-p> :FZF<CR>
 
+      nnoremap <leader>gb :GoDebugBreakpoint<cr>
+
       set ttyfast
       set lazyredraw
 
@@ -210,7 +216,7 @@ in {
         parser_install_dir = pid,
         ensure_installed = { "go" },
         sync_install = false,
-        auto_install = true,
+        auto_install = false,
         highlight = {
           enable = true,
         },

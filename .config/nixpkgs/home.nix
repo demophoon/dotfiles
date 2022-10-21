@@ -19,9 +19,6 @@ in {
   home.sessionPath = [
     utils
   ];
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
 
   # Pending https://gitlab.com/rycee/nmd/-/merge_requests/6
   manual.manpages.enable = false;
@@ -49,6 +46,8 @@ in {
     nix
     direnv
     stern
+    kubernetes-helm
+    kubectl
     (python39.withPackages (pp: with pp; [
       pynvim
     ]))

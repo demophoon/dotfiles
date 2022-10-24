@@ -189,6 +189,7 @@ in {
       let g:go_highlight_operators = 1
       let g:go_highlight_structs = 1
       let g:go_highlight_types = 1
+      let g:go_bin_path = expand("$HOME")."/.go-vim/"
 
       au FileType go set noexpandtab
       au FileType go set shiftwidth=4
@@ -204,7 +205,9 @@ in {
       let g:ale_sign_warning = '⚠'
       let g:airline#extensions#ale#enabled = 1
 
+      let g:deoplete#enable_at_startup = 1
       let g:deoplete#sources#go#gocode_binary = '${gocode}'
+      call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 
       let g:user_emmet_leader_key='<C-e>'
 

@@ -37,7 +37,7 @@ in {
     yq
     dig
     gnupg
-    go_1_18
+    go
     gopls
     gocode
     delve
@@ -48,6 +48,12 @@ in {
     stern
     kubernetes-helm
     kubectl
+    gcc
+    golangci-lint
+    glibc
+
+    automake
+
     (python39.withPackages (pp: with pp; [
       pynvim
     ]))

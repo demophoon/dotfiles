@@ -33,13 +33,18 @@ in {
     plugins = with pkgs.vimPlugins; [
         # Required
         tlib_vim
+        plenary-nvim
 
         # Look and feel
         customPlugins.jellybeans
-        vim-airline
+        lualine-nvim
         vim-surround
         vim-repeat
         lexima-vim
+        gitsigns-nvim
+
+        # Autodetect shiftwidth
+        vim-sleuth
 
         # Code Completion / Snippets
         vim-snippets
@@ -47,7 +52,7 @@ in {
 
         # File traversal
         nerdtree
-        fzf-vim
+        telescope-nvim
 
         # Git
         vim-fugitive
@@ -173,7 +178,7 @@ in {
       endfunction
       nnoremap <leader>d :call DiffToggle()<cr>
 
-      nnoremap <c-p> :FZF<CR>
+      nnoremap <c-p> :Telescope find_files hidden=true<cr>
 
       nnoremap <leader>gb :GoDebugBreakpoint<cr>
 
@@ -199,6 +204,9 @@ in {
 
       let g:go_auto_sameids = 1
       let g:go_fmt_command = "goimports"
+      let g:go_fmt_options = {
+        \'goimports': '-local=github.com/hashicorp/waypoint,github.com/hashicorp/cloud-waypoint-service,github.com/hashicorp/waypoint-plugin-sdk',
+        \}
 
       " Error and warning signs.
       let g:ale_sign_error = '⤫'
@@ -243,6 +251,17 @@ in {
         },
         mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
       }
+
+      require('lualine').setup {
+        options = {
+          icons_enabled = false,
+          theme = "wombat",
+          section_separators = "",
+          component_separators = "",
+        },
+      }
+
+      require('gitsigns').setup()
 
       EOF
     '';

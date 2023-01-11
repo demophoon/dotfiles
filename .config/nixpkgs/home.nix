@@ -26,10 +26,13 @@ in {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+  };
 
   home.packages = with pkgs; [
     htop
+    btop
     tree
     fzf
     silver-searcher

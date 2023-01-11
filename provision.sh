@@ -14,7 +14,7 @@
 set -e
 
 { # Prevent script from running if partially downloaded
-_NIX_VER=22.05
+_NIX_VER=22.11
 reminders=()
 cleanup_steps=()
 export _updated=

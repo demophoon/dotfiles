@@ -244,8 +244,8 @@ update_nix() {
 install_home-manager() {
   run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_NIX_VER:?}.tar.gz" home-manager
   run nix-channel --update
+  run nix-env --set-flag priority 4 "$(nix-env -q | grep nix)"
   run nix-shell '<home-manager>' -A install -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/master.tar.gz
-  run nix-env --set-flag priority 6 "$(nix-env -q | grep nix)"
 }
 
 uninstall_nix() {

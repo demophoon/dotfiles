@@ -208,7 +208,7 @@ cmd_mocker() {
     return 1
 }
 
-WAYPOINT_SRC=
+WAYPOINT_SRC=0
 waypoint() {
     if [[ $ZSH_SUBSHELL -eq 0 ]]; then
         use_echo=1
@@ -316,13 +316,13 @@ waypoint() {
         ;;
     esac
 
-    if [ "$WAYPOINT_SRC" -eq 0 ]; then
-        _waypoint="/home/britt/projects/waypoint/waypoint"
+    if [ "$WAYPOINT_SRC" = "0" ]; then
+        _waypoint="/home/britt/projects/waypoint/cmd/waypoint"
         [[ $use_echo = 1 ]] && _info "$(_color grey)Using ${_waypoint} ($(_color purple)$(waypoint version -plain | head -n1)$(_color gray))$(_color reset)"
-    elif [ "$WAYPOINT_SRC" -eq 1 ]; then
+    elif [ "$WAYPOINT_SRC" = "1" ]; then
         _waypoint=("go" "run" "/home/britt/projects/waypoint/cmd/waypoint")
         [[ $use_echo = 1 ]] && _info "$(_color grey)Using ${_waypoint} ($(_color purple)CLI: Source$(_color gray))$(_color reset)"
-    elif [ "$WAYPOINT_SRC" -eq 2 ]; then
+    elif [ "$WAYPOINT_SRC" = "2" ]; then
         _waypoint=$(echo =waypoint)
         [[ $use_echo = 1 ]] && _info "$(_color grey)Using ${_waypoint} ($(_color purple)$(waypoint version -plain | head -n1)$(_color gray))$(_color reset)"
     else

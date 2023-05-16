@@ -1,5 +1,5 @@
 builtins.fetchGit {
   url = "https://github.com/demophoon/dotfiles.git";
   ref = "main";
-  rev = "787b930f2c00dec175882b7f3cd65271f3115b49";
+  rev = "528cfa8a7e17eb52a8c277b2d051378cdf968302";
 }

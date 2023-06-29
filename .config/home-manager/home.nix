@@ -14,7 +14,7 @@ in {
 
   home.username = "britt";
   home.homeDirectory = "/home/britt";
-  home.stateVersion = "22.05";
+  home.stateVersion = "23.05";
 
   home.sessionPath = [
     utils

@@ -14,7 +14,7 @@
 set -e
 
 { # Prevent script from running if partially downloaded
-_NIX_VER=22.11
+_NIX_VER=23.05
 reminders=()
 cleanup_steps=()
 export _updated=
@@ -267,7 +267,7 @@ uninstall_nix() {
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 HOMEDIR=${HOME:?}
 merge_directories=(
-    .config/nixpkgs
+    .config/home-manager
 )
 realize_directories() {
     filepath=${1:?}

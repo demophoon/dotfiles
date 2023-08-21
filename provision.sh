@@ -1,15 +1,15 @@
-#!/bin/bash
-# Provisioner script using nix and ansible
+#!/usr/bin/env bash
+# Provisioner script using nix
 #
-# Requirements:
+# Usage: provision.sh [command]
+# Installs Nix and setups dotfiles on a machine
+# Commands:
+#   <Default>: Install nix, home-manager, and dotfiles.
+#   update: Update nix channel for home manager.
+#   links: Installs the symlinks for dotfiles only.
+#   uninstall: Uninstalls nix from the machine. <Dangerous>
+#              *This does not remove symlinks created by this script*
 #
-#
-# Usage: provision.sh [options ...]
-# Installs Nix and setups dotfiles and optionally starts managing the system
-# with Ansible.
-# Options:
-#   -i: Interactive mode
-#   -u: Uninstall
 
 set -e
 
@@ -259,7 +259,7 @@ uninstall_nix() {
     run sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
     run sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
     run sudo mv /etc/zsh/zshrc.backup-before-nix /etc/zsh/zshrc
-    run sudo rm -rf /etc/nix /nix /root/.nix-profile /root/.nix-defexpr /root/.nix-channels /home/britt/.nix-profile /home/britt/.nix-defexpr /home/britt/.nix-channels
+    run sudo rm -rf /etc/nix /nix /root/.nix-profile /root/.nix-defexpr /root/.nix-channels /home/$(whoami)/.nix-profile /home/$(whoami)/.nix-defexpr /home/$(whoami)/.nix-channels
   endwith
 }
 

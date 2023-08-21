@@ -20,6 +20,10 @@ in {
     utils
   ];
 
+  home.sessionVariables = {
+    LD_LIBRARY_PATH = "";
+  };
+
   # Pending https://gitlab.com/rycee/nmd/-/merge_requests/6
   manual.manpages.enable = false;
 
@@ -57,7 +61,9 @@ in {
 
     automake
 
-    (python39.withPackages (pp: with pp; [
+    vscode
+
+    (python311.withPackages (pp: with pp; [
       pynvim
     ]))
   ];

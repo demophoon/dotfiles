@@ -25,7 +25,6 @@ let
 in {
   home.sessionVariables = {
     EDITOR = "nvim";
-    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib/:$LD_LIBRARY_PATH";
   };
   programs.neovim = {
     enable = true;
@@ -66,11 +65,12 @@ in {
         # LSP
         deoplete-nvim
         deoplete-go
-        deoplete-ternjs
+        #deoplete-ternjs
 
         # Treesitter
         nvim-treesitter
         nvim-treesitter-context
+        nvim-treesitter-parsers.go
     ];
     extraConfig = ''
       set nocompatible
@@ -213,7 +213,7 @@ in {
       let g:ale_sign_warning = '⚠'
       let g:airline#extensions#ale#enabled = 1
 
-      let g:deoplete#enable_at_startup = 1
+      "let g:deoplete#enable_at_startup = 1
       let g:deoplete#sources#go#gocode_binary = '${gocode}'
       call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 

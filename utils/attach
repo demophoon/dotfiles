@@ -2,6 +2,7 @@
 
 PROJECT_NAME=${PROJECT_NAME:-${1}}
 PROJECT_NAME=${PROJECT_NAME:-$(basename $(pwd))}
+PROJECT_NAME=$(echo $PROJECT_NAME | tr -cd '[:alnum:]')
 tmux='tmux'
 shift
 

@@ -12,6 +12,10 @@ in {
     keyMode = "vi";
     aggressiveResize = "true";
 
+    plugins = [
+      tmuxPlugins.sensible;
+    ]
+
     extraConfig = ''
       set-option -g status on
       set-option -g status-interval 2

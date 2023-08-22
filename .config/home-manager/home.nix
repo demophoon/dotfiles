@@ -10,6 +10,7 @@ in {
     ./zsh.nix
     ./git.nix
     ./configuration.nix
+    ./tmux.nix
   ];
 
   home.username = "britt";

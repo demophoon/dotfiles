@@ -1,22 +1,15 @@
 { config, pkgs, ... }:
 
-let
-  dotfiles_repo = import ./dotfiles.nix;
-  zsh-custom = "${dotfiles_repo.outPath}/.oh-my-zsh/custom";
-in {
-
+{
   programs.tmux = {
     enable = true;
     terminal = "screen-256color";
     baseIndex = 1;
     keyMode = "vi";
-    aggressiveResize = "true";
-
-    plugins = [
-      tmuxPlugins.sensible;
-    ]
+    aggressiveResize = true;
 
     extraConfig = ''
+      set-option -g escape-time 50
       set-option -g status on
       set-option -g status-interval 2
       set-option -g status-justify "centre"
@@ -63,6 +56,9 @@ in {
       set-option -g visual-bell on
       set-option -g escape-time 0
     '';
-  };
 
+    plugins = [
+      pkgs.tmuxPlugins.sensible
+    ];
+  };
 }

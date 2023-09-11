@@ -62,7 +62,7 @@ _run_with_line_cap() {
   "$@" > ${output_file:?} 2>&1 &
   pid=$!
   output=""
-  llc=$(printf "${output}" | wc -l)
+  llc=$(printf "${output}" 2> /dev/null | wc -l)
 
   set +e
   while kill -0 $pid >/dev/null 2>&1; do

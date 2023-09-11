@@ -2,8 +2,9 @@
 
 let
   customPlugins = {
-    jellybeans = pkgs.vimUtils.buildVimPlugin {
-      name = "jellybeans.vim";
+    jellybeans = pkgs.vimUtils.buildVimPluginFrom2Nix {
+      name = "jellybeans-vim";
+      version = "2023-09-11";
       src = pkgs.fetchFromGitHub {
         owner = "nanotech";
         repo = "jellybeans.vim";
@@ -11,17 +12,7 @@ let
         sha256 = "X+37Mlyt6+ZwfYlt4ZtdHPXDgcKtiXlUoUPZVb58w/8=";
       };
     };
-    vim-go = pkgs.vimUtils.buildVimPlugin {
-      name = "vim-go";
-      src = pkgs.fetchFromGitHub {
-        owner = "fatih";
-        repo = "vim-go";
-        rev = "4d6962d8e0792617f87b37b938996f44e2a54645";
-        sha256 = "09jn9hvklhj8q83sxdrkbj5vdfyshh6268vxhm2kbdg5885jkjqw";
-      };
-    };
   };
-  gocode = "${pkgs.gocode.outPath}/bin/gocode";
 in {
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -63,20 +54,40 @@ in {
         vim-hcl
 
         # LSP
-        deoplete-nvim
-        deoplete-go
-        #deoplete-ternjs
+        nvim-lspconfig
+        nvim-cmp
+        cmp-nvim-lsp
+        cmp-nvim-lsp-signature-help
 
         # Treesitter
         nvim-treesitter
         nvim-treesitter-context
+
+        nvim-treesitter-parsers.css
+        nvim-treesitter-parsers.dockerfile
         nvim-treesitter-parsers.go
+        nvim-treesitter-parsers.hcl
+        nvim-treesitter-parsers.html
+        nvim-treesitter-parsers.javascript
+        nvim-treesitter-parsers.make
+        nvim-treesitter-parsers.markdown
+        nvim-treesitter-parsers.markdown_inline
+        nvim-treesitter-parsers.nix
+        nvim-treesitter-parsers.norg
+        nvim-treesitter-parsers.python
+        nvim-treesitter-parsers.terraform
+        nvim-treesitter-parsers.vue
+        nvim-treesitter-parsers.yaml
+
+        # Note Taking
+        neorg
     ];
     extraConfig = ''
       set nocompatible
       autocmd!
 
       let mapleader = ","
+      let maplocalleader = ","
 
       set backspace=2
       set mouse=
@@ -140,9 +151,9 @@ in {
       imap <Right> <Esc><Esc>a
       imap <Down> <Esc><Esc>a
 
-      nnoremap Y y$
+      nmap Y y$
 
-      nnoremap <Tab> za
+      nmap <Tab> za
 
       map <C-h> <C-w>h
       map <C-j> <C-w>j
@@ -157,6 +168,7 @@ in {
           endif
       endfunction
       nnoremap <leader>n :call NERDTreeToggleOrFocus()<CR>
+      nnoremap <leader><leader> :Neorg workspace notes<CR>
 
       nnoremap <leader>p :set paste!<CR>
 
@@ -204,18 +216,12 @@ in {
 
       let g:go_auto_sameids = 1
       let g:go_fmt_command = "goimports"
-      let g:go_fmt_options = {
-        \'goimports': '-local=github.com/hashicorp/waypoint,github.com/hashicorp/cloud-waypoint-service,github.com/hashicorp/waypoint-plugin-sdk',
-        \}
+      let g:go_fmt_options = {}
 
       " Error and warning signs.
       let g:ale_sign_error = '⤫'
       let g:ale_sign_warning = '⚠'
       let g:airline#extensions#ale#enabled = 1
-
-      "let g:deoplete#enable_at_startup = 1
-      let g:deoplete#sources#go#gocode_binary = '${gocode}'
-      call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 
       let g:user_emmet_leader_key='<C-e>'
 
@@ -225,7 +231,7 @@ in {
 
       require('nvim-treesitter.configs').setup {
         parser_install_dir = pid,
-        ensure_installed = { "go" },
+        ensure_installed = { },
         sync_install = false,
         auto_install = false,
         highlight = {
@@ -263,7 +269,40 @@ in {
 
       require('gitsigns').setup()
 
-      EOF
+      require('neorg').setup {
+        load = {
+          ["core.defaults"] = {},
+          ["core.concealer"] = {},
+          ["core.summary"] = {},
+          ["core.dirman"] = {
+            config = {
+              workspaces = {
+                notes = "~/Notes",
+              },
+              default_workspace = "notes"
+            },
+          },
+        },
+      }
+
+      local cmp = require("cmp")
+
+      cmp.setup{
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+        })
+      }
+
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      require("lspconfig").gopls.setup{
+        capabilities = capabilities
+      }
+
+    EOF
     '';
   };
 }

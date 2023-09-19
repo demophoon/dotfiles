@@ -12,7 +12,6 @@ alias v="vim"
 alias vi="vim"
 alias cdc="cd ~/projects/"
 alias tp="attach"
-alias update_dotfiles=". $(dirname `readlink ~/.bashrc`)/update.sh"
 alias pupper="puppet"
 alias irc="attach irc -d"
 alias notepad="vim ~/.notes.md"
@@ -331,4 +330,22 @@ waypoint() {
     fi
 
     $_waypoint "$@"
+}
+
+devshell() {
+  command=${1}
+  case $command in
+    new)
+      nix flake new -t github:numtide/devshell ${1:-./}
+    ;;
+    help|*)
+      echo "devshell <command> [options]"
+      echo "  Commands:"
+      echo "    new"
+      echo "      Instanciate a new devshell for a project given a path (Defaults to current working directory)"
+      echo
+      echo "    help"
+      echo "      Show this help menu."
+    ;;
+  esac
 }

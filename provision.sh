@@ -231,6 +231,7 @@ install_nix() {
     add_reminder "You will need to either restart your terminal or run \nsource $HOME/.nix-profile/etc/profile.d/nix.sh\n to start using Nix"
     add_reminder "Run `chsh -s /bin/zsh` to use zsh"
   endwith;
+  update_nix
 }
 
 update_nix() {
@@ -331,7 +332,6 @@ main() {
     native_install_if_missing xz xz-utils
     native_install_if_missing zsh
     install_nix
-    update_nix
   endwith;
 
   require nix

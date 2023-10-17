@@ -63,6 +63,7 @@ in {
         emmet-vim
         vim-vsnip
         cmp-vsnip
+        completion-nvim
 
         # File traversal
         customPlugins.neo-tree-nvim
@@ -74,6 +75,14 @@ in {
 
         # Go
         vim-go
+        nvim-dap
+        nvim-dap-go
+
+        # Python
+        nvim-dap-python
+
+        # JS
+        nvim-lsp-ts-utils
 
         # HCL
         vim-hcl
@@ -82,7 +91,7 @@ in {
         nvim-lspconfig
         nvim-cmp
         cmp-nvim-lsp
-        cmp-nvim-lsp-signature-help
+        lsp_signature-nvim
 
         # Treesitter
         nvim-treesitter
@@ -101,6 +110,7 @@ in {
         nvim-treesitter-parsers.norg
         nvim-treesitter-parsers.python
         nvim-treesitter-parsers.terraform
+        nvim-treesitter-parsers.typescript
         nvim-treesitter-parsers.vue
         nvim-treesitter-parsers.yaml
 
@@ -160,6 +170,8 @@ in {
       autocmd BufReadPost *  if line("'\"") > 1 && line("'\"") <= line("$")
                  \|     exe "normal! g`\""
                  \|  endif
+
+      autocmd BufNewFile *.norg :Neorg inject-metadata
 
       set splitbelow
       set splitright
@@ -237,7 +249,6 @@ in {
       au FileType go set shiftwidth=4
       au FileType go set softtabstop=4
       au FileType go set tabstop=4
-      au FileType go nmap <F12> <Plug>(go-def)
 
       let g:go_auto_sameids = 1
       let g:go_fmt_command = "goimports"
@@ -334,9 +345,22 @@ in {
         })
       }
 
+      require("lspconfig")
+      local lsp = require("lspconfig")
+
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      require("lspconfig").gopls.setup{
-        capabilities = capabilities
+      lsp.gopls.setup{
+        capabilities = capabilities,
+        settings = {
+          gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+              unreachable = true,
+              unusedparams = true,
+            },
+          }
+        },
       }
 
       require("neo-tree").setup({
@@ -344,11 +368,27 @@ in {
           winbar = true,
           statusline = false
         },
+        default_component_configs = {
+          git_status = {
+            symbols = {
+              added      = "+",
+              modified   = "~",
+              deleted    = "-",
+              renamed    = "%",
+              untracked  = "?",
+              ignored    = "^",
+              unstaged   = ".",
+              staged     = "*",
+              conflict   = "!",
+            },
+          },
+        },
         window = {
+          width = 30,
           mappings = {
-            ["o"] = "open",
+            ["o"] = {"open", nowait = true},
             ["I"] = "toggle_hidden",
-          }
+          },
         }
       })
 
@@ -414,6 +454,38 @@ in {
         },
         show_trailing_blankline_indent = false,
       }
+
+      require("dap-go").setup({})
+      vim.keymap.set("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>")
+      vim.keymap.set("n", "<leader>dd", function()
+        local widgets = require("dap.ui.widgets");
+        local sidebar = widgets.sidebar(widgets.scopes);
+        sidebar.open();
+        require("dap-go").continue();
+      end
+      )
+      vim.keymap.set("n", "c-c", "<cmd>DapContinue<CR>")
+      vim.keymap.set("n", "c-s", "<cmd>DapStepOver<CR>")
+      vim.keymap.set("n", "c-n", "<cmd>DapStepInto<CR>")
+      vim.keymap.set("n", "c-N", "<cmd>DapStepOut<CR>")
+
+      lsp.pyright.setup{}
+
+      require('lsp_signature').setup({
+        bind = true,
+        handler_opts = {
+          border = "rounded",
+        },
+        always_trigger = true,
+      })
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          local opts = { buffer = ev.buf }
+          vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
+        end,
+      })
 
     EOF
     '';

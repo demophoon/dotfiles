@@ -45,6 +45,7 @@ in {
     yq
     dig
     gnupg
+
     go
     gopls
     gocode
@@ -60,7 +61,7 @@ in {
     golangci-lint
     glibc
 
-    automake
+    nodePackages.pyright
 
     vscode
 

@@ -68,6 +68,7 @@ in {
     nodePackages.typescript-language-server
     nodePackages.vscode-langservers-extracted
     nodePackages.bash-language-server
+    buf-language-server
 
     gnumake
 

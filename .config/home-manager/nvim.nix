@@ -62,6 +62,7 @@ in {
         # Code Completion / Snippets
         emmet-vim
         vim-vsnip
+        friendly-snippets
         cmp-vsnip
         completion-nvim
 
@@ -90,6 +91,7 @@ in {
         # LSP
         nvim-lspconfig
         nvim-cmp
+        cmp-buffer
         cmp-nvim-lsp
         lsp_signature-nvim
 
@@ -342,6 +344,8 @@ in {
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
+          { name = 'buffer' },
+          { name = 'vsnip' },
         })
       }
 
@@ -349,6 +353,11 @@ in {
       local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       local lsp_on_attach = function(client, bufnr)
+        require('lsp_signature').on_attach({
+          bind = true,
+          always_trigger = true,
+        }, bufnr)
+
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
         local bufopts = {
@@ -402,6 +411,9 @@ in {
 
         -- HCL/Terraform
         'terraform_lsp',
+
+        -- Protobuf
+        'bufls',
       }
 
       for _, server in pairs(servers) do
@@ -437,6 +449,7 @@ in {
           mappings = {
             ["o"] = {"open", nowait = true},
             ["I"] = "toggle_hidden",
+            ["/"] = "noop",
           },
         }
       })
@@ -517,14 +530,6 @@ in {
       vim.keymap.set("n", "c-s", "<cmd>DapStepOver<CR>")
       vim.keymap.set("n", "c-n", "<cmd>DapStepInto<CR>")
       vim.keymap.set("n", "c-N", "<cmd>DapStepOut<CR>")
-
-      require('lsp_signature').setup({
-        bind = true,
-        handler_opts = {
-          border = "rounded",
-        },
-        always_trigger = true,
-      })
 
     EOF
     '';

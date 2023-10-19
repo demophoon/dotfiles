@@ -345,13 +345,32 @@ in {
         })
       }
 
-      require("lspconfig")
       local lsp = require("lspconfig")
+      local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      lsp.gopls.setup{
-        capabilities = capabilities,
-        settings = {
+      local lsp_on_attach = function(client, bufnr)
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+        local bufopts = {
+          noremap = true,
+          silent  = true,
+          buffer  = ev.buf,
+        }
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+        vim.keymap.set('n', 'gk', vim.lsp.buf.hover, bufopts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+        vim.keymap.set('n', 'gK', vim.lsp.buf.signature_help, bufopts)
+        vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+        vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+        vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+        vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, bufopts)
+      end
+
+      local lsp_settings = {
+        gopls = {
           gopls = {
             completeUnimported = true,
             usePlaceholders = true,
@@ -359,9 +378,39 @@ in {
               unreachable = true,
               unusedparams = true,
             },
-          }
+          },
         },
       }
+
+      local servers = {
+        -- Go
+        'gopls',
+
+        -- Python
+        'pyright',
+
+        -- HTML/CSS/Javascript
+        'tsserver',
+        'jsonls',
+        'eslint',
+        'cssls',
+        'html',
+
+        -- Shell
+        'bashls',
+        'nixd',
+
+        -- HCL/Terraform
+        'terraform_lsp',
+      }
+
+      for _, server in pairs(servers) do
+        lsp[server].setup{
+          on_attach = lsp_on_attach,
+          capabilities = lsp_capabilities,
+          settings = lsp_settings[server]
+        }
+      end
 
       require("neo-tree").setup({
         source_selector = {
@@ -469,22 +518,12 @@ in {
       vim.keymap.set("n", "c-n", "<cmd>DapStepInto<CR>")
       vim.keymap.set("n", "c-N", "<cmd>DapStepOut<CR>")
 
-      lsp.pyright.setup{}
-
       require('lsp_signature').setup({
         bind = true,
         handler_opts = {
           border = "rounded",
         },
         always_trigger = true,
-      })
-
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-        callback = function(ev)
-          local opts = { buffer = ev.buf }
-          vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
-        end,
       })
 
     EOF

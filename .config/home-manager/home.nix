@@ -61,9 +61,14 @@ in {
     golangci-lint
     glibc
 
+    # LSP Utils
+    nixd
+    terraform-lsp
     nodePackages.pyright
+    nodePackages.typescript-language-server
+    nodePackages.vscode-langservers-extracted
+    nodePackages.bash-language-server
 
-    vscode
 
     (python311.withPackages (pp: with pp; [
       pynvim

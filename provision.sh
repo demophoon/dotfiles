@@ -75,7 +75,7 @@ _run_with_line_cap() {
       for i in $(seq 0 $lc); do
         printf "\r\033[1A\033[2K\r"
       done
-      printf -- "${_gr}${output}${_e}\r"
+      printf -- "${_gr}${output//%/%%}${_e}\r"
     fi
     cols=$(tput cols)
     output=$(tail -n ${lines} ${output_file:?} | sed -e "s/^/$(_indent)    │ /" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" | sed 's/^\(.\{'"${cols}"'\}\).*/\1/g')

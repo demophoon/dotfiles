@@ -69,6 +69,7 @@ in {
     nodePackages.vscode-langservers-extracted
     nodePackages.bash-language-server
 
+    gnumake
 
     (python311.withPackages (pp: with pp; [
       pynvim

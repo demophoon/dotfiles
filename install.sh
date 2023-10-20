@@ -66,7 +66,7 @@ _run_with_line_cap() {
 
   set +e
   while kill -0 $pid >/dev/null 2>&1; do
-    lc=$(printf -- "${output}" | wc -l)
+    lc=$(printf -- "${output//%/%%}" | wc -l)
     if [ ${lc} -gt 0 ]; then
       for i in $(seq 0 $(( lc - llc )) ); do
         printf "\33[2K\r\n"

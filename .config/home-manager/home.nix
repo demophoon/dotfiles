@@ -46,10 +46,6 @@ in {
     dig
     gnupg
 
-    go
-    gopls
-    gocode
-    delve
     tmux
     git
     nix
@@ -57,23 +53,5 @@ in {
     stern
     kubernetes-helm
     kubectl
-    gcc
-    golangci-lint
-    glibc
-
-    # LSP Utils
-    nixd
-    terraform-lsp
-    nodePackages.pyright
-    nodePackages.typescript-language-server
-    nodePackages.vscode-langservers-extracted
-    nodePackages.bash-language-server
-    buf-language-server
-
-    gnumake
-
-    (python311.withPackages (pp: with pp; [
-      pynvim
-    ]))
   ];
 }

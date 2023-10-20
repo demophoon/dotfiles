@@ -40,6 +40,17 @@ in {
   programs.neovim = {
     enable = true;
     viAlias = true;
+    withPython3 = true;
+    extraPackages = with pkgs; [
+      gopls
+      nixd
+      terraform-lsp
+      nodePackages.pyright
+      nodePackages.typescript-language-server
+      nodePackages.vscode-langservers-extracted
+      nodePackages.bash-language-server
+      buf-language-server
+    ];
     plugins = with pkgs.vimPlugins; [
         # Required
         tlib_vim
@@ -262,8 +273,9 @@ in {
       let g:airline#extensions#ale#enabled = 1
 
       let g:user_emmet_leader_key='<C-e>'
+    '';
 
-      lua <<EOF
+    extraLuaConfig = ''
       local pid = vim.fn.stdpath("cache") .. "/treesitters"
       vim.fn.mkdir(pid, "p")
 
@@ -450,6 +462,21 @@ in {
             ["o"] = {"open", nowait = true},
             ["I"] = "toggle_hidden",
             ["/"] = "noop",
+            ["m"] = {
+              "show_help",
+              nowait=false,
+              config = {
+                title = "File Menu",
+                prefix_key = "m",
+              },
+            },
+            ["ma"] = {
+              "add",
+              config = { show_path = "relative" },
+            },
+            ["mm"] = "rename",
+            ["mc"] = "copy",
+            ["md"] = "delete",
           },
         }
       })
@@ -531,7 +558,6 @@ in {
       vim.keymap.set("n", "c-n", "<cmd>DapStepInto<CR>")
       vim.keymap.set("n", "c-N", "<cmd>DapStepOut<CR>")
 
-    EOF
     '';
   };
 }

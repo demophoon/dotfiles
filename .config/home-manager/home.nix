@@ -11,6 +11,7 @@ in {
     ./git.nix
     ./configuration.nix
     ./tmux.nix
+    ./atuin.nix
   ];
 
   home.username = "britt";
@@ -50,8 +51,5 @@ in {
     git
     nix
     direnv
-    stern
-    kubernetes-helm
-    kubectl
   ];
 }

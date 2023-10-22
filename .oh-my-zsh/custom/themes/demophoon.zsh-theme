@@ -111,58 +111,62 @@ function _current_time {
   date +"%T"
 }
 
+function git_blocks {
+  git_stats=$(git diff --shortstat --cached)
+
+  if echo $git_stats | grep -q "insertion"; then
+    git_insertions=$(echo $git_stats | sed -E 's/.* ([0-9]+) insertions?.*?/\1/')
+  else
+    git_insertions=0
+  fi
+
+  if echo $git_stats | grep -q "deletion"; then
+    git_deletions=$(echo $git_stats | sed -E 's/.* ([0-9]+) deletions?.*?/\1/')
+  else
+    git_deletions=0
+  fi
+
+  git_moved_lines=$(git diff --name-only --cached --diff-filter="R" | xargs -n1 wc -l | awk '{s+=$1} END {printf "%.0f\n", s}')
+  git_touched_lines=$(( git_insertions + git_deletions + git_moved_lines ))
+
+  if [ $git_touched_lines -gt 0 ]; then
+    if [ $git_moved_lines -gt 0 ]; then
+      git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
+      git_num_del_blocks=$(( git_deletions * 5 / git_touched_lines ))
+      git_num_neu_blocks=$(( 5 - (git_num_add_blocks + git_num_del_blocks) ))
+    else
+      git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
+      git_num_del_blocks=$(( 5 - git_num_add_blocks ))
+      git_num_neu_blocks=0
+    fi
+
+    git_block_char="■"
+
+    git_add_blocks=""
+    if [ $git_num_add_blocks -gt 0 ]; then
+      git_add_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_add_blocks})
+    fi
+
+    git_del_blocks=""
+    if [ $git_num_del_blocks -gt 0 ]; then
+      git_del_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_del_blocks})
+    fi
+
+    git_neu_blocks=""
+    if [ $git_num_neu_blocks -gt 0 ]; then
+      git_neu_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_neu_blocks})
+    fi
+
+    git_stats="${GITGREEN}+${git_insertions:-0}${GITRED}-${git_deletions:-0}${PR_RST}"
+    git_blocks_out="${GITGREEN}$git_add_blocks${GITRED}$git_del_blocks${GITGREY}${git_neu_blocks}${PR_RST}"
+    echo "${git_stats} ${git_blocks_out}"
+  fi
+}
+
 function steeef_precmd {
     if [[ -n "$PR_GIT_UPDATE" ]] ; then
-      git_stats=$(git diff --shortstat --cached)
-
-      if echo $git_stats | grep -q "insertion"; then
-        git_insertions=$(echo $git_stats | sed -E 's/.* ([0-9]+) insertions?.*?/\1/')
-      else
-        git_insertions=0
-      fi
-
-      if echo $git_stats | grep -q "deletion"; then
-        git_deletions=$(echo $git_stats | sed -E 's/.* ([0-9]+) deletions?.*?/\1/')
-      else
-        git_deletions=0
-      fi
-
-      git_moved_lines=$(git diff --name-only --cached --diff-filter="R" | xargs -n1 wc -l | awk '{s+=$1} END {printf "%.0f\n", s}')
-
-      if [ $git_insertions -gt 0 ] || [ $git_deletions -gt 0 ] || [ $git_moved_lines -gt 0 ]; then
-        git_touched_lines=$(( git_insertions + git_deletions + git_moved_lines ))
-
-        if [ $git_moved_lines -gt 0 ]; then
-          git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
-          git_num_del_blocks=$(( git_deletions * 5 / git_touched_lines ))
-          git_num_neu_blocks=$(( 5 - (git_num_add_blocks + git_num_del_blocks) ))
-        else
-          git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
-          git_num_del_blocks=$(( 5 - git_num_add_blocks ))
-          git_num_neu_blocks=0
-        fi
-
-        git_block_char="■"
-
-        git_add_blocks=""
-        if [ $git_num_add_blocks -gt 0 ]; then
-          git_add_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_add_blocks})
-        fi
-
-        git_del_blocks=""
-        if [ $git_num_del_blocks -gt 0 ]; then
-          git_del_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_del_blocks})
-        fi
-
-        git_neu_blocks=""
-        if [ $git_num_neu_blocks -gt 0 ]; then
-          git_neu_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_neu_blocks})
-        fi
-
-        git_blocks="${GITGREEN}$git_add_blocks${GITRED}$git_del_blocks${GITGREY}${git_neu_blocks}${PR_RST}"
-        git_stats="${GITGREEN}+${git_insertions:-0}${GITRED}-${git_deletions:-0}"
-
-        FMT_BRANCH="${DEFAULT_FMT_BRANCH}${git_stats} ${git_blocks}${PR_RST}"
+      if $(git -C . rev-parse 2>/dev/null); then
+        FMT_BRANCH="${DEFAULT_FMT_BRANCH}$(git_blocks)"
       else
         FMT_BRANCH="${DEFAULT_FMT_BRANCH}"
       fi
@@ -265,7 +269,7 @@ function set-prompt() {
   fi
 
   _current_dir_color="${GREEN}"
-  if [ -n "$DIRENV_DIR" ]; then
+  if direnv status | grep allowed | grep -q true; then
     _current_dir_color="${BLUE}"
   fi
   local top_left="${MAGENTA}%n${GREY} at ${ORANGE}%m${GREY} in ${_current_dir_color}%~${GREY} ${vcs_info_msg_0_} $(virtualenv_info)"

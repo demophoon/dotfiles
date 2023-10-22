@@ -22,6 +22,7 @@ in {
         "^cdc"
         "^gs"
       ];
+      filter_mode = "session";
     };
   };
 }

@@ -27,6 +27,10 @@ if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
     GREY="%F{237}"
     RED="%F{161}$PR_BOLD"
 
+    GITGREEN="%F{2}"
+    GITRED="%F{1}"
+    GITGREY="%F{8}"
+
     turquoise="%F{81}"
     orange="%F{166}"
     purple="%F{135}"
@@ -41,6 +45,10 @@ else
     WHITE=$(tput setaf 7)
     GREY=$(tput setaf 7)
     RED="%fg[red]"
+
+    GITGREEN=${GREEN}
+    GITRED=${RED}
+    GITGREY=${GREY}
 
     turquoise="$fg[cyan]"
     orange="$fg[yellow]"
@@ -69,21 +77,22 @@ PR_GIT_UPDATE=1
 # %R - repository path
 # %S - path in the repository
 PR_RST="%{${reset_color}%}"
-FMT_BRANCH="(%{$PURPLE%}%b%u%c${PR_RST})"
-FMT_ACTION="(%{$GREEN%}%a${PR_RST})"
-FMT_UNSTAGED="%{$ORANGE%}●${PR_RST}"
-FMT_STAGED="%{$GREEN%}●${PR_RST}"
+DEFAULT_FMT_BRANCH="on %{$PURPLE%}%b %u%${PR_RST}"
+DEFAULT_FMT_ACTION="(%{$GREEN%}%a${PR_RST})"
+DEFAULT_FMT_UNSTAGED="%{$ORANGE%}U${PR_RST}"
+DEFAULT_FMT_STAGED=""
 
-zstyle ':vcs_info:*:prompt:*' unstagedstr   "${FMT_UNSTAGED}"
-zstyle ':vcs_info:*:prompt:*' stagedstr     "${FMT_STAGED}"
-zstyle ':vcs_info:*:prompt:*' actionformats "${FMT_BRANCH}${FMT_ACTION}"
-zstyle ':vcs_info:*:prompt:*' formats       "${FMT_BRANCH}"
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*:prompt:*' unstagedstr   "${DEFAULT_FMT_UNSTAGED}"
+zstyle ':vcs_info:*:prompt:*' stagedstr     "${DEFAULT_FMT_STAGED}"
+zstyle ':vcs_info:*:prompt:*' actionformats "${DEFAULT_FMT_BRANCH}${DEFAULT_FMT_ACTION}"
+zstyle ':vcs_info:*:prompt:*' formats       "${DEFAULT_FMT_BRANCH}"
 zstyle ':vcs_info:*:prompt:*' nvcsformats   ""
 
 
 function steeef_preexec {
     case "$(history $HISTCMD)" in
-        *git*|*gs*|*ga*|*gc*|*gp*|*gl*|*gd*|*gf*)
+        *git*|*gs*|*ga*|*gc*|*gp*|*gl*|*gd*|*gf*|*ls*)
             PR_GIT_UPDATE=1
             ;;
         *svn*)
@@ -104,17 +113,44 @@ function _current_time {
 
 function steeef_precmd {
     if [[ -n "$PR_GIT_UPDATE" ]] ; then
-        # check for untracked files or updated submodules, since vcs_info doesn't
-        if git ls-files --other --exclude-standard 2> /dev/null | grep -q "."; then
-            PR_GIT_UPDATE=1
-            FMT_BRANCH="%{$GREY%}on %{$PURPLE%}%b%u%c%{$RED%}●${PR_RST}"
-        else
-            FMT_BRANCH="%{$GREY%}on %{$PURPLE%}%b%u%c${PR_RST}"
-        fi
-        zstyle ':vcs_info:*:prompt:*' formats "${FMT_BRANCH} "
+      git_stats=$(git diff --shortstat --cached)
+      git_insertions=$(echo $git_stats | sed -E 's/.* ([0-9]+) insertions.*?/\1/')
+      git_deletions=$(echo $git_stats | sed -E 's/.* ([0-9]+) deletions.*?/\1/')
+      git_moved_lines=$(git diff --name-only --cached --diff-filter="R" | xargs -n1 wc -l | awk '{s+=$1} END {printf "%.0f\n", s}')
 
-        vcs_info 'prompt'
-        PR_GIT_UPDATE=
+      if [ -n "$git_insertions$git_deletions" ]; then
+        git_touched_lines=$(( git_insertions + git_deletions + git_moved_lines ))
+        if [ $git_moved_lines -gt 0 ]; then
+          git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
+          git_num_del_blocks=$(( git_deletions * 5 / git_touched_lines ))
+          git_num_neu_blocks=$(( 5 - (git_num_add_blocks + git_num_del_blocks) ))
+        else
+          git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
+          git_num_del_blocks=$(( 5 - git_num_add_blocks ))
+          git_num_neu_blocks=0
+        fi
+
+        git_block_char="■"
+        git_add_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_add_blocks})
+        git_del_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_del_blocks})
+        git_neu_blocks=""
+
+        if [ $git_num_neu_blocks -gt 0 ]; then
+          git_neu_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_neu_blocks})
+        fi
+
+        git_blocks="${GITGREEN}$git_add_blocks${GITRED}$git_del_blocks${GITGREY}$git_neu_blocks${PR_RST}"
+        git_stats="${GITGREEN}+${git_insertions:-0}${GITRED}-${git_deletions:-0}"
+
+        FMT_BRANCH="${DEFAULT_FMT_BRANCH}${git_stats} ${git_blocks}${PR_RST}"
+      else
+        FMT_BRANCH="${DEFAULT_FMT_BRANCH}"
+      fi
+
+      zstyle ':vcs_info:*:prompt:*' formats "${FMT_BRANCH}"
+
+      vcs_info 'prompt'
+      PR_GIT_UPDATE=
     fi
 }
 add-zsh-hook precmd steeef_precmd
@@ -208,7 +244,11 @@ function set-prompt() {
     timer_msg="$(_fmt_duration ${_last_cmd_time}) | "
   fi
 
-  local top_left="${MAGENTA}%n${GREY} at ${ORANGE}%m${GREY} in ${GREEN}%~${GREY} ${vcs_info_msg_0_}$(virtualenv_info)"
+  _current_dir_color="${GREEN}"
+  if [ -n "$DIRENV_DIR" ]; then
+    _current_dir_color="${BLUE}"
+  fi
+  local top_left="${MAGENTA}%n${GREY} at ${ORANGE}%m${GREY} in ${_current_dir_color}%~${GREY} ${vcs_info_msg_0_} $(virtualenv_info)"
   local top_right="${GREY}[ ${exit_msg}${timer_msg}!%h ${GREY}]${reset_color}"
   local bottom_left="%{$GREY%}\$%{$reset_color%} ${TEXT}"
   local bottom_right="%{$BLUE%}$(_current_time)%{$reset_color%}"

@@ -8,8 +8,8 @@ Read more about my adventure with Nix at https://devlog.brittg.com/tags/nix/
 
 Installation
 ------------
-Pull down this git repository and run `provision.sh` to install dotfiles.
+Pull down this git repository and run `install.sh` to install dotfiles.
 
     git clone https://github.com/demophoon/dotfiles ~/.dotfiles
     cd ~/.dotfiles
-    ./provision.sh
+    ./install.sh

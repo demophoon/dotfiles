@@ -129,7 +129,7 @@ function steeef_precmd {
 
       git_moved_lines=$(git diff --name-only --cached --diff-filter="R" | xargs -n1 wc -l | awk '{s+=$1} END {printf "%.0f\n", s}')
 
-      if [ -n "$git_insertions$git_deletions" ]; then
+      if [ $git_insertions -gt 0 ] || [ $git_deletions -gt 0 ] || [ $git_moved_lines -gt 0 ]; then
         git_touched_lines=$(( git_insertions + git_deletions + git_moved_lines ))
 
         if [ $git_moved_lines -gt 0 ]; then

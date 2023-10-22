@@ -13,3 +13,4 @@ Pull down this git repository and run `install.sh` to install dotfiles.
     git clone https://github.com/demophoon/dotfiles ~/.dotfiles
     cd ~/.dotfiles
     ./install.sh
+    woah

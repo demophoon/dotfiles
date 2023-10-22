@@ -114,12 +114,24 @@ function _current_time {
 function steeef_precmd {
     if [[ -n "$PR_GIT_UPDATE" ]] ; then
       git_stats=$(git diff --shortstat --cached)
-      git_insertions=$(echo $git_stats | sed -E 's/.* ([0-9]+) insertions.*?/\1/')
-      git_deletions=$(echo $git_stats | sed -E 's/.* ([0-9]+) deletions.*?/\1/')
+
+      if echo $git_stats | grep -q "insertion"; then
+        git_insertions=$(echo $git_stats | sed -E 's/.* ([0-9]+) insertions?.*?/\1/')
+      else
+        git_insertions=0
+      fi
+
+      if echo $git_stats | grep -q "deletion"; then
+        git_deletions=$(echo $git_stats | sed -E 's/.* ([0-9]+) deletions?.*?/\1/')
+      else
+        git_deletions=0
+      fi
+
       git_moved_lines=$(git diff --name-only --cached --diff-filter="R" | xargs -n1 wc -l | awk '{s+=$1} END {printf "%.0f\n", s}')
 
       if [ -n "$git_insertions$git_deletions" ]; then
         git_touched_lines=$(( git_insertions + git_deletions + git_moved_lines ))
+
         if [ $git_moved_lines -gt 0 ]; then
           git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
           git_num_del_blocks=$(( git_deletions * 5 / git_touched_lines ))
@@ -131,15 +143,23 @@ function steeef_precmd {
         fi
 
         git_block_char="■"
-        git_add_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_add_blocks})
-        git_del_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_del_blocks})
-        git_neu_blocks=""
 
+        git_add_blocks=""
+        if [ $git_num_add_blocks -gt 0 ]; then
+          git_add_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_add_blocks})
+        fi
+
+        git_del_blocks=""
+        if [ $git_num_del_blocks -gt 0 ]; then
+          git_del_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_del_blocks})
+        fi
+
+        git_neu_blocks=""
         if [ $git_num_neu_blocks -gt 0 ]; then
           git_neu_blocks=$(printf "${git_block_char}%.0s" {1..$git_num_neu_blocks})
         fi
 
-        git_blocks="${GITGREEN}$git_add_blocks${GITRED}$git_del_blocks${GITGREY}$git_neu_blocks${PR_RST}"
+        git_blocks="${GITGREEN}$git_add_blocks${GITRED}$git_del_blocks${GITGREY}${git_neu_blocks}${PR_RST}"
         git_stats="${GITGREEN}+${git_insertions:-0}${GITRED}-${git_deletions:-0}"
 
         FMT_BRANCH="${DEFAULT_FMT_BRANCH}${git_stats} ${git_blocks}${PR_RST}"

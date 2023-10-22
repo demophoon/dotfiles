@@ -269,9 +269,12 @@ function set-prompt() {
   fi
 
   _current_dir_color="${GREEN}"
-  if direnv status | grep allowed | grep -q true; then
-    _current_dir_color="${BLUE}"
+  if type "direnv" > /dev/null; then
+    if direnv status | grep allowed | grep -q true; then
+      _current_dir_color="${BLUE}"
+    fi
   fi
+
   local top_left="${MAGENTA}%n${GREY} at ${ORANGE}%m${GREY} in ${_current_dir_color}%~${GREY} ${vcs_info_msg_0_} $(virtualenv_info)"
   local top_right="${GREY}[ ${exit_msg}${timer_msg}!%h ${GREY}]${reset_color}"
   local bottom_left="%{$GREY%}\$%{$reset_color%} ${TEXT}"

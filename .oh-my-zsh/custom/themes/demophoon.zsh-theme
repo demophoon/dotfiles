@@ -17,44 +17,44 @@ autoload -Uz vcs_info
 eval PR_BOLD="%{$terminfo[bold]%}"
 #use extended color pallete if available
 if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
-    MAGENTA="%F{9}$PR_BOLD"
-    ORANGE="%F{172}$PR_BOLD"
-    GREEN="%F{190}$PR_BOLD"
-    PURPLE="%F{141}$PR_BOLD"
-    BLUE="%F{27}$PR_BOLD"
-    WHITE="%F{0}$PR_BOLD"
-    TEXT="%F{7}"
-    GREY="%F{237}"
-    RED="%F{161}$PR_BOLD"
+  MAGENTA="%F{9}$PR_BOLD"
+  ORANGE="%F{172}$PR_BOLD"
+  GREEN="%F{190}$PR_BOLD"
+  PURPLE="%F{141}$PR_BOLD"
+  BLUE="%F{27}$PR_BOLD"
+  WHITE="%F{0}$PR_BOLD"
+  TEXT="%F{7}"
+  GREY="%F{237}"
+  RED="%F{161}$PR_BOLD"
 
-    GITGREEN="%F{2}"
-    GITRED="%F{1}"
-    GITGREY="%F{8}"
+  GITGREEN="%F{2}"
+  GITRED="%F{1}"
+  GITGREY="%F{8}"
 
-    turquoise="%F{81}"
-    orange="%F{166}"
-    purple="%F{135}"
-    hotpink="%F{161}"
-    limegreen="%F{118}"
+  turquoise="%F{81}"
+  orange="%F{166}"
+  purple="%F{135}"
+  hotpink="%F{161}"
+  limegreen="%F{118}"
 else
-    MAGENTA=$(tput setaf 5)
-    ORANGE=$(tput setaf 4)
-    GREEN=$(tput setaf 2)
-    PURPLE=$(tput setaf 1)
-    BLUE=$(tput setaf 4)
-    WHITE=$(tput setaf 7)
-    GREY=$(tput setaf 7)
-    RED="%fg[red]"
+  MAGENTA=$(tput setaf 5)
+  ORANGE=$(tput setaf 4)
+  GREEN=$(tput setaf 2)
+  PURPLE=$(tput setaf 1)
+  BLUE=$(tput setaf 4)
+  WHITE=$(tput setaf 7)
+  GREY=$(tput setaf 7)
+  RED="%fg[red]"
 
-    GITGREEN=${GREEN}
-    GITRED=${RED}
-    GITGREY=${GREY}
+  GITGREEN=${GREEN}
+  GITRED=${RED}
+  GITGREY=${GREY}
 
-    turquoise="$fg[cyan]"
-    orange="$fg[yellow]"
-    purple="$fg[magenta]"
-    hotpink="$fg[red]"
-    limegreen="$fg[green]"
+  turquoise="$fg[cyan]"
+  orange="$fg[yellow]"
+  purple="$fg[magenta]"
+  hotpink="$fg[red]"
+  limegreen="$fg[green]"
 fi
 
 # enable VCS systems you use
@@ -65,7 +65,7 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*:prompt:*' check-for-changes true
 
 function virtualenv_info {
-    [ $VIRTUAL_ENV ] && echo '('$fg[blue]`basename $VIRTUAL_ENV`%{$GREY%}') '
+  [ $VIRTUAL_ENV ] && echo '('$fg[blue]`basename $VIRTUAL_ENV`%{$GREY%}') '
 }
 PR_GIT_UPDATE=1
 
@@ -91,19 +91,19 @@ zstyle ':vcs_info:*:prompt:*' nvcsformats   ""
 
 
 function steeef_preexec {
-    case "$(history $HISTCMD)" in
-        *git*|*gs*|*ga*|*gc*|*gp*|*gl*|*gd*|*gf*|*ls*)
-            PR_GIT_UPDATE=1
-            ;;
-        *svn*)
-            PR_GIT_UPDATE=1
-            ;;
-    esac
+  case "$(history $HISTCMD)" in
+    *git*|*gs*|*ga*|*gc*|*gp*|*gl*|*gd*|*gf*|*ls*)
+      PR_GIT_UPDATE=1
+      ;;
+    *svn*)
+      PR_GIT_UPDATE=1
+      ;;
+  esac
 }
 add-zsh-hook preexec steeef_preexec
 
 function steeef_chpwd {
-    PR_GIT_UPDATE=1
+  PR_GIT_UPDATE=1
 }
 add-zsh-hook chpwd steeef_chpwd
 
@@ -135,8 +135,8 @@ function git_blocks {
       git_num_del_blocks=$(( git_deletions * 5 / git_touched_lines ))
       git_num_neu_blocks=$(( 5 - (git_num_add_blocks + git_num_del_blocks) ))
     else
-      git_num_add_blocks=$(( git_insertions * 5 / git_touched_lines ))
-      git_num_del_blocks=$(( 5 - git_num_add_blocks ))
+      git_num_del_blocks=$(( git_deletions * 5 / git_touched_lines ))
+      git_num_add_blocks=$(( 5 - git_num_del_blocks ))
       git_num_neu_blocks=0
     fi
 
@@ -164,18 +164,18 @@ function git_blocks {
 }
 
 function steeef_precmd {
-    if [[ -n "$PR_GIT_UPDATE" ]] ; then
-      if $(git -C . rev-parse 2>/dev/null); then
-        FMT_BRANCH="${DEFAULT_FMT_BRANCH}$(git_blocks)"
-      else
-        FMT_BRANCH="${DEFAULT_FMT_BRANCH}"
-      fi
-
-      zstyle ':vcs_info:*:prompt:*' formats "${FMT_BRANCH}"
-
-      vcs_info 'prompt'
-      PR_GIT_UPDATE=
+  if [[ -n "$PR_GIT_UPDATE" ]] ; then
+    if $(git -C . rev-parse 2>/dev/null); then
+      FMT_BRANCH="${DEFAULT_FMT_BRANCH}$(git_blocks)"
+    else
+      FMT_BRANCH="${DEFAULT_FMT_BRANCH}"
     fi
+
+    zstyle ':vcs_info:*:prompt:*' formats "${FMT_BRANCH}"
+
+    vcs_info 'prompt'
+    PR_GIT_UPDATE=
+  fi
 }
 add-zsh-hook precmd steeef_precmd
 

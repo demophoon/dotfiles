@@ -50,6 +50,9 @@ in {
       nodePackages.vscode-langservers-extracted
       nodePackages.bash-language-server
       buf-language-server
+      rust-analyzer
+      cargo
+      rustc
     ];
     plugins = with pkgs.vimPlugins; [
         # Required
@@ -426,6 +429,9 @@ in {
 
         -- Protobuf
         'bufls',
+
+        -- Rust
+        'rust_analyzer',
       }
 
       for _, server in pairs(servers) do

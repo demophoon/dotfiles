@@ -32,6 +32,16 @@ let
         sha256 = "sha256-9IPEts+RaM7Xh1ZOS8V/rECyreHK6FRKca52n031u7o=";
       };
     };
+    nvim-indent-blankline-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+      name = "indent-blankline-nvim";
+      version = "2023.11.06";
+      src = pkgs.fetchFromGitHub {
+        owner = "lukas-reineke";
+        repo = "indent-blankline.nvim";
+        rev = "9637670896b68805430e2f72cf5d16be5b97a22a";
+        sha256 = "sha256-1EpjFIJ5GK9NXS6dTMJ71w/AtLtR6Q5HrAXCIRNOBAY=";
+      };
+    };
   };
 in {
   home.sessionVariables = {
@@ -65,7 +75,7 @@ in {
         lexima-vim
         gitsigns-nvim
         nui-nvim
-        indent-blankline-nvim
+        customPlugins.nvim-indent-blankline-nvim
 
         # Autodetect shiftwidth
         vim-sleuth

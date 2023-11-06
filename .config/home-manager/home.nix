@@ -46,6 +46,7 @@ in {
     yq
     dig
     gnupg
+    gnused
 
     tmux
     git

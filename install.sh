@@ -340,8 +340,13 @@ main() {
   endwith
 
   update_home_manager
+}
 
-  show_reminders
+update() {
+  header "Updating nix..."; with
+    update_nix
+  endwith
+  main
 }
 
 add_links() {
@@ -362,10 +367,13 @@ case $1 in
     add_links
     ;;
   update)
-    update_home_manager
+    update
     ;;
   *)
     main
     ;;
 esac
+
+show_reminders
+
 }

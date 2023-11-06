@@ -182,6 +182,12 @@ install_if_missing() {
 
 install_pkg() {
   pkg=$1
+  case $(echo $OSTYPE) in
+    darwin*)
+      echo "Install pkg not supported on this platform"
+      return 0
+      ;;
+  esac
   installer=$(find_first_command apt yum)
   case $installer in
     apt)

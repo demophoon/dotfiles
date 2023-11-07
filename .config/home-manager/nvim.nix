@@ -82,7 +82,6 @@ in {
 
         # Code Completion / Snippets
         emmet-vim
-        vim-vsnip
         friendly-snippets
         cmp-vsnip
         completion-nvim
@@ -139,6 +138,7 @@ in {
 
         # Note Taking
         neorg
+        vimwiki
     ];
     extraConfig = ''
       set nocompatible
@@ -213,6 +213,7 @@ in {
 
       nmap Y y$
 
+      nnoremap <C-I> <C-O>
       nmap <Tab> za
 
       map <C-h> <C-w>h

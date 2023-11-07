@@ -334,6 +334,7 @@ waypoint() {
 
 devshell() {
   command=${1}
+  shift
   case $command in
     new)
       nix flake new -t github:numtide/devshell ${1:-./}

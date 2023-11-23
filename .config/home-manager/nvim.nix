@@ -2,7 +2,7 @@
 
 let
   customPlugins = {
-    jellybeans = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    jellybeans = pkgs.vimUtils.buildVimPlugin {
       name = "jellybeans-vim";
       version = "2023-09-11";
       src = pkgs.fetchFromGitHub {
@@ -12,7 +12,7 @@ let
         sha256 = "X+37Mlyt6+ZwfYlt4ZtdHPXDgcKtiXlUoUPZVb58w/8=";
       };
     };
-    neo-tree-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    neo-tree-nvim = pkgs.vimUtils.buildVimPlugin {
       name = "neo-tree.nvim";
       version = "3.6";
       src = pkgs.fetchFromGitHub {
@@ -22,7 +22,7 @@ let
         sha256 = "sha256-l/BA+H8vKSUlixsfJLPkjaVryVRn/e0rmJv07V4V9nY=";
       };
     };
-    nvim-web-devicons = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    nvim-web-devicons = pkgs.vimUtils.buildVimPlugin {
       name = "nvim-web-devicons";
       version = "2023.09.20";
       src = pkgs.fetchFromGitHub {
@@ -32,7 +32,7 @@ let
         sha256 = "sha256-9IPEts+RaM7Xh1ZOS8V/rECyreHK6FRKca52n031u7o=";
       };
     };
-    nvim-indent-blankline-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    nvim-indent-blankline-nvim = pkgs.vimUtils.buildVimPlugin {
       name = "indent-blankline-nvim";
       version = "2023.11.06";
       src = pkgs.fetchFromGitHub {
@@ -43,10 +43,32 @@ let
       };
     };
   };
+
+  python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
+  debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
+
+  vimspector_configuration = {
+    adapters = {
+      debugpy = {
+        command = [
+          "${python-debugpy}/bin/python3"
+          "${debugpy_path}/adapter"
+        ];
+        configuration = {
+          python = "${python-debugpy}/bin/python3";
+        };
+        custom_handler = "vimspector.custom.python.Debugpy";
+        name = "debugpy";
+      };
+    };
+  };
+
 in {
   home.sessionVariables = {
     EDITOR = "nvim";
   };
+  home.file.".config/vimspector/gadgets/linux/.gadgets.json".source = pkgs.writeText ".gadgets.json" (builtins.toJSON vimspector_configuration);
+
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -114,6 +136,7 @@ in {
         cmp-buffer
         cmp-nvim-lsp
         lsp_signature-nvim
+        vimspector
 
         # Treesitter
         nvim-treesitter
@@ -284,6 +307,12 @@ in {
       let g:airline#extensions#ale#enabled = 1
 
       let g:user_emmet_leader_key='<C-e>'
+
+      let g:vimspector_enable_mappings='HUMAN'
+      let g:vimspector_base_dir=expand("$HOME").'/.config/vimspector'
+
+      nmap <S-F3> :call vimspector#Stop()<CR>
+      nmap <F3> :call vimspector#Stop()<CR>:call vimspector#Reset()<CR>
     '';
 
     extraLuaConfig = ''
@@ -375,7 +404,7 @@ in {
       local lsp = require("lspconfig")
       local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      local lsp_on_attach = function(client, bufnr)
+      local lsp_on_attach = function(_, bufnr)
         require('lsp_signature').on_attach({
           bind = true,
           always_trigger = true,
@@ -386,7 +415,7 @@ in {
         local bufopts = {
           noremap = true,
           silent  = true,
-          buffer  = ev.buf,
+          buffer  = bufnr,
         }
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
@@ -400,6 +429,13 @@ in {
         vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
         vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, bufopts)
       end
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("_auto_diag", { clear = true }),
+        callback = function(args)
+          lsp_on_attach(_, args.buf)
+        end,
+      })
 
       local lsp_settings = {
         gopls = {

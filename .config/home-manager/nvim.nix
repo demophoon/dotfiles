@@ -76,6 +76,7 @@ in {
     extraPackages = with pkgs; [
       gopls
       nixd
+      ccls
       terraform-lsp
       python310
       black
@@ -107,8 +108,9 @@ in {
         # Code Completion / Snippets
         emmet-vim
         friendly-snippets
-        cmp-vsnip
+        #cmp-vsnip
         completion-nvim
+        ultisnips
 
         # File traversal
         customPlugins.neo-tree-nvim
@@ -382,7 +384,7 @@ in {
       cmp.setup{
         snippet = {
           expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            vim.fn["UltiSnips#Anon"](args.body)
           end,
         },
         window = {
@@ -399,7 +401,7 @@ in {
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'buffer' },
-          { name = 'vsnip' },
+          { name = 'ultisnips' },
         })
       }
 
@@ -475,6 +477,9 @@ in {
 
         -- Protobuf
         'bufls',
+
+        -- C++
+        'ccls',
       }
 
       for _, server in pairs(servers) do

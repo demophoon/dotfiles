@@ -8,7 +8,7 @@ let
 in {
   programs.zsh = {
     enable = true;
-    syntaxHighlighting.enable = true;
+    enableSyntaxHighlighting = true;
     enableAutosuggestions = true;
     history = {
       extended = true;

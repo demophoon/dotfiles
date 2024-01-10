@@ -27,6 +27,7 @@
       mah = "checkout";
       rekt = "reset";
       uncommit = "reset HEAD~";
+      search ="!f() { git grep -iE \"$\{*}\" $(git rev-list --max-count 5000 --all); }; f";
     };
     ignores = [
       # Compiled source

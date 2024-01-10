@@ -77,6 +77,8 @@ in {
       gopls
       nixd
       terraform-lsp
+      python310
+      black
       nodePackages.pyright
       nodePackages.typescript-language-server
       nodePackages.vscode-langservers-extracted
@@ -312,7 +314,7 @@ in {
       let g:vimspector_base_dir=expand("$HOME").'/.config/vimspector'
 
       nmap <S-F3> :call vimspector#Stop()<CR>
-      nmap <F3> :call vimspector#Stop()<CR>:call vimspector#Reset()<CR>
+      nmap <F2> :call vimspector#Reset()<CR>
     '';
 
     extraLuaConfig = ''

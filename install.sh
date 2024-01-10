@@ -14,7 +14,7 @@
 set -e
 
 { # Prevent script from running if partially downloaded
-_NIX_VER=unstable
+_NIX_VER=23.11
 reminders=()
 cleanup_steps=()
 export _updated=
@@ -63,6 +63,10 @@ _run_with_line_cap() {
   pid=$!
   output=""
   llc=$(printf "${output}" 2> /dev/null | wc -l)
+  errfail=0
+  case $- in
+    *e*) errfail=1 ;;
+  esac
 
   set +e
   while kill -0 $pid >/dev/null 2>&1; do
@@ -83,13 +87,17 @@ _run_with_line_cap() {
   done
   wait $pid
   ec=$?
-  set -e
+  if [ $errfail = 1 ]; then
+    set -e
+  fi
   if [ -n "$output" ]; then
     echo ""
   fi
   if [ $ec -ne 0 ]; then
     cat ${output_file:?}
-    error "'$@' exited with non-zero exit code"
+    if [ $errfail = 1 ]; then
+      error "'$@' exited with non-zero exit code"
+    fi
   fi
   rm -f ${output_file:?}
   return $ec
@@ -243,16 +251,16 @@ install_nix() {
 update_nix() {
   require nix-channel
   info "Updating Nix channels..."; with
-    run nix-channel --add "https://channels.nixos.org/nixos-${_NIX_VER:?}"
+    run nix-channel --add "https://channels.nixos.org/nixos-${_NIX_VER:?}" nixpkgs
     run nix-channel --update
   endwith
 }
 
 install_home-manager() {
-  run nix-channel --add "https://github.com/nix-community/home-manager/archive/master.tar.gz" home-manager
+  run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_NIX_VER}.tar.gz" home-manager
   run nix-channel --update
-  run nix-env --set-flag priority 4 "$(nix-env -q | grep nix)"
-  run nix-shell '<home-manager>' -A install -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/master.tar.gz
+  run nix-env --set-flag priority 0 "$(nix-env -q | grep nix)"
+  run nix-shell '<home-manager>' -A install -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/refs/tags/${_NIX_VER}.tar.gz
 }
 
 uninstall_nix() {
@@ -266,7 +274,8 @@ uninstall_nix() {
     run sudo mv /etc/zshrc.backup-before-nix /etc/zshrc
     run sudo mv /etc/bash.bashrc.backup-before-nix /etc/bash.bashrc
     run sudo mv /etc/zsh/zshrc.backup-before-nix /etc/zsh/zshrc
-    run sudo rm -rf /etc/nix /nix /root/.nix-profile /root/.nix-defexpr /root/.nix-channels /home/$(whoami)/.nix-profile /home/$(whoami)/.nix-defexpr /home/$(whoami)/.nix-channels
+    run sudo rm -rf /etc/nix /nix /root/.nix-profile /root/.nix-defexpr /root/.nix-channels
+    run rm -rf ${HOME:?}/.nix-profile ${HOME:?}/.nix-defexpr ${HOME:?}/.nix-channels ${HOME:?}/.local/state/nix/profiles/home-manager* ${HOME:?}/.local/state/home-manager/gcroots/current-home
   endwith
 }
 

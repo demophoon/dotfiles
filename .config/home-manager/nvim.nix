@@ -85,6 +85,7 @@ in {
       nodePackages.vscode-langservers-extracted
       nodePackages.bash-language-server
       buf-language-server
+      shellcheck
     ];
     plugins = with pkgs.vimPlugins; [
         # Required
@@ -119,6 +120,9 @@ in {
 
         # Git
         vim-fugitive
+
+        # Shell
+        vim-shellcheck
 
         # Go
         vim-go

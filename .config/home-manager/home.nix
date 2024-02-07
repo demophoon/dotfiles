@@ -1,8 +1,8 @@
 { config, pkgs, lib, builtins, ... }:
 
 {
-  home.username = "britt";
-  home.homeDirectory = "/home/britt";
+  home.username = "root";
+  home.homeDirectory = "/root";
 
   imports = [
     ./nodes/default

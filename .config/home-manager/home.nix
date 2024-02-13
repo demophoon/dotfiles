@@ -8,5 +8,5 @@
     ./nodes/default
   ];
 
-  home.file.".localrc".source = pkgs.writeText ".localrc" "if [ -z $__first_login ]; then; export __first_login=1; cd ~ubuntu; fi; source ~ubuntu/.localrc;";
+  home.file.".localrc".source = pkgs.writeText ".localrc" "if [ -z $__first_login ]; then; export __first_login=1; cd /home/scuba; fi; source /home/scuba/.localrc;";
 }

@@ -299,8 +299,10 @@ deep_merge_dirs() {
         if [ -e ${mergePath:?} ]; then
             dotfiles_file=${mergePath#$DIR/}
             realize_directories ${dotfiles_file}
-            run rm -f "${HOMEDIR:?}/${dotfiles_file:?}"
-            run ln -s "${DIR:?}/${dotfiles_file:?}" "${HOMEDIR:?}/${dotfiles_file:?}"
+            if [ ! -L "${HOMEDIR:?}/${dotfiles_file:?}" ]; then
+              run rm -f "${HOMEDIR:?}/${dotfiles_file:?}"
+              run ln -s "${DIR:?}/${dotfiles_file:?}" "${HOMEDIR:?}/${dotfiles_file:?}"
+            fi
         fi
     else
         for dir in $(find ${mergePath:?}/* -maxdepth 0); do
@@ -310,7 +312,6 @@ deep_merge_dirs() {
 }
 
 merge_dirs() {
-  info "Linking Nixpkgs..."
   with
     for dir in ${merge_directories:?}; do
         deep_merge_dirs "${DIR:?}/${dir:?}"

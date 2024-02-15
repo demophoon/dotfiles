@@ -232,15 +232,15 @@ install_with_nix() {
 
 install_nix() {
   if command_exists nix; then
+    success "${_w}'${_gr}nix${_w}' installed"
     return 0
   fi
   info "Installing Nix"; with
-    sudo install -d -m755 -o $(id -u) -g $(id -g) /nix
     install_file="./$(mktemp nix-install.XXXXX.sh)"
     add_cleanup rm -f "${install_file:?}"
-    run curl -L https://nixos.org/nix/install -o "${install_file:?}"
+    run curl --proto '=https' --tlsv1.2 -sSf -o "${install_file:?}" -L https://install.determinate.systems/nix
     run chmod +x "${install_file:?}"
-    run "${install_file:?}"
+    run "${install_file:?}" install --no-confirm
     _setup_nix
     add_reminder "You will need to either restart your terminal or run \nsource $HOME/.nix-profile/etc/profile.d/nix.sh\n to start using Nix"
     add_reminder "Run `chsh -s /bin/zsh` to use zsh"

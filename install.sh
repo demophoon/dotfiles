@@ -342,11 +342,14 @@ update_home_manager() {
 }
 
 main() {
-  header "Installing Nix"; with
+  header "Installation Pre-Flight"; with
     _setup_nix
     native_install_if_missing curl
     native_install_if_missing xz xz-utils
     native_install_if_missing zsh
+  endwith;
+
+  header "Installing Nix"; with
     install_nix
   endwith;
 

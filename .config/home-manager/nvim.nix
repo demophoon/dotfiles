@@ -78,7 +78,7 @@ in {
       nixd
       ccls
       terraform-lsp
-      python310
+      python3
       black
       nodePackages.pyright
       nodePackages.typescript-language-server

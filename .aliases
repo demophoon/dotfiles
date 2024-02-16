@@ -148,11 +148,6 @@ k() {
             executable="stern"
             action=''
             ;;
-        install)
-            action='kots'
-            k_type="install ${namespace}/unstable"
-            flags="--shared-password ${CONSOLE_PASSWORD} --license-file ~/_configs/britt-dev-gke-kots-sturgeon.yaml --config-values ~/_configs/deploy-github.yaml"
-            ;;
     esac
     k_type=${k_type:-$@}
     command="${executable} ${action} -n ${namespace} ${k_type} ${flags}"

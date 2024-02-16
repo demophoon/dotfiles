@@ -5,6 +5,7 @@ let
   zsh-custom = "${dotfiles_repo.outPath}/.oh-my-zsh/custom";
   aliases = "${dotfiles_repo.outPath}/.aliases";
   dockerfunc = "${dotfiles_repo.outPath}/.dockerfunc";
+  emojis = "${dotfiles_repo.outPath}/.emoji";
 in {
   programs.zsh = {
     enable = true;
@@ -28,6 +29,15 @@ in {
       source $HOME/.nix-profile/etc/profile.d/nix.sh
       source ${aliases}
       source ${dockerfunc}
+
+      insert_emoji() {
+        selected=$(cat ${emojis} | grep -v -e '^$' | grep -v -e '^#' | fzf --height=7 | awk '{print $1}')
+        LBUFFER+="$selected"
+        printf '\n'
+        zle reset-prompt
+      }
+      zle -N insert_emoji
+      bindkey "\C-y" insert_emoji
 
       # Local configs
       [ -f ~/.localrc ] && source ~/.localrc

@@ -12,6 +12,7 @@ in {
     ./configuration.nix
     ./tmux.nix
     ./atuin.nix
+    ./asciinema.nix
   ];
 
   home.username = "britt";
@@ -54,5 +55,6 @@ in {
     git
     nix
     direnv
+    asciinema
   ];
 }

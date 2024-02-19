@@ -13,6 +13,7 @@ in {
     ./tmux.nix
     ./atuin.nix
     ./asciinema.nix
+    ./zoxide.nix
   ];
 
   home.username = "britt";

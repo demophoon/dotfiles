@@ -70,6 +70,9 @@ in {
 
     vvim = "vim -u NONE";
     vanillavim = "vim -u NONE";
+
+    # Zoxide (Better cd)
+    cd = "z";
   };
 
 }

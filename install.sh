@@ -15,7 +15,7 @@ set -e
 
 { # Prevent script from running if partially downloaded
 _NIX_VER=23.11
-_HM_VER=master
+_HM_VER=23.11
 reminders=()
 cleanup_steps=()
 export _updated=
@@ -262,6 +262,10 @@ install_home-manager() {
     run nix-channel --add "https://github.com/nix-community/home-manager/archive/master.tar.gz" home-manager
   else
     run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_HM_VER}.tar.gz" home-manager
+  fi
+  __nix_bin="$(nix-env -q | grep nix)"
+  if [ -n "$__nix_bin" ]; then
+    run nix-env --set-flag priority 4 "${__nix_bin:?}"
   fi
   run nix-channel --update
   run nix-shell '<home-manager>' -A install -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/refs/tags/${_NIX_VER}.tar.gz

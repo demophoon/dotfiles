@@ -376,11 +376,21 @@ update() {
   main
 }
 
+add_host_override() {
+    override="${DIR:?}/.config/home-manager/nodes/$(hostname)/home.nix" 
+    if [ -f "${override}" ]; then
+      info "Using '${override:?}'"
+      run rm -f "${HOMEDIR:?}/.config/home-manager/home.nix"
+      run ln -s "${override:?}" "${HOMEDIR:?}/.config/home-manager/home.nix"
+    fi
+
+}
+
 add_links() {
   header "Injecting dotfile configurations"; with
     merge_dirs
   endwith
-
+  add_host_override
 }
 
 trap "cleanup; exit" EXIT

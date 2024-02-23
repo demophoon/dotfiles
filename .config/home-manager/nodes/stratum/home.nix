@@ -5,9 +5,11 @@ let
 in {
   imports = [
     ../default
+    ../../roles/sway
   ];
 
   home.packages = with pkgs; [
     qmk_hid
   ];
+
 }

@@ -55,6 +55,6 @@ in {
     nix
     direnv
     asciinema
-  ] ++ cfg.packages;
+  ];
 
 }

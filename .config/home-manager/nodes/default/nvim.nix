@@ -155,7 +155,7 @@ in {
         cmp-nvim-lsp
         lsp_signature-nvim
         vimspector
-        customPlugins.gitlab_vim
+        # customPlugins.gitlab_vim
 
         # Treesitter
         nvim-treesitter

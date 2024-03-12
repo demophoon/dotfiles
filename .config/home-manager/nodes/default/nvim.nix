@@ -42,6 +42,16 @@ let
         sha256 = "sha256-1EpjFIJ5GK9NXS6dTMJ71w/AtLtR6Q5HrAXCIRNOBAY=";
       };
     };
+    gitlab_vim = pkgs.vimUtils.buildVimPlugin {
+      name = "gitlab.vim";
+      version = "2024.03.04";
+      src = pkgs.fetchFromGitLab {
+        owner = "gitlab-org/editor-extensions";
+        repo = "gitlab.vim";
+        rev = "a16d98b5b63e327050ca83a20707b1f5eb902515";
+        sha256 = "sha256-1ETna2zcawSU8N5esdmKwsiLTvSSM5Skyg71kIBRCj4=";
+      };
+    };
   };
 
   python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
@@ -145,6 +155,7 @@ in {
         cmp-nvim-lsp
         lsp_signature-nvim
         vimspector
+        customPlugins.gitlab_vim
 
         # Treesitter
         nvim-treesitter

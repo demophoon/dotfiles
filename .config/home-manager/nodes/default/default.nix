@@ -3,10 +3,8 @@
 let
   dotfiles_repo = import ./dotfiles.nix;
   utils = "${dotfiles_repo.outPath}/utils";
-  cfg = config.dotfiles.install;
 in {
   imports = [
-    ./options.nix
     ./nvim.nix
     ./zsh.nix
     ./git.nix
@@ -18,8 +16,6 @@ in {
   ];
   nixpkgs.config.allowUnfree = true;
 
-  home.username = "${cfg.username}";
-  home.homeDirectory = "/home/${cfg.username}";
   home.stateVersion = "23.05";
 
   home.sessionPath = [

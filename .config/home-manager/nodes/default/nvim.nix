@@ -86,6 +86,7 @@ in {
       nodePackages.bash-language-server
       buf-language-server
       shellcheck
+      ripgrep
     ];
     plugins = with pkgs.vimPlugins; [
         # Required
@@ -283,6 +284,9 @@ in {
       nnoremap <leader>d :call DiffToggle()<cr>
 
       nnoremap <c-p> :Telescope find_files hidden=true<cr>
+      nnoremap <leader>tg :Telescope live_grep hidden=true<CR>
+      nnoremap <leader>tc :Telescope lsp_incoming_calls hidden=true<CR>
+      nnoremap <leader>tv :Telescope git_commits hidden=true<CR>
 
       nnoremap <leader>gb :GoDebugBreakpoint<cr>
 

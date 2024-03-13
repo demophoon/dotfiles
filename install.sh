@@ -26,17 +26,20 @@ export PATH=$PATH
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 
 # Colors
+#for i in $(seq 0 256); do
+#  printf "$(tput setaf $i)[$i] "
+#done
 _B='\e[1m'
-_e='\e[0m' # Reset
-_r='\e[38;5;196m'  # Red
-_g='\e[38;5;119m'  # Green
-_b='\e[38;5;33m'   # Blue
-_y='\e[38;5;226m'  # Yellow
-_o='\e[38;5;208m'  # Orange
-_w='\e[38;5;254m'  # White
+_e="$(tput sgr0)"       # Reset
+_r="$(tput setaf 196)"  # Red
+_g="$(tput setaf 119)"  # Green
+_b="$(tput setaf 33)"   # Blue
+_y="$(tput setaf 226)"  # Yellow
+_o="$(tput setaf 208)"  # Orange
+_w="$(tput setaf 254)"  # White
 
-_sg='\e[38;5;122m' # Sea Green
-_gr='\e[38;5;246m' # Gray
+_sg="$(tput setaf 122)" # Sea Green
+_gr="$(tput setaf 246)" # Gray
 
 # Printing utilities
 with() { _indent=$(($_indent + 1)); }

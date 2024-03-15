@@ -75,7 +75,7 @@ in {
     withPython3 = true;
     extraPackages = with pkgs; [
       gopls
-      nixd
+      # nixd (TODO: Disabled from https://github.com/nix-community/nixd/issues/357)
       ccls
       terraform-lsp
       python3
@@ -478,7 +478,7 @@ in {
 
         -- Shell
         'bashls',
-        'nixd',
+        --'nixd',
 
         -- HCL/Terraform
         'terraform_lsp',

@@ -42,6 +42,17 @@ let
         sha256 = "sha256-1EpjFIJ5GK9NXS6dTMJ71w/AtLtR6Q5HrAXCIRNOBAY=";
       };
     };
+
+    gen-nvim = pkgs.vimUtils.buildVimPlugin {
+      name = "gen.nvim";
+      version = "2024.03.15";
+      src = pkgs.fetchFromGitHub {
+        owner = "David-Kunz";
+        repo = "gen.nvim";
+        rev = "2cb643b1a827bcdfc665a37d5f8174249d2d5bf5";
+        sha256 = "sha256-aZ/ZMmatoIXnY3qtRjUqJStlpg0VGbJ1XdRjyDMhHqU=";
+      };
+    };
   };
 
   python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
@@ -113,6 +124,8 @@ in {
         #cmp-vsnip
         completion-nvim
         ultisnips
+
+        customPlugins.gen-nvim
 
         # File traversal
         customPlugins.neo-tree-nvim
@@ -619,6 +632,12 @@ in {
       vim.keymap.set("n", "c-s", "<cmd>DapStepOver<CR>")
       vim.keymap.set("n", "c-n", "<cmd>DapStepInto<CR>")
       vim.keymap.set("n", "c-N", "<cmd>DapStepOut<CR>")
+
+      require('gen').setup({
+        model = "mistral",
+        host = "localhost",
+        port = "11434",
+      })
 
     '';
   };

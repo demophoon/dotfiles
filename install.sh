@@ -29,17 +29,29 @@ export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/
 #for i in $(seq 0 256); do
 #  printf "$(tput setaf $i)[$i] "
 #done
-_B='\e[1m'
-_e="$(tput sgr0)"       # Reset
-_r="$(tput setaf 196)"  # Red
-_g="$(tput setaf 119)"  # Green
-_b="$(tput setaf 33)"   # Blue
-_y="$(tput setaf 226)"  # Yellow
-_o="$(tput setaf 208)"  # Orange
-_w="$(tput setaf 254)"  # White
-
-_sg="$(tput setaf 122)" # Sea Green
-_gr="$(tput setaf 246)" # Gray
+if [ -n "$TERM" ]; then
+  _B='\e[1m'
+  _e="$(tput sgr0)"       # Reset
+  _r="$(tput setaf 196)"  # Red
+  _g="$(tput setaf 119)"  # Green
+  _b="$(tput setaf 33)"   # Blue
+  _y="$(tput setaf 226)"  # Yellow
+  _o="$(tput setaf 208)"  # Orange
+  _w="$(tput setaf 254)"  # White
+  _sg="$(tput setaf 122)" # Sea Green
+  _gr="$(tput setaf 246)" # Gray
+else
+  _B=''
+  _e=''
+  _r=''
+  _g=''
+  _b=''
+  _y=''
+  _o=''
+  _w=''
+  _sg=''
+  _gr=''
+fi
 
 # Printing utilities
 with() { _indent=$(($_indent + 1)); }
@@ -108,8 +120,13 @@ _run_with_line_cap() {
 }
 
 run() {
-    info "Running '${_gr}$*${_w}'"
+  info "Running '${_gr}$*${_w}'"
+
+  if [ -n "$TERM" ]; then
     _run_with_line_cap "$@"
+  else
+    "$@"
+  fi
 }
 
 add_cleanup() {

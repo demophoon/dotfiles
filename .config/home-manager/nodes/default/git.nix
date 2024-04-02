@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
-{
+let
+  dotfiles_repo = import ./dotfiles.nix;
+  better_branch = "${dotfiles_repo.outPath}/utils/better_branch.sh";
+in {
   programs.git = {
     enable = true;
     userName = "Britt Gresham";
@@ -20,6 +23,7 @@
       };
     };
     aliases = {
+      bb = "!${better_branch}";
       cp = "cherry-pick";
       cpc = "cherry-pick --continue";
       cpa = "cherry-pick --abort";

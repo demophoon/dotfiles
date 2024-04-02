@@ -55,22 +55,8 @@ let
     };
   };
 
-  python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
-  debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
-
   vimspector_configuration = {
     adapters = {
-      debugpy = {
-        command = [
-          "${python-debugpy}/bin/python3"
-          "${debugpy_path}/adapter"
-        ];
-        configuration = {
-          python = "${python-debugpy}/bin/python3";
-        };
-        custom_handler = "vimspector.custom.python.Debugpy";
-        name = "debugpy";
-      };
     };
   };
 

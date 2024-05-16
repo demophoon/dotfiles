@@ -14,8 +14,8 @@
 set -e
 
 { # Prevent script from running if partially downloaded
-_NIX_VER=unstable
-_HM_VER=master
+_NIX_VER=b3fcfcfabd01b947a1e4f36622bbffa3985bdac6
+_HM_VER=44677a1c96810a8e8c4ffaeaad10c842402647c1
 reminders=()
 cleanup_steps=()
 export _updated=
@@ -272,17 +272,13 @@ install_nix() {
 update_nix() {
   require nix
   info "Updating Nix channels..."; with
-    run nix-channel --add "https://channels.nixos.org/nixos-${_NIX_VER:?}" nixpkgs
+    run nix-channel --add "https://github.com/NixOS/nixpkgs/archive/${_NIX_VER}.tar.gz" nixpkgs
     run nix-channel --update
   endwith
 }
 
 install_home-manager() {
-  if [ ${_HM_VER} = "master" ]; then
-    run nix-channel --add "https://github.com/nix-community/home-manager/archive/master.tar.gz" home-manager
-  else
-    run nix-channel --add "https://github.com/nix-community/home-manager/archive/release-${_HM_VER}.tar.gz" home-manager
-  fi
+  run nix-channel --add "https://github.com/nix-community/home-manager/archive/${_HM_VER}.tar.gz" home-manager
   __nix_bin="$(nix-env -q | grep nix)"
   if [ -n "$__nix_bin" ]; then
     run nix-env --set-flag priority 4 "${__nix_bin:?}"
@@ -392,6 +388,7 @@ main() {
 update() {
   header "Updating nix..."; with
     update_nix
+    install_home-manager
   endwith
   main
 }

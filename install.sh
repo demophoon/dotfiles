@@ -394,7 +394,7 @@ update() {
 }
 
 add_host_override() {
-    override="${DIR:?}/.config/home-manager/nodes/$(hostname)/home.nix" 
+    override="${DIR:?}/.config/home-manager/nodes/${DOTFILE_PROFILE}/home.nix" 
     if [ -f "${override}" ]; then
       info "Using '${override:?}'"
       run rm -f "${HOMEDIR:?}/.config/home-manager/home.nix"
@@ -411,6 +411,21 @@ add_links() {
 }
 
 trap "cleanup; exit" EXIT
+
+while [[ $# -gt 0 ]]; do
+  key=$1
+  shift
+  arg=${1:-""}
+  case $key in
+    -p|--profile)
+      if [ -n "${arg:-''}" ]; then
+        DOTFILE_PROFILE=$arg
+      fi
+      ;;
+  esac
+done
+
+DOTFILE_PROFILE=${DOTFILE_PROFILE:-$(hostname)}
 
 case $1 in
   uninstall)

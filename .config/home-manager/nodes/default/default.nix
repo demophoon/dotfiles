@@ -48,7 +48,6 @@ in {
     dig
     gnupg
     gnused
-    dbeaver
 
     tmux
     git

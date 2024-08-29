@@ -5,6 +5,6 @@
   home.homeDirectory = "/home/britt";
 
   imports = [
-    ./nodes/default
+    ./profiles/default
   ];
 }

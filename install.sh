@@ -394,7 +394,7 @@ update() {
 }
 
 add_host_override() {
-    override="${DIR:?}/.config/home-manager/nodes/${DOTFILE_PROFILE}/home.nix" 
+    override="${DIR:?}/.config/home-manager/profiles/${DOTFILE_PROFILE}/home.nix"
     if [ -f "${override}" ]; then
       info "Using '${override:?}'"
       run rm -f "${HOMEDIR:?}/.config/home-manager/home.nix"

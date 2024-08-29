@@ -22,10 +22,6 @@ in {
     utils
   ];
 
-  home.sessionVariables = {
-    LD_LIBRARY_PATH = "";
-  };
-
   # Pending https://gitlab.com/rycee/nmd/-/merge_requests/6
   manual.manpages.enable = false;
 

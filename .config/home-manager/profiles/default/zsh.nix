@@ -41,6 +41,7 @@ in {
 
       # Local configs
       [ -f ~/.localrc ] && source ~/.localrc
+      export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib"
       '';
     };
   };

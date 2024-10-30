@@ -7,4 +7,8 @@
   imports = [
     ../default
   ];
+
+  home.packages = with pkgs; [
+    swagger-cli
+  ];
 }

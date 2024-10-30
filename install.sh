@@ -412,6 +412,7 @@ add_links() {
 
 trap "cleanup; exit" EXIT
 
+action="main"
 while [[ $# -gt 0 ]]; do
   key=$1
   shift
@@ -420,14 +421,18 @@ while [[ $# -gt 0 ]]; do
     -p|--profile)
       if [ -n "${arg:-''}" ]; then
         DOTFILE_PROFILE=$arg
+        shift
       fi
+      ;;
+    *)
+      action=$key
       ;;
   esac
 done
 
 DOTFILE_PROFILE=${DOTFILE_PROFILE:-$(hostname)}
 
-case $1 in
+case $action in
   uninstall)
     set +e
     uninstall_nix
@@ -438,8 +443,12 @@ case $1 in
   update)
     update
     ;;
-  *)
+  main)
     main
+    ;;
+  *)
+    echo "Invalid action"
+    exit 1
     ;;
 esac
 

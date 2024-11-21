@@ -5,7 +5,7 @@ let
   utils = "${dotfiles_repo.outPath}/utils";
 in {
   imports = [
-    ./nvim.nix
+    ../../roles/nvim
     ./zsh.nix
     ./git.nix
     ./configuration.nix

@@ -72,6 +72,17 @@ in {
   programs.neovim = {
     enable = true;
 
+    extraPackages = with pkgs; [
+      # telescope / obsidian-nvim
+      ripgrep
+
+      # python dev
+      pyright
+
+      # shell scripting
+      nodePackages_latest.bash-language-server
+    ];
+
     plugins = with pkgs.vimPlugins; [
         # Required
         tlib_vim
@@ -185,11 +196,12 @@ in {
         nvim-treesitter-parsers.vue
         nvim-treesitter-parsers.yaml
         nvim-treesitter-parsers.lua
+        nvim-treesitter-parsers.vimdoc
 
         # Note Taking
         {
-          plugin = neorg;
-          config = toLuaFile ./plugin/neorg.lua;
+          plugin = obsidian-nvim;
+          config = toLuaFile ./plugin/obsidian.lua;
         }
         vimwiki
     ];

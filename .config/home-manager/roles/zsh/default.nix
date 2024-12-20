@@ -3,9 +3,8 @@
 let
   dotfiles_repo = import ./dotfiles.nix;
   zsh-custom = "${dotfiles_repo.outPath}/.oh-my-zsh/custom";
-  aliases = "${dotfiles_repo.outPath}/.aliases";
-  dockerfunc = "${dotfiles_repo.outPath}/.dockerfunc";
-  emojis = "${dotfiles_repo.outPath}/.emoji";
+
+  fromFile = file: "\n${builtins.readFile file}\n";
 in {
   programs.zsh = {
     enable = true;
@@ -27,17 +26,8 @@ in {
       ];
       extraConfig = ''
       source $HOME/.nix-profile/etc/profile.d/nix.sh
-      source ${aliases}
-      source ${dockerfunc}
-
-      insert_emoji() {
-        selected=$(cat ${emojis} | grep -v -e '^$' | grep -v -e '^#' | fzf --height=7 | awk '{print $1}')
-        LBUFFER+="$selected"
-        printf '\n'
-        zle reset-prompt
-      }
-      zle -N insert_emoji
-      bindkey "\C-y" insert_emoji
+      ${ fromFile ./aliases.sh }
+      ${ fromFile ./dockerfunc.sh }
 
       # Local configs
       [ -f ~/.localrc ] && source ~/.localrc

@@ -4,63 +4,8 @@ command_exists() {
 }
 
 # Common Aliases
-alias tmux="TERM=screen-256color-bce tmux"
-alias ls="ls"
-alias l="ls -lhG"
-alias ll="ls -AlhG"
-alias v="vim"
-alias vi="vim"
-alias cdc="cd ~/projects/"
-alias tp="attach"
-alias pupper="puppet"
-alias irc="attach irc -d"
-alias notepad="vim ~/.notes.md"
-alias run_puppet="sudo /etc/puppetlabs/code/environments/production/install.sh run"
-
-function fecter() {
-    facter ${*} | sed 's/[a|A|e|E|i|I]/e/g'
-}
-function peppet() {
-    puppet ${*} | sed 's/[a|A|e|E|i|I]/e/g'
-}
-function heere() {
-    hiera ${*} | sed 's/[a|A|e|E|i|I]/e/g'
-}
-function cfecter() {
-    cfacter ${*} | sed 's/[a|A|e|E|i|I]/e/g'
-}
-
-# Git Aliases
-alias gs="git status"
-alias ga="git add --ignore-removal"
-alias gc="git commit -v"
-alias gp="git push"
-alias gl="git log --pretty=format:'%C(dim cyan)%G?%C(reset) %C(yellow)%h%C(reset) - %C(green)(%cr)%C(reset) %C(bold white)%an%C(reset) %s %C(bold blue)%d%C(reset)' --graph --date-order --date=relative --abbrev-commit"
-alias gd="git diff"
-alias gf="git fetch"
-
-# Application Remaps
-alias vim='vim -w ~/.vimlog "$@"'
-alias irssi="TERM=screen-256color irssi"
-alias googlechrome="open -a Google\ Chrome --args --disable-web-security -–allow-file-access-from-files"
-
-# Ruby Bundler Aliases
-alias be="bundle exec"
-
-# PHP Aliases
-alias pear="php /usr/lib/php/pear/pearcmd.php"
-alias pecl="php /usr/lib/php/pear/peclcmd.php"
-
-# Easy Mode Vim!
-alias evim="vim -u ~/.evimrc"
-alias easyvim="vim -u ~/.evimrc"
-alias vvim="vim -u NONE"
-alias vanillavim="vim -u NONE"
-
-# Work Aliases
-alias uninstall_pe="sudo /opt/puppet/bin/puppet-enterprise-uninstaller -dpy"
-
 # s3cmd encrypted
+#
 function s3cmde() {
     if [ -f ~/.s3cfg.encrypted ]; then
         gpg --decrypt -o ~/.s3cfg ~/.s3cfg.encrypted

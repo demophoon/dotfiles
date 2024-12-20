@@ -6,7 +6,7 @@ let
 in {
   imports = [
     ../../roles/nvim
-    ./zsh.nix
+    ../../roles/zsh
     ./git.nix
     ./configuration.nix
     ./tmux.nix

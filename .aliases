@@ -332,7 +332,7 @@ devshell() {
   shift
   case $command in
     new)
-      nix flake new -t github:numtide/devshell ${1:-./}
+      nix flake new -t github:demophoon/devshell ${1:-./}
     ;;
     help|*)
       echo "devshell <command> [options]"

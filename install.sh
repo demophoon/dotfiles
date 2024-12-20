@@ -14,7 +14,7 @@
 set -e
 
 { # Prevent script from running if partially downloaded
-_NIX_VER=e8c38b73aeb218e27163376a2d617e61a2ad9b59
+_NIX_VER=63dacb46bf939521bdc93981b4cbb7ecb58427a0
 _HM_VER=2f23fa308a7c067e52dfcc30a0758f47043ec176
 reminders=()
 cleanup_steps=()

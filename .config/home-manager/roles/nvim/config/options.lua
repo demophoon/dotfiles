@@ -7,8 +7,9 @@ vim.diagnostic.config({
   },
   underline = true,
 })
-vim.o.updatetime = 250
-vim.cmd [[ autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float( { border=single }, { focus=false }) ]]
+
+vim.keymap.set("n", "<leader><leader>", ":lua vim.diagnostic.open_float( { border=single }, { focus=false })<CR>")
+
 vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
 vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
 local border = {

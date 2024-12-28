@@ -1,9 +1,6 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
-  dotfiles_repo = import ./dotfiles.nix;
-  zsh-custom = "${dotfiles_repo.outPath}/.oh-my-zsh/custom";
-
   fromFile = file: "\n${builtins.readFile file}\n";
 in {
   programs.zsh = {
@@ -13,9 +10,15 @@ in {
     history = {
       extended = true;
     };
+    plugins = [
+      {
+        name = "demophoon-custom";
+        src = lib.cleanSource ./themes;
+        file = "themes/demophoon.zsh-theme";
+      }
+    ];
     oh-my-zsh = {
       enable = true;
-      custom = zsh-custom;
       theme = "demophoon";
       plugins = [
         "git"
@@ -26,8 +29,8 @@ in {
       ];
       extraConfig = ''
       source $HOME/.nix-profile/etc/profile.d/nix.sh
-      ${ fromFile ./aliases.sh }
-      ${ fromFile ./dockerfunc.sh }
+      ${ fromFile ./scripts/aliases.sh }
+      ${ fromFile ./scripts/dockerfunc.sh }
 
       # Local configs
       [ -f ~/.localrc ] && source ~/.localrc

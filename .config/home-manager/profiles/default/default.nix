@@ -9,7 +9,6 @@ in {
     ../../roles/zsh
     ../../roles/ghostty
     ./git.nix
-    ./configuration.nix
     ./tmux.nix
     ./atuin.nix
     ./asciinema.nix

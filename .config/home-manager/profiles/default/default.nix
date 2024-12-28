@@ -7,6 +7,7 @@ in {
   imports = [
     ../../roles/nvim
     ../../roles/zsh
+    ../../roles/ghostty
     ./git.nix
     ./configuration.nix
     ./tmux.nix

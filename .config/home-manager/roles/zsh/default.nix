@@ -2,7 +2,10 @@
 
 let
   fromFile = file: "\n${builtins.readFile file}\n";
+  demophoon_theme = fromFile ./themes/demophoon.zsh-theme;
 in {
+  home.file."${config.home.homeDirectory}/.oh-my-zsh/custom/themes/demophoon.zsh-theme".text = demophoon_theme;
+
   programs.zsh = {
     enable = true;
     enableSyntaxHighlighting = true;
@@ -10,16 +13,10 @@ in {
     history = {
       extended = true;
     };
-    plugins = [
-      {
-        name = "demophoon-custom";
-        src = lib.cleanSource ./themes;
-        file = "themes/demophoon.zsh-theme";
-      }
-    ];
     oh-my-zsh = {
       enable = true;
       theme = "demophoon";
+      custom = "${config.home.homeDirectory}/.oh-my-zsh/custom";
       plugins = [
         "git"
         "github"

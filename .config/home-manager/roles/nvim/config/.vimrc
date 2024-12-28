@@ -38,7 +38,7 @@ set showmatch
 set gdefault
 syntax enable
 set t_Co=256
-colorscheme jellybeans
+colorscheme afterglow
 
 highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
 match ExtraWhitespace /\s\+$/

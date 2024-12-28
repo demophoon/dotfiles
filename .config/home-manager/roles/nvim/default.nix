@@ -2,16 +2,6 @@
 
 let
   customPlugins = {
-    jellybeans = pkgs.vimUtils.buildVimPlugin {
-      name = "jellybeans-vim";
-      version = "2023-09-11";
-      src = pkgs.fetchFromGitHub {
-        owner = "nanotech";
-        repo = "jellybeans.vim";
-        rev = "ef83bf4dc8b3eacffc97bf5c96ab2581b415c9fa";
-        sha256 = "X+37Mlyt6+ZwfYlt4ZtdHPXDgcKtiXlUoUPZVb58w/8=";
-      };
-    };
     neo-tree-nvim = pkgs.vimUtils.buildVimPlugin {
       name = "neo-tree.nvim";
       version = "3.6";
@@ -89,7 +79,7 @@ in {
         plenary-nvim
 
         # Look and feel
-        customPlugins.jellybeans
+        vim-afterglow
         {
           plugin = customPlugins.nvim-web-devicons;
           config = toLuaFile ./plugin/devicons.lua;

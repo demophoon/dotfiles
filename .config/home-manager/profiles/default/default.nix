@@ -16,8 +16,6 @@ in {
   ];
   nixpkgs.config.allowUnfree = true;
 
-  home.stateVersion = "24.05";
-
   home.sessionPath = [
     utils
   ];

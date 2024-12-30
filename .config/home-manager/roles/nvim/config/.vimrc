@@ -39,6 +39,7 @@ set gdefault
 syntax enable
 set t_Co=256
 colorscheme afterglow
+hi Normal guibg=NONE ctermbg=NONE
 
 highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
 match ExtraWhitespace /\s\+$/

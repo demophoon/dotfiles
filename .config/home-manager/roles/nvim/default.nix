@@ -69,11 +69,11 @@ in {
       # python dev
       pyright
 
-      # shell scripting
-      nodePackages_latest.bash-language-server
-
       # LSPs
+      nodePackages_latest.bash-language-server
       terraform-lsp
+      nodePackages_latest.typescript-language-server
+      vscode-langservers-extracted
     ];
 
     plugins = with pkgs.vimPlugins; [

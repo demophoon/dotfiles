@@ -1,1 +1,8 @@
 theme = Afterglow
+font-feature = -liga
+font-feature = -calt
+font-size = 11
+
+background-opacity = .85
+
+copy-on-select = true

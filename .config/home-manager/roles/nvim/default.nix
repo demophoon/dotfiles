@@ -71,6 +71,9 @@ in {
 
       # shell scripting
       nodePackages_latest.bash-language-server
+
+      # LSPs
+      terraform-lsp
     ];
 
     plugins = with pkgs.vimPlugins; [

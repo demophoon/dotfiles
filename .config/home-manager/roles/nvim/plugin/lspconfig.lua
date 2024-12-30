@@ -80,7 +80,7 @@ local servers = {
   'pyright',
 
   -- HTML/CSS/Javascript
-  'tsserver',
+  'ts_ls',
   'jsonls',
   'eslint',
   'cssls',
@@ -94,7 +94,7 @@ local servers = {
   'terraform_lsp',
 
   -- Protobuf
-  'bufls',
+  'buf_ls',
 
   -- C++
   'ccls',

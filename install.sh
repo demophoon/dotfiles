@@ -404,7 +404,6 @@ add_links() {
   header "Injecting dotfile configurations"; with
     merge_dirs
   endwith
-  add_host_override
 }
 
 trap "cleanup; exit" EXIT

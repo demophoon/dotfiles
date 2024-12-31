@@ -12,5 +12,6 @@
     ./roles/zsh
     ./roles/nvim
     ./roles/git
+    ./roles/tmux
   ];
 }

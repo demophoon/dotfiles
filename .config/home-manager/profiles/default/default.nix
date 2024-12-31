@@ -6,7 +6,7 @@
     ../../roles/zsh
     ../../roles/git
     ../../roles/ghostty
-    ./tmux.nix
+    ../../roles/tmux
     ./asciinema.nix
   ];
   nixpkgs.config.allowUnfree = true;

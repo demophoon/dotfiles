@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
-let
-in {
+{
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;

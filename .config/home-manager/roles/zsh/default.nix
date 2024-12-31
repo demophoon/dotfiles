@@ -4,6 +4,11 @@ let
   fromFile = file: "\n${builtins.readFile file}\n";
   demophoon_theme = fromFile ./themes/demophoon.zsh-theme;
 in {
+  imports = [
+    ./zoxide.nix
+    ./atuin.nix
+  ];
+
   home.file."${config.home.homeDirectory}/.oh-my-zsh/custom/themes/demophoon.zsh-theme".text = demophoon_theme;
 
   programs.zsh = {

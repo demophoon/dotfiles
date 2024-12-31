@@ -1,8 +1,9 @@
 { config, pkgs, ... }:
-
 let
-  dotfiles_repo = import ./dotfiles.nix;
-  better_branch = "${dotfiles_repo.outPath}/utils/better_branch.sh";
+  better_branch_script = pkgs.writeTextFile {
+    name = "better-branch.sh";
+    text = builtins.readFile ./better-branch.sh;
+  };
 in {
   programs.git = {
     enable = true;
@@ -23,7 +24,7 @@ in {
       };
     };
     aliases = {
-      bb = "!${better_branch}";
+      bb = "!${better_branch_script}";
       cp = "cherry-pick";
       cpc = "cherry-pick --continue";
       cpa = "cherry-pick --abort";

@@ -1,24 +1,15 @@
 { config, pkgs, ... }:
 
-let
-  dotfiles_repo = import ./dotfiles.nix;
-  utils = "${dotfiles_repo.outPath}/utils";
-in {
+{
   imports = [
     ../../roles/nvim
     ../../roles/zsh
+    ../../roles/git
     ../../roles/ghostty
-    ./git.nix
     ./tmux.nix
-    ./atuin.nix
     ./asciinema.nix
-    ./zoxide.nix
   ];
   nixpkgs.config.allowUnfree = true;
-
-  home.sessionPath = [
-    utils
-  ];
 
   # Pending https://gitlab.com/rycee/nmd/-/merge_requests/6
   manual.manpages.enable = false;

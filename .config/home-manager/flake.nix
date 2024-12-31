@@ -42,5 +42,13 @@
         modules = [ ./home-darwin.nix ];
       };
 
+      # Configuration for running in coder environment at work
+      homeConfigurations."root" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+        };
+        modules = [ ./home-coder.nix ];
+      };
+
     };
 }

@@ -1,6 +1,15 @@
 { config, pkgs, ... }:
+let
+  attach_script = pkgs.writeTextFile {
+    name = "attach";
+    text = builtins.readFile ./attach.sh;
+    executable = true;
+  };
+in {
+  home.shellAliases = {
+    attach = "${attach_script}";
+  };
 
-{
   programs.tmux = {
     enable = true;
     terminal = "screen-256color";

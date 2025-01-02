@@ -3,8 +3,25 @@ let
   better_branch_script = pkgs.writeTextFile {
     name = "better-branch.sh";
     text = builtins.readFile ./better-branch.sh;
+    executable = true;
+  };
+
+  commit_message_template = pkgs.writeTextFile {
+    name = "commit-msg";
+    text = builtins.readFile ./commit-message-template;
+  };
+
+  # Github PR Fetching Helper
+  fetch_pr_script = pkgs.writeTextFile {
+    name = "fetch-pr";
+    text = builtins.readFile ./fetch-pr.sh;
+    executable = true;
   };
 in {
+  home.shellAliases = {
+    fetch_pr = "${fetch_pr_script}";
+  };
+
   programs.git = {
     enable = true;
     userName = "Britt Gresham";
@@ -21,6 +38,9 @@ in {
       };
       checkout = {
         defaultRemote = "upstream";
+      };
+      commit = {
+        template = "${commit_message_template}";
       };
     };
     aliases = {

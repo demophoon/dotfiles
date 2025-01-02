@@ -7,6 +7,7 @@
     ../../roles/git
     ../../roles/ghostty
     ../../roles/tmux
+    ../../roles/bitwarden
     ./asciinema.nix
   ];
   nixpkgs.config.allowUnfree = true;

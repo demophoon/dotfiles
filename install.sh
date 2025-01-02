@@ -224,7 +224,7 @@ install_pkg() {
           run sudo apt update
           _updated=1
       fi
-      with
+  with
       run sudo apt install "$pkg" -y
       endwith
       return 0
@@ -266,21 +266,28 @@ install_nix() {
     add_reminder "You will need to either restart your terminal or run \nsource $HOME/.nix-profile/etc/profile.d/nix.sh\n to start using Nix"
     add_reminder "Run `chsh -s /bin/zsh` to use zsh"
   endwith;
-  update_nix
 }
 
-update_nix() {
+nix_add_channels() {
   require nix
-  info "Updating Nix channels..."; with
+  info "Adding Nix channels..."; with
     run nix-channel --add "https://github.com/NixOS/nixpkgs/archive/${_NIX_VER}.tar.gz" nixpkgs
-    run nix-channel --update
+    run nix-channel --add "https://github.com/nix-community/home-manager/archive/${_HM_VER}.tar.gz" home-manager
   endwith
 }
 
-install_home-manager() {
-  run nix-channel --add "https://github.com/nix-community/home-manager/archive/${_HM_VER}.tar.gz" home-manager
-  __nix_bin="$(nix-env -q | grep nix)"
+nix_update_channels() {
+  require nix
+  info "Updating Nix channels..."
   run nix-channel --update
+}
+
+update_nix() {
+  nix_add_channels
+  nix_update_channels
+}
+
+install_home-manager() {
   run nix-shell '<home-manager>' -A install
 }
 
@@ -383,21 +390,8 @@ main() {
 }
 
 update() {
-  header "Updating nix..."; with
-    update_nix
-    install_home-manager
-  endwith
+  update_nix
   main
-}
-
-add_host_override() {
-    override="${DIR:?}/.config/home-manager/profiles/${DOTFILE_PROFILE}/home.nix"
-    if [ -f "${override}" ]; then
-      info "Using '${override:?}'"
-      run rm -f "${HOMEDIR:?}/.config/home-manager/home.nix"
-      run ln -s "${override:?}" "${HOMEDIR:?}/.config/home-manager/home.nix"
-    fi
-
 }
 
 add_links() {
@@ -416,7 +410,7 @@ while [[ $# -gt 0 ]]; do
   case $key in
     -p|--profile)
       if [ -n "${arg:-''}" ]; then
-        DOTFILE_PROFILE=$arg
+        warn "The --profile flag has been removed. If you need to specify a profile please create a home-manager configuration within flakes instead."
         shift
       fi
       ;;
@@ -425,8 +419,6 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
-
-DOTFILE_PROFILE=${DOTFILE_PROFILE:-$(hostname)}
 
 case $action in
   uninstall)

@@ -1,6 +1,0 @@
-[media-player]
-command=~/.config/regolith/i3xrocks/commands/media-player
-interval=1
-min_width=200
-align=left
-

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-notify-send -a "autorandr" 'Mode change' "Thinkpad Dock"

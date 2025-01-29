@@ -288,6 +288,7 @@ update_nix() {
 }
 
 install_home-manager() {
+  require nix
   run nix-shell '<home-manager>' -A install
 }
 
@@ -383,6 +384,7 @@ main() {
 
   require nix
   header "Installing home-manager"; with
+    update_nix
     install_if_missing home-manager
   endwith
 

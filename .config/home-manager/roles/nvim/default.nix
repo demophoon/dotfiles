@@ -109,10 +109,7 @@ in {
 
         # Code Completion / Snippets
         emmet-vim
-        friendly-snippets
         #cmp-vsnip
-        completion-nvim
-        ultisnips
 
         # File traversal
         {
@@ -155,6 +152,13 @@ in {
         nvim-cmp
         cmp-buffer
         cmp-nvim-lsp
+        nvim-snippy
+        {
+          plugin = cmp-snippy;
+          config = toLuaFile ./plugin/cmp-snippy.lua;
+        }
+        vim-snippets
+
         lsp_signature-nvim
         vimspector
 

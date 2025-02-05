@@ -5,6 +5,6 @@ font-feature = -calt
 
 copy-on-select = true
 
-keybind = global:cmd+grave_accent=toggle_quick_terminal
+keybind = global:alt+grave_accent=toggle_quick_terminal
 keybind = control+shift+c=copy_to_clipboard
 keybind = control+shift+v=paste_from_clipboard

@@ -7,7 +7,3 @@ vim.keymap.set("n", "<leader>dd", function()
   require("dap-go").continue();
 end
 )
-vim.keymap.set("n", "c-c", "<cmd>DapContinue<CR>")
-vim.keymap.set("n", "c-s", "<cmd>DapStepOver<CR>")
-vim.keymap.set("n", "c-n", "<cmd>DapStepInto<CR>")
-vim.keymap.set("n", "c-N", "<cmd>DapStepOut<CR>")

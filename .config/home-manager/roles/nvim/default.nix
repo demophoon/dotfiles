@@ -74,6 +74,7 @@ in {
       terraform-lsp
       nodePackages_latest.typescript-language-server
       vscode-langservers-extracted
+      vscode-js-debug
     ];
 
     plugins = with pkgs.vimPlugins; [
@@ -126,16 +127,21 @@ in {
         # Shell
         vim-shellcheck
 
-        # Go
-        vim-go
-        nvim-dap
+        # DAP
+        nvim-nio
+        {
+          plugin = nvim-dap;
+          config = toLuaFile ./plugin/dap.lua;
+        }
+        nvim-dap-ui
         {
           plugin = nvim-dap-go;
           config = toLuaFile ./plugin/dap-go.lua;
         }
-
-        # Python
-        nvim-dap-python
+        {
+          plugin = nvim-dap-python;
+          config = toLuaFile ./plugin/dap-python.lua;
+        }
 
         # JS
         nvim-lsp-ts-utils
@@ -149,14 +155,14 @@ in {
           config = toLuaFile ./plugin/lspconfig.lua;
         }
         nvim-lspconfig
-        nvim-cmp
+        {
+          plugin = nvim-cmp;
+          config = toLuaFile ./plugin/cmp.lua;
+        }
         cmp-buffer
         cmp-nvim-lsp
         nvim-snippy
-        {
-          plugin = cmp-snippy;
-          config = toLuaFile ./plugin/cmp-snippy.lua;
-        }
+        cmp-snippy
         vim-snippets
 
         lsp_signature-nvim

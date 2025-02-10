@@ -6,6 +6,8 @@ require 'cmp'.setup {
   },
 
   sources = {
-    { name = 'snippy' }
+    { name = 'nvim_lsp' },
+    { name = 'snippy' },
+    { name = 'buffer' },
   }
 }

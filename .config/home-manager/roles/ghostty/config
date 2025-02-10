@@ -2,6 +2,7 @@ theme = Afterglow
 background-opacity = .98
 font-feature = -liga
 font-feature = -calt
+cursor-style = block
 
 copy-on-select = true
 

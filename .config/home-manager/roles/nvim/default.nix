@@ -110,7 +110,6 @@ in {
 
         # Code Completion / Snippets
         emmet-vim
-        #cmp-vsnip
 
         # File traversal
         {
@@ -166,7 +165,6 @@ in {
         vim-snippets
 
         lsp_signature-nvim
-        vimspector
 
         # Treesitter
         {
@@ -202,10 +200,6 @@ in {
         nvim-treesitter-parsers.vimdoc
 
         # Note Taking
-        {
-          plugin = obsidian-nvim;
-          config = toLuaFile ./plugin/obsidian.lua;
-        }
         vimwiki
     ];
 

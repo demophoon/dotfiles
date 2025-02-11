@@ -32,6 +32,16 @@ let
         sha256 = "sha256-1EpjFIJ5GK9NXS6dTMJ71w/AtLtR6Q5HrAXCIRNOBAY=";
       };
     };
+    codecompanion-nvim = pkgs.vimUtils.buildVimPlugin {
+      name = "codecompanion.nvim";
+      version = "2025.02.10";
+      src = pkgs.fetchFromGitHub {
+        owner = "olimorris";
+        repo = "codecompanion.nvim";
+        rev = "68464826515b764ebae5fdf28e4d3f8c01c80296";
+        sha256 = "sha256-dXQpOxXJLNtUku8MKAoUaAQ3flrRsvQ7NorVtWN8vH4=";
+      };
+    };
   };
 
   python-debugpy = pkgs.python311.withPackages (ps: with ps; [debugpy]);
@@ -201,6 +211,13 @@ in {
 
         # Note Taking
         vimwiki
+
+        # AI
+        {
+          plugin = customPlugins.codecompanion-nvim;
+          config = toLuaFile ./plugin/codecompanion.lua;
+        }
+
     ];
 
     extraConfig = ''

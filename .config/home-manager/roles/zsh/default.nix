@@ -33,6 +33,7 @@ in {
       source $HOME/.nix-profile/etc/profile.d/nix.sh
       ${ fromFile ./scripts/aliases.sh }
       ${ fromFile ./scripts/dockerfunc.sh }
+      ${ fromFile ./scripts/funcs.sh }
 
       # Local configs
       [ -f ~/.localrc ] && source ~/.localrc

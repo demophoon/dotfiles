@@ -85,6 +85,8 @@ in {
       nodePackages_latest.typescript-language-server
       vscode-langservers-extracted
       vscode-js-debug
+
+      gopls
     ];
 
     plugins = with pkgs.vimPlugins; [

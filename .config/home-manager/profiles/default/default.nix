@@ -40,6 +40,11 @@
     nix
     direnv
     asciinema
+
+    go
+    gcc9
+
+    python313
   ];
 
 }

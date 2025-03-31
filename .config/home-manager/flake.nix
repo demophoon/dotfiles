@@ -28,7 +28,7 @@
 
     in {
 
-      homeConfigurations."britt" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."britt@nova" = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           system = "x86_64-linux";
         };

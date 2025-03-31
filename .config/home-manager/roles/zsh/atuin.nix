@@ -21,6 +21,7 @@
         "^cdc"
         "^gs"
       ];
+      local_timeout = 30;
       filter_mode = "session";
     };
   };

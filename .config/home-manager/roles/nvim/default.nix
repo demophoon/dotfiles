@@ -44,31 +44,12 @@ let
     };
   };
 
-  python-debugpy = pkgs.python311.withPackages (ps: with ps; [debugpy]);
-  debugpy_path = python-debugpy + "/lib/python3.11/site-packages/debugpy";
-
-  vimspector_configuration = {
-    adapters = {
-      debugpy = {
-        command = [
-          "${python-debugpy}/bin/python3"
-          "${debugpy_path}/adapter"
-        ];
-        configuration = {
-          python = "${python-debugpy}/bin/python3";
-        };
-        custom_handler = "vimspector.custom.python.Debugpy";
-        name = "debugpy";
-      };
-    };
-  };
+  python_debugpy = pkgs.python312.withPackages (ps: with ps; [debugpy]);
 
   toLua = str: "lua << EOF\n${str}\nEOF\n";
   toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
 
 in {
-  home.file.".config/vimspector/gadgets/linux/.gadgets.json".source = pkgs.writeText ".gadgets.json" (builtins.toJSON vimspector_configuration);
-
   programs.neovim = {
     enable = true;
 
@@ -144,14 +125,19 @@ in {
           plugin = nvim-dap;
           config = toLuaFile ./plugin/dap.lua;
         }
-        nvim-dap-ui
+        {
+          plugin = nvim-dap-ui;
+          config = toLuaFile ./plugin/dap-ui.lua;
+        }
         {
           plugin = nvim-dap-go;
           config = toLuaFile ./plugin/dap-go.lua;
         }
         {
           plugin = nvim-dap-python;
-          config = toLuaFile ./plugin/dap-python.lua;
+          config = toLua ''
+            require("dap-python").setup("${python_debugpy}/bin/python3");
+          '';
         }
 
         # JS

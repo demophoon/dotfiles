@@ -34,12 +34,12 @@ let
     };
     codecompanion-nvim = pkgs.vimUtils.buildVimPlugin {
       name = "codecompanion.nvim";
-      version = "2025.02.10";
+      version = "2025.04.11";
       src = pkgs.fetchFromGitHub {
         owner = "olimorris";
         repo = "codecompanion.nvim";
-        rev = "68464826515b764ebae5fdf28e4d3f8c01c80296";
-        sha256 = "sha256-dXQpOxXJLNtUku8MKAoUaAQ3flrRsvQ7NorVtWN8vH4=";
+        rev = "abc0e1c8edd5a78814830e730eef67b7b5278bdd";
+        sha256 = "sha256-deO7AyNuiltAirq80/Pn6e2LFnnTKY4iZH1ZvMzq++A=";
       };
     };
   };
@@ -88,7 +88,6 @@ in {
         }
         vim-surround
         vim-repeat
-        lexima-vim
         {
           plugin = gitsigns-nvim;
           config = toLuaFile ./plugin/gitsigns.lua;
@@ -111,7 +110,6 @@ in {
           config = toLuaFile ./plugin/neotree.lua;
         }
         customPlugins.neo-tree-nvim
-        nerdtree
         telescope-nvim
 
         # Git
@@ -206,7 +204,6 @@ in {
           plugin = customPlugins.codecompanion-nvim;
           config = toLuaFile ./plugin/codecompanion.lua;
         }
-
     ];
 
     extraConfig = ''

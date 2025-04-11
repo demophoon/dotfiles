@@ -4,7 +4,7 @@ require("codecompanion").setup({
       adapter = "local_ollama",
     },
     inline = {
-      adapter = "codegemma",
+      adapter = "local_ollama",
     },
   },
   adapters = {
@@ -17,21 +17,8 @@ require("codecompanion").setup({
           sync = true,
         },
         model = {
-          default = "deepseek-r1:14b"
-        },
-      })
-    end,
-    codegemma = function()
-      return require("codecompanion.adapters").extend("ollama", {
-        name = "codegemma",
-        env = {
-          url = vim.env.OLLAMA_API,
-        },
-        parameters = {
-          sync = true,
-        },
-        model = {
-          default = "codegemma:latest"
+          -- default = "deepseek-coder:6.7b"
+          default = "deepseek-coder-v2:16b"
         },
       })
     end,

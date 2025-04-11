@@ -68,6 +68,7 @@ in {
       vscode-js-debug
 
       gopls
+      delve
     ];
 
     plugins = with pkgs.vimPlugins; [

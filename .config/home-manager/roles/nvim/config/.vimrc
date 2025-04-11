@@ -146,4 +146,8 @@ let g:airline#extensions#ale#enabled = 1
 
 let g:user_emmet_leader_key='<C-e>'
 
+" let g:vimspector_enable_mappings='HUMAN'
+" let g:vimspector_base_dir=expand("$HOME").'/.config/vimspector'
 
+" nmap <S-F3> :call vimspector#Stop()<CR>
+" nmap <F2> :call vimspector#Reset()<CR>

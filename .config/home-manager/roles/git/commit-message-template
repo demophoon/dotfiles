@@ -1,8 +1,27 @@
-# 50-character subject line
+#type(scope)!: Summary
+# Use the imperative sense "Add ...", or "Fix ...", etc. for example:
 #
-# 72-character wrapped longer description should answer:
+# fix(api)!: Fix invalid headers
+#
+# Uncomment from the examples below. Add a '!' after scope to denote a
+# breaking change
+#=======================================================================
+#feat:
+#fix:
+#
+#ci:
+#test:
+#docs:
+#style:
+#chore:
+
+# 72-character wrapped longer description below should answer:
 # * Why was this change necessary?
 # * How does it address the problem?
 # * Are there any side effects?
-#
-# Use the imperative sense "Add ...", or "Fix ...", etc.
+#=======================================================================
+
+# If the change contains a Breaking Fix, add additional context within a
+# BREAKING CHANGE footer
+#=======================================================================
+#BREAKING CHANGE:

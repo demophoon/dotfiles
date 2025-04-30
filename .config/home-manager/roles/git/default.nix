@@ -29,6 +29,7 @@ in {
     signing = {
       key = "8EF14A558315B01A";
     };
+    diff-so-fancy.enable = true;
     extraConfig = {
       color = {
         ui = true;
@@ -40,7 +41,32 @@ in {
         defaultRemote = "upstream";
       };
       commit = {
+        verbose = true;
         template = "${commit_message_template}";
+      };
+      init = {
+        defaultBranch = "main";
+      };
+      status = {
+        branch = true;
+        showStash = true;
+      };
+      interactive = {
+        singleKey = true;
+      };
+      url = {
+        "ssh://git@github.com:demophoon/" = {
+          insteadOf = "demophoon/";
+        };
+        "ssh://git@github.com:" = {
+          insteadOf = "gh:";
+        };
+      };
+      branch = {
+        sort = "-committerdate";
+      };
+      tag = {
+        sort = "-taggerdate";
       };
     };
     aliases = {

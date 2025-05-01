@@ -1,19 +1,24 @@
+check_http() {
+  website=${1:?Pass in a website as an argument}
+  curl -sL -w "%{http_code}\n" "${website}" -o /dev/null | grep -q "200"
+}
+
 set_infra() {
   export INFRA_NODE
   INFRA_NODE=${1}
 
-  if [ -z "${1}" ]; then
-    export NOMAD_ADDR="https://nomad-ui.internal.demophoon.com"
-    export VAULT_ADDR="https://vault-ui.internal.demophoon.com"
-    export CONSUL_HTTP_ADDR="https://consul-ui.internal.demophoon.com"
-  else
+  export NOMAD_ADDR="https://nomad-ui.internal.demophoon.com"
+  export VAULT_ADDR="https://vault-ui.internal.demophoon.com"
+  export CONSUL_HTTP_ADDR="https://consul-ui.internal.demophoon.com"
+
+  if [ "${1}" ] || ! check_http $CONSUL_HTTP_ADDR; then
     export VAULT_SKIP_VERIFY="true"
     export NOMAD_SKIP_VERIFY="true"
     export CONSUL_HTTP_SSL_VERIFY=false
 
     if type -p tailscale > /dev/null && ; then
       if [ -z "${INFRA_NODE}" ]; then
-        INFRA_NODE=$(tailscale status --self=false --json | jq -r '.Peer | to_entries[].value | select(.Online) | .HostName' | grep -E "nuc-|proxmox-" | shuf | head -n1)
+        INFRA_NODE=$(tailscale status --self=false --json | jq -r '.Peer | to_entries[].value | select(.Online) | .HostName' | grep -E "nuc-|proxmox-|sol-" | shuf | head -n1)
       else
         INFRA_NODE=$(tailscale ip ${INFRA_NODE} | head -n1)
       fi

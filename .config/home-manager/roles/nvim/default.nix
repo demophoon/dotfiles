@@ -103,6 +103,10 @@ in {
 
         # Code Completion / Snippets
         emmet-vim
+        {
+          plugin = autoclose-nvim;
+          config = toLuaFile ./plugin/autoclose-nvim.lua;
+        }
 
         # File traversal
         {

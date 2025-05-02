@@ -2,6 +2,11 @@
 
 let
   fromFile = file: "\n${builtins.readFile file}\n";
+  tf_env = pkgs.writeTextFile {
+    name = "terraform_env";
+    text = builtins.readFile ./scripts/tf_env.sh;
+    executable = true;
+  };
   demophoon_theme = fromFile ./themes/demophoon.zsh-theme;
 in {
   imports = [
@@ -34,6 +39,8 @@ in {
       ${ fromFile ./scripts/aliases.sh }
       ${ fromFile ./scripts/dockerfunc.sh }
       ${ fromFile ./scripts/funcs.sh }
+
+      alias terraform_env=${ tf_env } terraform
 
       # Local configs
       [ -f ~/.localrc ] && source ~/.localrc

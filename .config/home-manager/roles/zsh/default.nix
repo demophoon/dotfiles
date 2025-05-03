@@ -40,11 +40,11 @@ in {
       ${ fromFile ./scripts/dockerfunc.sh }
       ${ fromFile ./scripts/funcs.sh }
 
-      alias terraform_env=${ tf_env } terraform
+      alias tf_env="${ tf_env } "
+      alias terraform_env="tf_env terraform "
 
       # Local configs
       [ -f ~/.localrc ] && source ~/.localrc
-      export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib"
       '';
     };
   };

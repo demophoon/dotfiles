@@ -34,7 +34,7 @@ vault_login() {
     set_infra
   fi
   if [ -z "$(vault token lookup -format=json | jq -r .data.id)" ]; then
-    vault login -method=oidc
+    vault login -method=oidc -no-print
   fi
 }
 

@@ -1,0 +1,1 @@
+require("ultimate-autopair").setup({})

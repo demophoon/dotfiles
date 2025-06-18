@@ -104,8 +104,8 @@ in {
         # Code Completion / Snippets
         emmet-vim
         {
-          plugin = autoclose-nvim;
-          config = toLuaFile ./plugin/autoclose-nvim.lua;
+          plugin = ultimate-autopair-nvim;
+          config = toLuaFile ./plugin/ultimate-autopair-nvim.lua;
         }
 
         # File traversal

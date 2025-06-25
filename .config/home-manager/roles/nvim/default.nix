@@ -208,6 +208,10 @@ in {
           plugin = customPlugins.codecompanion-nvim;
           config = toLuaFile ./plugin/codecompanion.lua;
         }
+        {
+          plugin = copilot-vim;
+          config = toLuaFile ./plugin/copilot.lua;
+        }
     ];
 
     extraConfig = ''

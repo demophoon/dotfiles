@@ -69,6 +69,7 @@ in {
 
       gopls
       delve
+      harper
     ];
 
     plugins = with pkgs.vimPlugins; [

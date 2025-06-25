@@ -107,3 +107,5 @@ for _, server in pairs(servers) do
     settings = lsp_settings[server]
   }
 end
+
+lsp['harper_ls'].setup {}

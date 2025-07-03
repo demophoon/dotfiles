@@ -2,16 +2,6 @@
 
 let
   customPlugins = {
-    neo-tree-nvim = pkgs.vimUtils.buildVimPlugin {
-      name = "neo-tree.nvim";
-      version = "3.6";
-      src = pkgs.fetchFromGitHub {
-        owner = "nvim-neo-tree";
-        repo = "neo-tree.nvim";
-        rev = "2d89ca96e08eb6e9c8e50e1bb4738bc5125c9f12";
-        sha256 = "sha256-l/BA+H8vKSUlixsfJLPkjaVryVRn/e0rmJv07V4V9nY=";
-      };
-    };
     nvim-web-devicons = pkgs.vimUtils.buildVimPlugin {
       name = "nvim-web-devicons";
       version = "2023.09.20";
@@ -30,16 +20,6 @@ let
         repo = "indent-blankline.nvim";
         rev = "9637670896b68805430e2f72cf5d16be5b97a22a";
         sha256 = "sha256-1EpjFIJ5GK9NXS6dTMJ71w/AtLtR6Q5HrAXCIRNOBAY=";
-      };
-    };
-    codecompanion-nvim = pkgs.vimUtils.buildVimPlugin {
-      name = "codecompanion.nvim";
-      version = "2025.04.11";
-      src = pkgs.fetchFromGitHub {
-        owner = "olimorris";
-        repo = "codecompanion.nvim";
-        rev = "abc0e1c8edd5a78814830e730eef67b7b5278bdd";
-        sha256 = "sha256-deO7AyNuiltAirq80/Pn6e2LFnnTKY4iZH1ZvMzq++A=";
       };
     };
   };
@@ -111,10 +91,9 @@ in {
 
         # File traversal
         {
-          plugin = customPlugins.neo-tree-nvim;
+          plugin = neo-tree-nvim;
           config = toLuaFile ./plugin/neotree.lua;
         }
-        customPlugins.neo-tree-nvim
         telescope-nvim
 
         # Git
@@ -206,7 +185,7 @@ in {
 
         # AI
         {
-          plugin = customPlugins.codecompanion-nvim;
+          plugin = codecompanion-nvim;
           config = toLuaFile ./plugin/codecompanion.lua;
         }
         {

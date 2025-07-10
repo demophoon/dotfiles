@@ -44,7 +44,7 @@ hi Normal guibg=NONE ctermbg=NONE
 highlight ExtraWhitespace ctermbg=darkblue guibg=darkblue
 match ExtraWhitespace /\s\+$/
 
-highlight CopilotSuggestion guifg=#881798 ctermfg=5
+highlight CopilotSuggestion guifg=#33aaee ctermfg=11
 
 set undofile
 set undodir=$HOME/.vim/tmp,$HOME/.tmp,$HOME/tmp,$HOME/var/tmp,/tmp

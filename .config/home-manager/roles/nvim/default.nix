@@ -78,6 +78,12 @@ in {
           plugin = customPlugins.nvim-indent-blankline-nvim;
           config = toLuaFile ./plugin/indent-blankline.lua;
         }
+        twilight-nvim
+        zen-mode-nvim
+        {
+          plugin = nvim-biscuits;
+          config = toLuaFile ./plugin/biscuits.lua;
+        }
 
         # Autodetect shiftwidth
         vim-sleuth

@@ -153,3 +153,6 @@ let g:user_emmet_leader_key='<C-e>'
 
 " nmap <S-F3> :call vimspector#Stop()<CR>
 " nmap <F2> :call vimspector#Reset()<CR>
+
+" Biscuits
+highlight BiscuitColor guifg=#999999 gui=italic

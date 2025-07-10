@@ -29,3 +29,12 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
+-- Toggle Zen Mode
+vim.keymap.set("n", "<leader>z", function()
+  local zenmode = require("zen-mode").toggle()
+end)
+
+-- Toggle Twilight
+vim.keymap.set("n", "<leader>t", function()
+  local zenmode = require("twilight").toggle()
+end)
